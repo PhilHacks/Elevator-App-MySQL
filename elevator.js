@@ -1,5 +1,12 @@
 const prompt = require("prompt-sync")();
 
+class ElevatorSystem {
+  constructor(numberOfElevators) {
+    this.numberOfElevators = this.numberOfElevators;
+    this.elevatorList = [];
+  }
+}
+
 //1. Skapa Elevator Class
 class Elevator {
   constructor() {
@@ -52,10 +59,12 @@ class Elevator {
   }
 }
 
-// Create an elevator object
-const elevator = new Elevator();
-elevator.getElevatorStatus();
+//3 Create an elevator object
+const elevator1 = new Elevator();
+const elevator2 = new Elevator();
+const elevator3 = new Elevator();
+elevator1.getElevatorStatus();
 
 // Prompt the user for the floor number and call goToFloor
 const floor = parseInt(prompt("Enter the floor number (1 or 10): "));
-elevator.goToFloor(floor);
+elevator1.goToFloor(floor);
