@@ -1,11 +1,15 @@
 const prompt = require("prompt-sync")();
 
+//Elevator system
 class ElevatorSystem {
-  constructor(numberOfElevators) {
-    this.numberOfElevators = this.numberOfElevators;
+  constructor(numberOfElevators, numberOfFloors) {
+    this.numberOfElevators = numberOfElevators;
+    this.numFloors = numberOfFloors;
     this.elevatorList = [];
   }
 }
+
+//Call Elevator:
 
 //1. Skapa Elevator Class
 class Elevator {
