@@ -5,13 +5,20 @@ class ElevatorSystem {
   constructor(numberOfElevators, numberOfFloors) {
     this.numberOfElevators = numberOfElevators;
     this.numFloors = numberOfFloors;
-    this.elevatorList = [];
+    this.elevatorList = []; //Lagras hissar i array
+    this.floorTravelTime = 2000;
+    this.isMoving = false;
+    this.currentFloor = 1;
+    this.status = []; //Lagrar status för systemet
+  }
+  //Call Elevator:
+  callElevator(destinationFloor) {
+    //Implementera Logiken
+    console.log(`Calling Elvator from ${startFloor} to ${destinationFloor}...`);
   }
 }
 
-//Call Elevator:
-
-//1. Skapa Elevator Class
+//Elevator Class
 class Elevator {
   constructor() {
     this.currentFloor = 1;
@@ -64,11 +71,16 @@ class Elevator {
 }
 
 //3 Create an elevator object
-const elevator1 = new Elevator();
-const elevator2 = new Elevator();
-const elevator3 = new Elevator();
-elevator1.getElevatorStatus();
+const Elevator1 = new Elevator();
+const Elevator2 = new Elevator();
+const Elevator3 = new Elevator();
+Elevator1.getElevatorStatus();
+Elevator2.getElevatorStatus();
+Elevator3.getElevatorStatus();
+
+//Elevator System object
+const ElevatorSystem = new ElevatorSystem(3, 10);
 
 // Prompt the user for the floor number and call goToFloor
 const floor = parseInt(prompt("Enter the floor number (1 or 10): "));
-elevator1.goToFloor(floor);
+Elevator1.goToFloor(floor);
