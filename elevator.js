@@ -89,10 +89,10 @@ class ElevatorSystem {
     if (closestElevator) {
       //Flytta närmaste hiss genom att kalla på goToFloor
       closestElevator.goToFloor(destinationFloor);
-
+    }
     //Uppdatera hissarnas status
     this.displayElevatorStatus();
-    console.log (`Elevator has moved to ${destinationFloor}.`);
+    console.log(`Elevator has moved to ${destinationFloor}.`);
   }
 
   // Metod för att hantera flera hissanrop när alla hissar är upptagna
