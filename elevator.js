@@ -1,45 +1,17 @@
 const prompt = require("prompt-sync")();
 
-//Elevator system
-class ElevatorSystem {
-  constructor(numberOfElevators, numberOfFloors) {
-    this.numberOfElevators = numberOfElevators;
-    this.numFloors = numberOfFloors;
-    this.elevatorList = []; //Lagras hissar i array
-    this.floorTravelTime = 2000;
-    this.isMoving = false;
-    this.currentFloor = 1;
-    this.status = []; //Lagrar status för systemet
-  }
-  //Call Elevator:
-  callElevator(destinationFloor) {
-    //Implementera Logiken
-    console.log(`Calling Elvator from ${startFloor} to ${destinationFloor}...`);
-  }
-}
-
-//Elevator Class
+//1.Elevator Class
 class Elevator {
   constructor() {
     this.currentFloor = 1;
     this.isMoving = false;
     this.floorTravelTime = 2000; // 2sec
-    this.status = []; // Store elevator status
     this.numFloors = 10;
+    this.status = []; //  lagrar hissens status
   }
 
-  //2. Method to move Elevator
+  //Method to move Elevator
   goToFloor(floor) {
-    if (floor < 1 || floor > this.numFloors) {
-      console.log("Invalid floor number.");
-      return;
-    }
-
-    if (floor === this.currentFloor) {
-      console.log("Already on floor", floor);
-      return;
-    }
-
     // Calculate travel time
     const travelTime =
       Math.abs(floor - this.currentFloor) * this.floorTravelTime;
@@ -70,17 +42,66 @@ class Elevator {
   }
 }
 
-//3 Create an elevator object
-const Elevator1 = new Elevator();
-const Elevator2 = new Elevator();
-const Elevator3 = new Elevator();
-Elevator1.getElevatorStatus();
-Elevator2.getElevatorStatus();
-Elevator3.getElevatorStatus();
+//2. Elevator System
+class ElevatorSystem {
+  constructor(numberOfElevators, numberOfFloors) {
+    this.numberOfElevators = numberOfElevators;
+    this.numFloors = numberOfFloors;
+    this.elevatorList = []; // Lagrar hissarna i en array
 
-//Elevator System object
-const ElevatorSystem = new ElevatorSystem(3, 10);
+    // Skapa alla hissar och lägg till dem i listan
+    for (let i = 0; i < numberOfElevators; i++) {
+      this.elevatorList.push(new Elevator());
+    }
+  }
 
-// Prompt the user for the floor number and call goToFloor
-const floor = parseInt(prompt("Enter the floor number (1 or 10): "));
-Elevator1.goToFloor(floor);
+  // Metod för att visa status på alla hissar
+  displayElevatorStatus() {
+    console.log("Elevator Status:");
+    for (let i = 0; i < this.elevatorList.length; i++) {
+      const elevator = this.elevatorList[i];
+      console.log(
+        `Elevator ${i + 1}: Current Floor: ${
+          elevator.currentFloor
+        }, isMoving: ${elevator.isMoving}`
+      );
+    }
+  }
+
+  // Metod för att hantera anrop till en hiss
+  callElevator(destinationFloor) {
+    let closestElevator = null;
+    let closestDistance = Infinity;
+
+    //Hitta närmaste hiss genom att loopa elevatorList
+    for (let i = 0; i < this.elevatorList.length; i++) {
+      const elevator = this.elevatorList[i];
+      const distanceToFloor = Math.abs(
+        elevator.currentFloor - destinationFloor
+      );
+
+      if (!elevator.isMoving && distanceToFloor < closestDistance) {
+        closestElevator = elevator;
+        closestDistance = distanceToFloor;
+      }
+    }
+
+    if (closestElevator) {
+      //Flytta närmaste hiss genom att kalla på goToFloor
+      closestElevator.goToFloor(destinationFloor);
+
+    //Uppdatera hissarnas status
+    this.displayElevatorStatus();
+    console.log (`Elevator has moved to ${destinationFloor}.`);
+  }
+
+  // Metod för att hantera flera hissanrop när alla hissar är upptagna
+  handleCalls() {
+    // Implementera logiken för att hantera flera hissanrop
+  }
+
+  // Metod för att undvika dubbla hissanrop
+  avoidDuplicateCalls(floor) {
+    // Implementera logiken för att undvika dubbla hissanrop
+  }
+}
