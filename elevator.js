@@ -1,28 +1,34 @@
 const prompt = require("prompt-sync")();
 
-//1.Elevator Class
+//1.Elevator Class med olika properties
 class Elevator {
-  constructor() {
+  constructor(id) {
+    this.id = id;
     this.currentFloor = 1;
+    this.status = "idle"; //  lagrar hissens status idle, movingUp, movingDown
     this.isMoving = false;
     this.floorTravelTime = 2000; // 2sec
     this.numFloors = 10;
-    this.status = []; //  lagrar hissens status
   }
 
   //Method to move Elevator
-  goToFloor(floor) {
+  goToFloor(destinationFloor) {
     // Calculate travel time
     const travelTime =
-      Math.abs(floor - this.currentFloor) * this.floorTravelTime;
+      Math.abs(destinationFloor - this.currentFloor) * this.floorTravelTime;
 
     // Set the elevator to moving state
     this.isMoving = true;
-    console.log("Moving from floor", this.currentFloor, "to floor", floor);
+    console.log(
+      "Moving from floor",
+      this.currentFloor,
+      "to floor",
+      destinationFloor
+    );
 
     // Use setTimeout to simulate travel time and update the current floor
     setTimeout(() => {
-      this.currentFloor = floor;
+      this.currentFloor = destinationFloor;
       this.isMoving = false;
       console.log("Arrived at floor", this.currentFloor);
 
@@ -96,12 +102,23 @@ class ElevatorSystem {
   }
 
   // Metod för att hantera flera hissanrop när alla hissar är upptagna
-  handleCalls() {
-    // Implementera logiken för att hantera flera hissanrop
+  handleCalls(destinationFloor) {
+    // 1. Letar efter lediga hissar som inte rör sig
+    const idleElevator = this.displayElevatorStatus;
+
+    // 2. Använd en algoritm för prioritering om inga lediga hissar hittas
+
+    // 3. Flytta den valda hissen till den önskade destinationen
+
+    // Uppdatera hissarnas status
+    this.displayElevatorStatus();
+    console.log(`Elevator has moved to ${destinationFloor}.`);
   }
 
   // Metod för att undvika dubbla hissanrop
   avoidDuplicateCalls(floor) {
-    // Implementera logiken för att undvika dubbla hissanrop
+    // 1. Kontrollera om en hiss redan har samma destination
+    // 2. Om ingen hiss har samma destination, välj en hiss baserat på prioritering
+    // 3. Flytta den valda hissen till den undvikna destinationen
   }
 }
