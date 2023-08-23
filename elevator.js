@@ -1,27 +1,28 @@
 const prompt = require("prompt-sync")();
 
-//1.Elevator Class med olika properties
+//1.Elevator Class(blueprint) with properties(attributes)
 class Elevator {
   constructor(id) {
     this.id = id;
     this.currentFloor = 1;
-    this.status = "idle"; //  lagrar hissens status idle, movingUp, movingDown
+    this.currentStatus = "idle"; //  lagrar hissens status idle, movingUp, movingDown
     this.isMoving = false;
     this.floorTravelTime = 2000; // 2sec
     this.numFloors = 10;
+    this.statusHistory = [];
   }
 
-  //Method to move Elevator
+  //1.1 Method to move Elevator
   goToFloor(destinationFloor) {
     // Calculate travel time
     const travelTime =
       Math.abs(destinationFloor - this.currentFloor) * this.floorTravelTime;
 
     // Set the elevator to moving state
-    if (destinationFloor < this.currentFloor) {
-      this.status = "movingDown";
-    } else if (destinationFloor > this.currentFloor) {
-      this.status = "movingUp";
+    if (destinationFloor > this.currentFloor) {
+      this.currentStatus = "movingUp";
+    } else if (destinationFloor < this.currentFloor) {
+      this.currentStatus = "movingDown";
     }
     this.isMoving = true;
     console.log(
@@ -38,18 +39,12 @@ class Elevator {
       console.log("Arrived at floor", this.currentFloor);
 
       // Update the status array
-      this.status.push({
+      this.statusHistory.push({
         floor: this.currentFloor,
         isMoving: this.isMoving,
+        currentStatus: this.currentStatus,
       });
     }, travelTime);
-  }
-
-  getElevatorStatus() {
-    console.log("Elevator Status:");
-    console.log(
-      `Current floor: ${this.currentFloor}, isMoving: ${this.isMoving}`
-    );
   }
 }
 
@@ -66,7 +61,7 @@ class ElevatorSystem {
     }
   }
 
-  // Metod för att visa status på alla hissar
+  // 2.1 Metod för att visa status på alla hissar
   displayElevatorStatus() {
     console.log("Elevator Status:");
     for (let i = 0; i < this.elevatorList.length; i++) {
@@ -74,12 +69,14 @@ class ElevatorSystem {
       console.log(
         `Elevator ${i + 1}: Current Floor: ${
           elevator.currentFloor
-        }, isMoving: ${elevator.isMoving}`
+        }, isMoving: ${elevator.isMoving}, currentStatus: ${
+          elevator.currentStatus
+        }`
       );
     }
   }
 
-  // Metod för att hantera anrop till en hiss
+  // 2.2 Metod för att hantera anrop till en hiss
   callElevator(destinationFloor) {
     let closestElevator = null;
     let closestDistance = Infinity;
@@ -106,7 +103,7 @@ class ElevatorSystem {
     console.log(`Elevator has moved to ${destinationFloor}.`);
   }
 
-  // Metod för att hantera flera hissanrop när alla hissar är upptagna
+  //2.3 Metod för att hantera flera hissanrop när alla hissar är upptagna
   handleCalls(destinationFloor) {
     // 1. Letar efter lediga hissar som inte rör sig
     const idleElevator = this.displayElevatorStatus;
@@ -120,7 +117,7 @@ class ElevatorSystem {
     console.log(`Elevator has moved to ${destinationFloor}.`);
   }
 
-  // Metod för att undvika dubbla hissanrop
+  // 2.4Metod för att undvika dubbla hissanrop
   avoidDuplicateCalls(floor) {
     // 1. Kontrollera om en hiss redan har samma destination
     // 2. Om ingen hiss har samma destination, välj en hiss baserat på prioritering
