@@ -19,9 +19,9 @@ class Elevator {
 
     // Set the elevator to moving state
     if (destinationFloor < this.currentFloor) {
-      this.status = "movingUp";
-    } else if (destinationFloor > this.currentFloor) {
       this.status = "movingDown";
+    } else if (destinationFloor > this.currentFloor) {
+      this.status = "movingUp";
     }
     this.isMoving = true;
     console.log(
