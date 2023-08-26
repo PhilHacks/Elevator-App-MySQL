@@ -12,7 +12,7 @@ class Elevator {
     this.statusHistory = [];
   }
 
-  //1.1 Method to move Elevator
+  //1.1 Method() to move Elevator
   goToFloor(destinationFloor) {
     // Calculate travel time
     const travelTime =
@@ -54,6 +54,7 @@ class ElevatorSystem {
     this.numberOfElevators = numberOfElevators;
     this.numFloors = numberOfFloors;
     this.elevatorList = []; // Lagrar hissarna i en array
+    this.callQueue = []; // Kö för att lagra anrop
 
     // Skapa alla hissar och lägg till dem i listan
     for (let i = 0; i < numberOfElevators; i++) {
@@ -76,51 +77,81 @@ class ElevatorSystem {
     }
   }
 
-  // 2.2 Metod för att hantera anrop till en hiss
-  callElevator(destinationFloor) {
+  // 2.2 Metod för att hitta närmaste lediga hiss
+  findClosestElevator(floor) {
     let closestElevator = null;
     let closestDistance = Infinity;
 
-    //Hitta närmaste hiss genom att loopa elevatorList
-    for (let i = 0; i < this.elevatorList.length; i++) {
-      const elevator = this.elevatorList[i];
-      const distanceToFloor = Math.abs(
-        elevator.currentFloor - destinationFloor
-      );
-
-      if (!elevator.isMoving && distanceToFloor < closestDistance) {
-        closestElevator = elevator;
-        closestDistance = distanceToFloor;
+    for (const elevator of this.elevatorList) {
+      if (!elevator.isMoving) {
+        const distanceToFloor = Math.abs(elevator.currentFloor - floor);
+        if (distanceToFloor < closestDistance) {
+          closestElevator = elevator;
+          closestDistance = distanceToFloor;
+        }
       }
     }
+    return closestElevator;
+  }
+
+  // 2.3 Metod för att hantera anrop till en hiss
+  callElevator(destinationFloor) {
+    // Hitta närmaste lediga hiss genom findClosestElevator-metoden
+    const closestElevator = this.findClosestElevator(destinationFloor);
 
     if (closestElevator) {
       //Flytta närmaste hiss genom att kalla på goToFloor
       closestElevator.goToFloor(destinationFloor);
+    } else {
+      //lägg anropet i kön
+      this.callQueue.push(destinationFloor);
+      console.log(`Elevator called to floor ${destinationFloor}.`);
     }
     //Uppdatera hissarnas status
     this.displayElevatorStatus();
     console.log(`Elevator has moved to ${destinationFloor}.`);
   }
 
-  //2.3 Metod för att hantera flera hissanrop när alla hissar är upptagna
+  //2.4 Metod för att hantera flera hissanrop när alla hissar är upptagna
   handleCalls(destinationFloor) {
     // 1. Letar efter lediga hissar som inte rör sig
-    const idleElevator = this.displayElevatorStatus;
+    const idleElevator = this.elevatorList.find(
+      (Elevator) => !Elevator.isMoving
+    );
 
-    // 2. Använd en algoritm för prioritering om inga lediga hissar hittas
+    if (idleElevator) {
+      // Använd närmaste lediga hiss om tillgänglig
+      const closestElevator = this.findClosestElevator(destinationFloor);
+      // 3. Flytta den valda hissen till den önskade destinationen
+      closestElevator.goToFloor(destinationFloor);
 
-    // 3. Flytta den valda hissen till den önskade destinationen
-
-    // Uppdatera hissarnas status
-    this.displayElevatorStatus();
-    console.log(`Elevator has moved to ${destinationFloor}.`);
+      // Uppdatera hissarnas status
+      this.displayElevatorStatus();
+      console.log(`Elevator has moved to ${destinationFloor}.`);
+    }
+    //om alla hissar är upptagna
+    else {
+      this.callQueue.push(destinationFloor);
+    }
   }
 
-  // 2.4Metod för att undvika dubbla hissanrop
+  // 2.5 Metod för att undvika dubbla hissanrop
   avoidDuplicateCalls(floor) {
-    // 1. Kontrollera om en hiss redan har samma destination
+    // 1. Kontrollera om hiss redan har samma destination som det aktuella anropet.
+    const duplicateDestination = this.elevatorList.some(
+      (elevator) => elevator.currentFloor === destinationFloor
+    );
+    console.log(duplicateDestination);
+
     // 2. Om ingen hiss har samma destination, välj en hiss baserat på prioritering
+
     // 3. Flytta den valda hissen till den undvikna destinationen
+    goToFloor(destinationFloor);
+  }
+
+  // 2.6 Metod för att lägga till anrop i kön när hissar är upptagna
+  addToCallQueue(floor) {
+    // En kö är en vanlig datalagringsstruktur som fungerar enligt
+    // principen "först in, först ut" (FIFO - First-In-First-Out).
   }
 }
