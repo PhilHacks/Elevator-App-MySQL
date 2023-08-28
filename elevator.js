@@ -167,5 +167,10 @@ class ElevatorSystem {
   }
 }
 
+//2.7 metod för att ta bort det äldsta anropet i kön
+
+//1. Så länge det finns element i callQueue
+//2. ta bort första (shift) elementet i kön
+
 // En kö är en vanlig datalagringsstruktur som fungerar enligt
 // principen "först in, först ut" (FIFO - First-In-First-Out).
