@@ -1,5 +1,10 @@
 import Elevator from "./elevator";
 
+// Instance of ElevatorSystem
+const numberOfElevators = 3;
+const numberOfFloors = 10;
+const elevatorSystem = new ElevatorSystem(numberOfElevators, numberOfFloors);
+
 //2. Elevator System
 class ElevatorSystem {
   constructor(numberOfElevators, numberOfFloors) {
@@ -49,10 +54,9 @@ class ElevatorSystem {
   }
 
   // 2.3 Metod för att hantera anrop till en hiss
-  callElevator(destinationFloor) {
+  callElevator = (destinationFloor) => {
     // Hitta närmaste lediga hiss genom findClosestElevator-metoden
     const closestElevator = this.findClosestElevator(destinationFloor);
-
     if (closestElevator) {
       //Flytta närmaste hiss genom att kalla på goToFloor
       closestElevator.goToFloor(destinationFloor);
@@ -64,7 +68,7 @@ class ElevatorSystem {
     //Uppdatera hissarnas status
     this.displayElevatorStatus();
     console.log(`Elevator has moved to ${destinationFloor}.`);
-  }
+  };
 
   //2.4 Metod för att hantera flera hissanrop när alla hissar är upptagna
   handleCalls(destinationFloor) {
@@ -132,3 +136,15 @@ class ElevatorSystem {
 
 // En kö är en vanlig datalagringsstruktur som fungerar enligt
 // principen "först in, först ut" (FIFO - First-In-First-Out).
+
+// Create Instances: Make sure you have created instances of your classes (ElevatorSystem and Elevator) before calling their methods.
+// javascript
+// Copy code
+// // Create instances
+// const elevatorSystem = new ElevatorSystem(numberOfElevators, numberOfFloors);
+// // You can create multiple elevator instances if needed.
+// Use Instances: When calling methods, use these instances to ensure that the this context refers to the correct object.
+// javascript
+// Copy code
+// // Example: Call elevator from a specific instance of ElevatorSystem
+// elevatorSystem.callElevator(destinationFloor);
