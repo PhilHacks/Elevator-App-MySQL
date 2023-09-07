@@ -42,3 +42,8 @@ function elevatorStatusPrompt() {
   }
 }
 elevatorStatusPrompt();
+
+module.exports = {
+  promptElevator,
+  elevatorStatusPrompt,
+};

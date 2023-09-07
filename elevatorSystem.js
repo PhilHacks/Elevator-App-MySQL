@@ -134,6 +134,8 @@ class ElevatorSystem {
   }
 }
 
+module.exports = ElevatorSystem;
+
 // En kö är en vanlig datalagringsstruktur som fungerar enligt
 // principen "först in, först ut" (FIFO - First-In-First-Out).
 

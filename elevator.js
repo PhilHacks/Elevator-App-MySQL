@@ -47,3 +47,4 @@ export default class Elevator {
 }
 
 //Exportera
+module.exports = Elevator;
