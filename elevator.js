@@ -1,7 +1,7 @@
 //1.Elevator Class(blueprint) with properties(attributes)
 export default class Elevator {
-  constructor(id) {
-    this.id = id;
+  constructor(elevatorId) {
+    this.elevatorId = elevatorId;
     this.currentFloor = 1;
     this.currentStatus = "idle"; //  lagrar hissens status idle, movingUp, movingDown
     this.isMoving = false;
