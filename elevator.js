@@ -18,13 +18,13 @@ class Elevator {
 
       // Set elevator to moving state
       if (destinationFloor > this.currentFloor) {
-        this.currentStatus = "movingUp";
+        this.currentStatus = "moving_Up";
       } else if (destinationFloor < this.currentFloor) {
-        this.currentStatus = "movingDown";
+        this.currentStatus = "moving_Down";
       }
       this.isMoving = true;
       console.log(
-        "Moving from floor",
+        `Elevator ${this.elevatorId} is moving from floor`,
         this.currentFloor,
         "to floor",
         destinationFloor
@@ -34,7 +34,10 @@ class Elevator {
       setTimeout(() => {
         this.currentFloor = destinationFloor;
         this.isMoving = false;
-        console.log("Arrived at floor", this.currentFloor);
+        this.currentStatus = "idle";
+        console.log(
+          `Elevator ${this.elevatorId} arrived at floor ${this.currentFloor}`
+        );
 
         // Update the status array
         this.statusHistory.push({
