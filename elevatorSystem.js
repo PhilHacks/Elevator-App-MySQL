@@ -1,21 +1,16 @@
-import Elevator from "./elevator";
-
-// Instance of ElevatorSystem
-const numberOfElevators = 3;
-const numberOfFloors = 10;
-const elevatorSystem = new ElevatorSystem(numberOfElevators, numberOfFloors);
+const Elevator = require("./elevator.js");
 
 //2. Elevator System
 class ElevatorSystem {
-  constructor(numberOfElevators, numberOfFloors) {
-    this.numberOfElevators = numberOfElevators;
-    this.numFloors = numberOfFloors;
+  constructor() {
+    this.numberOfElevators = 3;
+    this.numFloors = 10;
     this.elevatorList = []; // Lagrar hissarna i en array
     this.callQueue = []; // Kö för att lagra anrop
 
     // Skapa alla hissar och lägg till dem i listan
     for (let i = 0; i < numberOfElevators; i++) {
-      this.elevatorList.push(new Elevator());
+      this.elevatorList.push(new Elevator(i + 1));
     }
   }
 
@@ -54,12 +49,22 @@ class ElevatorSystem {
   }
 
   // 2.3 Metod för att hantera anrop till en hiss
-  callElevator = (destinationFloor) => {
+  async callElevator(destinationFloor) {
+    if (destinationFloor < 1 || destinationFloor > numberOfFloors) {
+      throw new Error("Invalid floor requested.");
+    }
+    for (let elevator of this.elevatorList) {
+      if (elevator.currentFloor === destinationFloor && !elevator.isMoving) {
+        console.log("Elevator already at that floor");
+        return;
+      }
+    }
     // Hitta närmaste lediga hiss genom findClosestElevator-metoden
     const closestElevator = this.findClosestElevator(destinationFloor);
     if (closestElevator) {
       //Flytta närmaste hiss genom att kalla på goToFloor
-      closestElevator.goToFloor(destinationFloor);
+      await closestElevator.goToFloor(destinationFloor);
+      console.log(`Elevator has moved to ${destinationFloor}.`);
     } else {
       //lägg anropet i kön
       this.callQueue.push(destinationFloor);
@@ -67,8 +72,7 @@ class ElevatorSystem {
     }
     //Uppdatera hissarnas status
     this.displayElevatorStatus();
-    console.log(`Elevator has moved to ${destinationFloor}.`);
-  };
+  }
 
   //2.4 Metod för att hantera flera hissanrop när alla hissar är upptagna
   handleCalls(destinationFloor) {
@@ -131,6 +135,26 @@ class ElevatorSystem {
     }
     //3. return null om kön är tom
     return null;
+  }
+
+  //2.8 metod för att se om specifik hiss är ledig
+  isElevatorAvailable(elevatorId) {
+    const correctedElevatorId = elevatorId - 1; // Justera id så att det matchar array-index
+    const elevator = this.elevatorList[correctedElevatorId];
+
+    return elevator && !elevator.isMoving
+      ? `Elevator ${elevatorId} is available.`
+      : `Elevator ${elevatorId} is currently in use or was not found.`;
+  }
+
+  // 2.9 Metod för att hämta hissstatus
+  getElevatorStatus() {
+    return this.elevatorList.map((elevator) => ({
+      elevatorId: elevator.elevatorId,
+      currentFloor: elevator.currentFloor,
+      isMoving: elevator.isMoving,
+      currentStatus: elevator.currentStatus,
+    }));
   }
 }
 
