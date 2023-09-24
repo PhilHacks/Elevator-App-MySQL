@@ -1,5 +1,5 @@
 const express = require("express");
-const ElevatorSystem = require("./elevatorSystem");
+const ElevatorSystem = require("./elevatorManager");
 
 const elevatorSystem = new ElevatorSystem();
 const app = express();
@@ -14,8 +14,12 @@ app.post("/callElevator", async (req, res) => {
     res.status(400).send("Bad Request: floor parameter missing.");
     return;
   }
-  await elevatorSystem.callElevator(floor);
-  res.send(`Calling elevator to floor ${floor}`);
+  try {
+    await elevatorSystem.handleCalls(floor);
+    res.send(`Calling elevator to floor ${floor}`);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
 });
 
 // Route för att hämta statusen för alla hissar
