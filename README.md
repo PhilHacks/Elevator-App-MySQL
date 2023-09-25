@@ -34,7 +34,7 @@
 
   - **Elevator Availability:** The system enables users to check if a specific elevator is available by sending a GET request to /elevator/available/:elevatorId.
 
-This solution ensures a smooth and efficient elevator management system.
+  This solution ensures a smooth and efficient elevator management system.
 
 ### **2. Installation and Setup**
 
