@@ -88,7 +88,7 @@ Follow these steps to set up ElevatorApp locally:
    node elevatorServer.js
    ```
 
-   The ElevatorApp server will now be running, and you can access it at `http://localhost:3000` in your web browser.
+   The ElevatorApp server will now be running, and you can access it at `http://localhost:3000` in your web browser or postman.
 #
 ### **3. Project Features**
 
