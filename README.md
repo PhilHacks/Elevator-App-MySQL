@@ -58,7 +58,7 @@ Follow these steps to set up ElevatorApp locally:
 4. Start the server:
 
    ```bash
-   npm start
+   node elevatorServer.js
    ```
 
    The ElevatorApp server will now be running, and you can access it at `http://localhost:3000` in your web browser.
