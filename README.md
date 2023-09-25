@@ -4,6 +4,7 @@
 
 # ElevatorApp
 
+
 **Table of Contents**
 - [Project Overview](#project-overview)
 - [Installation and Setup](#installation-and-setup)
@@ -20,7 +21,8 @@
 - [Technologies Used](#technologies-used)
   - [Languages](#languages)
   - [Frameworks/Libraries](#frameworkslibraries)
-    
+#
+
 ### **1. Project Overview**
 
 - **Project Name:** ElevatorApp
@@ -35,6 +37,7 @@
   - **Elevator Availability:** The system enables users to check if a specific elevator is available by sending a GET request to /elevator/available/:elevatorId.
 
   This solution ensures a smooth and efficient elevator management system.
+#
 
 ### **2. Installation and Setup**
 
@@ -89,7 +92,7 @@ Follow these steps to set up ElevatorApp locally:
    ```
 
    The ElevatorApp server will now be running, and you can access it at `http://localhost:3000` in your web browser.
-
+#
 ### **3. Project Features**
 
 #### **List of Features:**
@@ -119,6 +122,7 @@ To call an elevator to a specific floor (e.g., floor 9), send a POST request wit
 
 To check if Elevator 1 is available, send a GET request to `/elevator/available/1`.
 
+#
 ### **4. Project Structure**
 
 #### **Directory Structure:**
@@ -143,6 +147,7 @@ The project is organized as follows:
 
 - `elevatorServer.js`: Initializes the Express.js server and API endpoints.
 
+#
 ### **5. Technologies Used**
 
 #### **Languages:**
