@@ -68,28 +68,25 @@ Follow these steps to set up ElevatorApp locally:
 #### **List of Features:**
 
 - **Call Elevator:** Users can call an elevator to a specific floor by sending a POST request to `/callElevator`.
-  ![img-of-postman-call]()
-
+  
 - **Simultaneous Calls:** Multiple users can simultaneously call elevators to different floors, and the system efficiently assigns the nearest available elevator.
- ![img-of-postman-severalcalls]()
+ 
 
 - **Status Information:** Users can retrieve the status of all elevators by sending a GET request to `/elevator/status`.
- ![img-of-postman-getStatus]()
+ 
 
 - **Elevator Availability:** Users can check if a specific elevator is available by sending a GET request to `/elevator/available/:elevatorId`.
- ![img-of-postman-checkAvailibility]()
+ 
 
 #### **Usage Examples:**
 
 ##### Calling an Elevator:
 
-To call an elevator to a specific floor (e.g., floor 5), send a POST request with JSON data:
+To call an elevator to a specific floor (e.g., floor 9), send a POST request with JSON data example below is using postman:
 
-```json
-{
-  "floor": 5
-}
-```
+
+![img-of-postman-call](img/oneCall.png)
+
 
 ##### Checking Elevator Availability:
 
