@@ -55,7 +55,7 @@ Follow these steps to set up ElevatorApp locally:
 4. Start the server:
 
    ```bash
-   npm start
+   node elevatorServer.js
    ```
 
    The ElevatorApp server will now be running, and you can access it at `http://localhost:3000` in your web browser.
@@ -65,12 +65,16 @@ Follow these steps to set up ElevatorApp locally:
 #### **List of Features:**
 
 - **Call Elevator:** Users can call an elevator to a specific floor by sending a POST request to `/callElevator`.
+  ![img-of-postman-call]()
 
 - **Simultaneous Calls:** Multiple users can simultaneously call elevators to different floors, and the system efficiently assigns the nearest available elevator.
+ ![img-of-postman-severalcalls]()
 
 - **Status Information:** Users can retrieve the status of all elevators by sending a GET request to `/elevator/status`.
+ ![img-of-postman-getStatus]()
 
 - **Elevator Availability:** Users can check if a specific elevator is available by sending a GET request to `/elevator/available/:elevatorId`.
+ ![img-of-postman-checkAvailibility]()
 
 #### **Usage Examples:**
 
