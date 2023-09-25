@@ -1,10 +1,37 @@
 
 # ElevatorApp
 
+**Table of Contents**
+- [Project Overview](#project-overview)
+- [Installation and Setup](#installation-and-setup)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+- [Project Features](#project-features)
+  - [List of Features](#list-of-features)
+  - [Usage Examples](#usage-examples)
+    - [Calling an Elevator](#calling-an-elevator)
+    - [Checking Elevator Availability](#checking-elevator-availability)
+- [Project Structure](#project-structure)
+  - [Directory Structure](#directory-structure)
+  - [Key Files](#key-files)
+- [Technologies Used](#technologies-used)
+  - [Languages](#languages)
+  - [Frameworks/Libraries](#frameworkslibraries)
+    
 ### **1. Project Overview**
 
 - **Project Name:** ElevatorApp
-- **Description:** ElevatorApp is a software system for managing a network of three elevators using Node.js and Express.js. It provides an API for calling and controlling elevators efficiently.
+- **Description:** ElevatorApp is a software system for managing a network of three elevators using Node.js and Express.js. It provides an API for calling and controlling elevators efficiently. With ElevatorApp, users can:
+
+  - **Call Elevator:** Users can call an elevator to a specific floor by sending a POST request to /callElevator.
+
+  - **Simultaneous Calls:** ElevatorApp allows multiple users to simultaneously call elevators to different floors, and the system efficiently assigns the nearest available elevator.
+
+  - **Status Information:** Users can easily retrieve the status of all elevators by sending a GET request to /elevator/status.
+
+  - **Elevator Availability:** The system enables users to check if a specific elevator is available by sending a GET request to /elevator/available/:elevatorId.
+
+This solution ensures smooth and efficient elevator management for your building or facility.
 
 ### **2. Installation and Setup**
 
