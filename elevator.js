@@ -12,30 +12,31 @@ class Elevator {
   goToFloor(destinationFloor) {
     return new Promise((resolve, reject) => {
       const travelTime = this.calculateTravelTime(destinationFloor);
+      const setToMoving = this.setToMovingState(destinationFloor);
     });
   }
-  
-  calculateTravelTime (destinationFloor) {
-    return Math.abs(destinationFloor - this.currentFloor) * this.floorTravelTime;
-  }
-     
 
-//   setToMovingState (destinationFloor) {
-//     // Set elevator to moving state
-//     if (destinationFloor > this.currentFloor) {
-//       this.currentStatus = "moving_Up";
-//     } else if (destinationFloor < this.currentFloor) {
-//       this.currentStatus = "moving_Down";
-//     }
-//     this.isMoving = true;
-//     console.log(
-//       `Elevator ${this.elevatorId} is moving from floor`,
-//       this.currentFloor,
-//       "to floor",
-//       destinationFloor
-//     );
-//   }
-// }  
+  calculateTravelTime(destinationFloor) {
+    return (
+      Math.abs(destinationFloor - this.currentFloor) * this.floorTravelTime
+    );
+  }
+
+  setToMovingState(destinationFloor) {
+    if (destinationFloor > this.currentFloor) {
+      this.currentStatus = "moving_Up";
+    } else if (destinationFloor < this.currentFloor) {
+      this.currentStatus = "moving_Down";
+    }
+    this.isMoving = true;
+    console.log(
+      `Elevator ${this.elevatorId} is moving from floor`,
+      this.currentFloor,
+      "to floor",
+      destinationFloor
+    );
+  }
+}
 
 //   simulateTravelTime () {
 //     //SetTimeout simulateTravelTime
@@ -46,10 +47,10 @@ class Elevator {
 //       console.log(
 //         `Elevator ${this.elevatorId} arrived at floor ${this.currentFloor}`
 //       );
-//   } 
-      
+//   }
+// }
 
-//   updateStatusArr();      
+//   updateStatusArr();
 //   // Update the status array
 //         this.statusHistory.push({
 //           floor: this.currentFloor,
@@ -59,6 +60,5 @@ class Elevator {
 //         resolve();
 //       }, travelTime);
 //     });
-  
 
 module.exports = Elevator;
