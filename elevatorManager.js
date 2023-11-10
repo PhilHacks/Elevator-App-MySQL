@@ -5,15 +5,22 @@ class ElevatorSystem {
   constructor() {
     this.numberOfElevators = 3;
     this.numberOfFloors = 10;
-    this.elevatorArr = [];
-
-    //Unique Elevator instances and adds to array.
-    for (let i = 0; i < this.numberOfElevators; i++) {
-      this.elevatorArr.push(new Elevator(i + 1));
-    }
-
+    this.elevatorArr = this.createElevatorsArray();
     this.callQueueArr = [];
     this.checkQueueInterval = setInterval(() => this.processQueue(), 2000); // Check every 2 seconds
+  }
+
+  createElevatorsArray() {
+    const elevators = [];
+    for (
+      let elevatorId = 1;
+      elevatorId <= this.numberOfElevators;
+      elevatorId++
+    ) {
+      const elevator = new Elevator(elevatorId);
+      elevators.push(elevator);
+    }
+    return elevators;
   }
 
   //Metod för att hitta närmaste lediga hiss
