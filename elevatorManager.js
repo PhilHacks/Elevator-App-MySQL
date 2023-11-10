@@ -4,21 +4,21 @@ const Elevator = require("./elevator.js");
 class ElevatorSystem {
   constructor() {
     this.numberOfElevators = 3;
-    this.numFloors = 10;
-    this.elevatorList = []; // stores elevators in array
-    this.callQueue = []; // Queue to store calls
+    this.numberOfFloors = 10;
+    this.elevatorArr = []; // stores elevators in array
+    this.callQueueArr = []; // Queue to store calls
+    this.checkQueueInterval = setInterval(() => this.processQueue(), 2000); // Check every 2 seconds
 
     // Skapa alla hissar och lägg till dem i listan
     for (let i = 0; i < this.numberOfElevators; i++) {
-      this.elevatorList.push(new Elevator(i + 1));
+      this.elevatorArr.push(new Elevator(i + 1));
     }
-    setInterval(() => this.processQueue(), 2000); // Check every 2 seconds
   }
 
   //Metod för att hitta närmaste lediga hiss
   findClosestElevator(destinationFloor) {
     return (
-      this.elevatorList
+      this.elevatorArr
         .filter((elevator) => !elevator.isMoving) // Filtrera ut hissarna som inte rör sig
         .sort(
           (a, b) =>
@@ -31,12 +31,12 @@ class ElevatorSystem {
 
   //Metod för att hantera anrop till en hiss
   async handleCalls(destinationFloor) {
-    if (destinationFloor < 1 || destinationFloor > this.numFloors) {
+    if (destinationFloor < 1 || destinationFloor > this.numberOfFloors) {
       throw new Error("Invalid floor requested.");
     }
 
     // Kontrollera om någon hiss redan är på den önskade våningen och inte rör sig
-    const elevatorOnFloor = this.elevatorList.find(
+    const elevatorOnFloor = this.elevatorArr.find(
       (elevator) =>
         elevator.currentFloor === destinationFloor && !elevator.isMoving
     );
@@ -56,23 +56,23 @@ class ElevatorSystem {
       );
     } else {
       // om alla hissar är upptagna
-      this.addToCallQueue(destinationFloor);
+      this.addToCallQueueArr(destinationFloor);
     }
   }
 
   //Metod för att lägga till anrop i kön när hissar är upptagna
-  addToCallQueue(destinationFloor) {
-    //Lägg till destinationFloor i callQueue
-    this.callQueue.push(destinationFloor);
+  addToCallQueueArr(destinationFloor) {
+    //Lägg till destinationFloor i callQueueArr
+    this.callQueueArr.push(destinationFloor);
     console.log(`Call added to queue for floor ${destinationFloor}.`);
   }
 
   //Metod för att ta bort det äldsta anropet i kön (FIFO - First-In-First-Out)
   getOldestCallFromQueue() {
-    //1. Så länge det finns element i callQueue
-    if (this.callQueue.length > 0) {
+    //1. Så länge det finns element i callQueueArr
+    if (this.callQueueArr.length > 0) {
       //2. ta bort första elementet i kön
-      return this.callQueue.shift();
+      return this.callQueueArr.shift();
     }
     //3. return null om kön är tom
     return null;
@@ -80,14 +80,14 @@ class ElevatorSystem {
 
   //Metod för att processa kön:
   processQueue() {
-    if (this.callQueue.length === 0) {
+    if (this.callQueueArr.length === 0) {
       return; // Exit if queue is empty
     }
 
-    const idleElevator = this.findClosestElevator(this.callQueue[0]);
+    const idleElevator = this.findClosestElevator(this.callQueueArr[0]);
     if (idleElevator) {
       const oldestCall = this.getOldestCallFromQueue();
-      idleElevator.moveToFloor(oldestCall).then(() => {
+      idleElevator.move(oldestCall).then(() => {
         console.log(
           `Elevator ${idleElevator.elevatorId} has moved to ${oldestCall} from queue.`
         );
@@ -97,13 +97,13 @@ class ElevatorSystem {
 
   //Metod för att se om specifik hiss är ledig
   isElevatorAvailable(elevatorId) {
-    const elevator = this.elevatorList[elevatorId - 1]; // Justera id så matchar m array-index
+    const elevator = this.elevatorArr[elevatorId - 1]; // Justera id så matchar m array-index
     return elevator && !elevator.isMoving;
   }
 
   //Metod för att hämta hissstatus
   getElevatorStatus() {
-    return this.elevatorList.map((elevator) => ({
+    return this.elevatorArr.map((elevator) => ({
       elevatorId: elevator.elevatorId,
       currentFloor: elevator.currentFloor,
       isMoving: elevator.isMoving,
