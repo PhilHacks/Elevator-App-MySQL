@@ -50,7 +50,7 @@ class ElevatorSystem {
     const idleElevator = this.findClosestElevator(destinationFloor);
     if (idleElevator) {
       // Flytta den lediga hissen till den önskade destinationen
-      idleElevator.goToFloor(destinationFloor);
+      idleElevator.moveToFloor(destinationFloor);
       console.log(
         `Elevator ${idleElevator.elevatorId} has moved to ${destinationFloor}.`
       );
@@ -87,7 +87,7 @@ class ElevatorSystem {
     const idleElevator = this.findClosestElevator(this.callQueue[0]);
     if (idleElevator) {
       const oldestCall = this.getOldestCallFromQueue();
-      idleElevator.goToFloor(oldestCall).then(() => {
+      idleElevator.moveToFloor(oldestCall).then(() => {
         console.log(
           `Elevator ${idleElevator.elevatorId} has moved to ${oldestCall} from queue.`
         );
