@@ -54,31 +54,42 @@ class ElevatorSystem {
 
   //Metod för att hantera anrop till en hiss
   async handleCalls(destinationFloor) {
+    try {
+      const checkInvalidreq = this.checkInvalidFloorReq(destinationFloor);
+      const checkElavatorOnFloor =
+        this.checkIfElevatorOnFloor(destinationFloor);
+      const closestIdleElevator =
+        this.findClosestIdleElevator(destinationFloor);
+    } catch (error) {
+      console.error("An error occured in handleCalls:", error.message);
+    }
+  }
+
+  checkInvalidFloorReq(destinationFloor) {
     if (destinationFloor < 1 || destinationFloor > this.numberOfFloors) {
       throw new Error("Invalid floor requested.");
     }
+  }
 
-    // Kontrollera om någon hiss redan är på den önskade våningen och inte rör sig
+  checkIfElevatorOnFloor(destinationFloor) {
     const elevatorOnFloor = this.elevatorArr.find(
       (elevator) =>
         elevator.currentFloor === destinationFloor && !elevator.isMoving
     );
-
     if (elevatorOnFloor) {
       console.log(`Elevator already at floor ${destinationFloor}`);
       return;
     }
+  }
 
-    // Letar efter närmaste lediga hiss
+  findClosestIdleElevator(destinationFloor) {
     const idleElevator = this.findClosestElevator(destinationFloor);
     if (idleElevator) {
-      // Flytta den lediga hissen till den önskade destinationen
       idleElevator.moveToFloor(destinationFloor);
       console.log(
         `Elevator ${idleElevator.elevatorId} has moved to ${destinationFloor}.`
       );
     } else {
-      // om alla hissar är upptagna
       this.addToCallQueueArr(destinationFloor);
     }
   }
