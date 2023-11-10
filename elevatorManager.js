@@ -1,4 +1,4 @@
-const Elevator = require("./elevator.js");
+const Elevator = require("./elevator");
 
 class ElevatorSystem {
   constructor() {
