@@ -9,7 +9,7 @@ class Elevator {
     this.statusHistory = [];
   }
 
-  goToFloor(destinationFloor) {
+  moveToFloor(destinationFloor) {
     this.calculateTravelTime(destinationFloor);
     this.setToMovingState(destinationFloor);
     this.simulateTravelTime(destinationFloor);
