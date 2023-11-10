@@ -1,6 +1,5 @@
 const Elevator = require("./elevator.js");
 
-//Elevator System
 class ElevatorSystem {
   constructor() {
     this.numberOfElevators = 3;
