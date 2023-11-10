@@ -96,7 +96,6 @@ class ElevatorSystem {
 
   //Metod för att lägga till anrop i kön när hissar är upptagna
   addToCallQueueArr(destinationFloor) {
-    //Lägg till destinationFloor i callQueueArr
     this.callQueueArr.push(destinationFloor);
     console.log(`Call added to queue for floor ${destinationFloor}.`);
   }
