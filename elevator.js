@@ -11,17 +11,25 @@ class Elevator {
 
   //Methods:
   moveToFloor(destinationFloor) {
-    this.calculateTravelTime(destinationFloor);
-    this.setToMovingState(destinationFloor);
-    this.simulateTravelTime(destinationFloor);
-    this.updateStatusArr(destinationFloor);
-    return this;
+    try {
+      this.calculateTravelTime(destinationFloor);
+      this.setToMovingState(destinationFloor);
+      this.simulateTravelTime(destinationFloor);
+      this.updateStatusArr(destinationFloor);
+      return this;
+    } catch (error) {
+      console.error("An error occurred in moveToFloor:", error.message);
+    }
   }
 
   calculateTravelTime(destinationFloor) {
-    return (
-      Math.abs(destinationFloor - this.currentFloor) * this.floorTravelTimeMs
-    );
+    try {
+      return (
+        Math.abs(destinationFloor - this.currentFloor) * this.floorTravelTimeMs
+      );
+    } catch (error) {
+      console.error("An error occurred in calculateTravelTime:", error.message);
+    }
   }
 
   setToMovingState(destinationFloor) {
@@ -44,12 +52,16 @@ class Elevator {
     const travelTime = this.calculateTravelTime(destinationFloor);
 
     setTimeout(() => {
-      this.currentFloor = destinationFloor;
-      this.isMoving = false;
-      this.currentStatus = "idle";
-      console.log(
-        `Elevator ${this.elevatorId} arrived at floor ${this.currentFloor}`
-      );
+      try {
+        this.currentFloor = destinationFloor;
+        this.isMoving = false;
+        this.currentStatus = "idle";
+        console.log(
+          `Elevator ${this.elevatorId} arrived at floor ${this.currentFloor}`
+        );
+      } catch (error) {
+        console.error("An error occurred during simulation:", error.message);
+      }
     }, travelTime);
   }
 
