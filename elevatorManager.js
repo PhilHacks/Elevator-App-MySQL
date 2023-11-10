@@ -55,11 +55,9 @@ class ElevatorSystem {
   //Metod för att hantera anrop till en hiss
   async handleCalls(destinationFloor) {
     try {
-      const checkInvalidreq = this.checkInvalidFloorReq(destinationFloor);
-      const checkElavatorOnFloor =
-        this.checkIfElevatorOnFloor(destinationFloor);
-      const closestIdleElevator =
-        this.findClosestIdleElevator(destinationFloor);
+      this.checkInvalidFloorReq(destinationFloor);
+      this.checkIfElevatorOnFloor(destinationFloor);
+      this.findClosestIdleElevator(destinationFloor);
     } catch (error) {
       console.error("An error occured in handleCalls:", error.message);
     }
@@ -96,6 +94,7 @@ class ElevatorSystem {
 
   //Metod för att lägga till anrop i kön när hissar är upptagna
   addToCallQueueArr(destinationFloor) {
+    //Lägg till destinationFloor i callQueueArr
     this.callQueueArr.push(destinationFloor);
     console.log(`Call added to queue for floor ${destinationFloor}.`);
   }
@@ -120,7 +119,7 @@ class ElevatorSystem {
     const idleElevator = this.findClosestElevator(this.callQueueArr[0]);
     if (idleElevator) {
       const oldestCall = this.getOldestCallFromQueue();
-      idleElevator.move(oldestCall).then(() => {
+      idleElevator.moveToFloor(oldestCall).then(() => {
         console.log(
           `Elevator ${idleElevator.elevatorId} has moved to ${oldestCall} from queue.`
         );
