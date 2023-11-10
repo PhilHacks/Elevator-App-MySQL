@@ -1,4 +1,4 @@
-//Elevator Class(blueprint) with properties(attributes)
+//Elevator Class
 class Elevator {
   constructor(elevatorId) {
     this.elevatorId = elevatorId;
@@ -9,6 +9,7 @@ class Elevator {
     this.statusHistory = [];
   }
 
+  //Methods:
   moveToFloor(destinationFloor) {
     this.calculateTravelTime(destinationFloor);
     this.setToMovingState(destinationFloor);
