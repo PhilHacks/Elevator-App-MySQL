@@ -11,15 +11,18 @@ class Elevator {
 
   //Methods:
   moveToFloor(destinationFloor) {
-    try {
-      this.calculateTravelTime(destinationFloor);
-      this.setToMovingState(destinationFloor);
-      this.simulateTravelTime(destinationFloor);
-      this.updateStatusArr(destinationFloor);
-      return this;
-    } catch (error) {
-      console.error("An error occurred in moveToFloor:", error.message);
-    }
+    return new Promise((resolve, reject) => {
+      try {
+        this.calculateTravelTime(destinationFloor);
+        this.setToMovingState(destinationFloor);
+        this.simulateTravelTime(destinationFloor);
+        this.updateStatusArr(destinationFloor);
+        resolve();
+      } catch (error) {
+        console.error("An error occurred in moveToFloor:", error.message);
+        reject(error);
+      }
+    });
   }
 
   calculateTravelTime(destinationFloor) {
