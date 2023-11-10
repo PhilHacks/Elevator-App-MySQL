@@ -24,16 +24,32 @@ class ElevatorSystem {
 
   //Metod för att hitta närmaste lediga hiss
   findClosestElevator(destinationFloor) {
-    return (
-      this.elevatorArr
-        .filter((elevator) => !elevator.isMoving) // Filtrera ut hissarna som inte rör sig
-        .sort(
-          (a, b) =>
-            Math.abs(a.currentFloor - destinationFloor) -
-            Math.abs(b.currentFloor - destinationFloor)
-        ) // Sortera efter avstånd till destinationFloor
-        .shift() || null
-    ); // Returnera den första hissen i listan (närmast) eller null om listan är tom.
+    try {
+      const idleElevators = this.findIdleElevators();
+      const sortedElevators = this.sortIdleElevatorsByDistance(
+        idleElevators,
+        destinationFloor
+      );
+      return this.getFirstIdleElevator(sortedElevators) || null;
+    } catch (error) {
+      console.error("An error occured in findClosestElevator:", error.message);
+    }
+  }
+
+  findIdleElevators() {
+    return this.elevatorArr.filter((elevator) => !elevator.isMoving);
+  }
+
+  sortIdleElevatorsByDistance(elevators, destinationFloor) {
+    return elevators.sort(
+      (a, b) =>
+        Math.abs(a.currentFloor - destinationFloor) -
+        Math.abs(b.currentFloor - destinationFloor)
+    );
+  }
+
+  getFirstIdleElevator(sortedElevators) {
+    return sortedElevators[0];
   }
 
   //Metod för att hantera anrop till en hiss
