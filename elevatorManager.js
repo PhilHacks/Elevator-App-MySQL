@@ -5,11 +5,10 @@ class ElevatorSystem {
   constructor() {
     this.numberOfElevators = 3;
     this.numberOfFloors = 10;
-    this.elevatorArr = []; // stores elevators in array
-    this.callQueueArr = []; // Queue to store calls
+    this.elevatorArr = [];
+    this.callQueueArr = [];
     this.checkQueueInterval = setInterval(() => this.processQueue(), 2000); // Check every 2 seconds
 
-    // Skapa alla hissar och lägg till dem i listan
     for (let i = 0; i < this.numberOfElevators; i++) {
       this.elevatorArr.push(new Elevator(i + 1));
     }
