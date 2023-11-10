@@ -6,12 +6,14 @@ class ElevatorSystem {
     this.numberOfElevators = 3;
     this.numberOfFloors = 10;
     this.elevatorArr = [];
-    this.callQueueArr = [];
-    this.checkQueueInterval = setInterval(() => this.processQueue(), 2000); // Check every 2 seconds
 
+    //Unique Elevator instances and adds to array.
     for (let i = 0; i < this.numberOfElevators; i++) {
       this.elevatorArr.push(new Elevator(i + 1));
     }
+
+    this.callQueueArr = [];
+    this.checkQueueInterval = setInterval(() => this.processQueue(), 2000); // Check every 2 seconds
   }
 
   //Metod för att hitta närmaste lediga hiss
