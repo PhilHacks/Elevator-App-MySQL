@@ -28,19 +28,23 @@ app.get("/elevator/status", (req, res) => {
 
 //Check if specific elevator is available
 app.get("/elevator/available/:elevatorId", (req, res) => {
-  const elevatorId = parseInt(req.params.elevatorId);
+  try {
+    const elevatorId = parseInt(req.params.elevatorId);
 
-  if (isNaN(elevatorId)) {
-    res.status(400).send("Invalid elevatorId.");
-    return;
-  }
+    if (isNaN(elevatorId)) {
+      res.status(400).send("Invalid elevatorId.");
+      return;
+    }
 
-  const isAvailable = elevatorManager.isElevatorAvailable(elevatorId);
+    const isAvailable = elevatorManager.isElevatorAvailable(elevatorId);
 
-  if (isAvailable) {
-    res.send(`Elevator with ID ${elevatorId} is available.`);
-  } else {
-    res.send(`Elevator with ID ${elevatorId} is not available.`);
+    if (isAvailable) {
+      res.send(`Elevator with ID ${elevatorId} is available.`);
+    } else {
+      res.send(`Elevator with ID ${elevatorId} is not available.`);
+    }
+  } catch (error) {
+    res.status(500).send("Internal Server Error: " + error.message);
   }
 });
 
