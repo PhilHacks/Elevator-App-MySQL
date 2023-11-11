@@ -24,17 +24,12 @@ class Elevator {
   }
 
   calculateTravelTime(destinationFloor) {
-    try {
-      if (isNaN(destinationFloor) || destinationFloor < 1) {
-        throw new Error("Invalid destination floor.");
-      }
-      return (
-        Math.abs(destinationFloor - this.currentFloor) * this.floorTravelTimeMs
-      );
-    } catch (error) {
-      console.error("An error occurred in calculateTravelTime:", error.message);
-      throw error;
+    if (isNaN(destinationFloor) || destinationFloor < 1) {
+      throw new Error("Invalid destination floor.");
     }
+    return (
+      Math.abs(destinationFloor - this.currentFloor) * this.floorTravelTimeMs
+    );
   }
 
   setToMovingState(destinationFloor) {
