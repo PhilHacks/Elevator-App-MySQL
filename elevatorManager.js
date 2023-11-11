@@ -9,6 +9,8 @@ class ElevatorManager {
     this.checkQueueInterval = setInterval(() => this.processQueue(), 2000); // Check every 2 seconds
   }
 
+  // ------------------- Initialization Methods ----------------------
+
   createElevatorsArray() {
     const elevators = [];
     for (
@@ -22,6 +24,8 @@ class ElevatorManager {
     return elevators;
   }
 
+  // ------------------- Core Functionality Methods ------------------
+
   findClosestElevator(destinationFloor) {
     try {
       const idleElevators = this.findIdleElevators();
@@ -33,22 +37,6 @@ class ElevatorManager {
     } catch (error) {
       console.error("An error occured in findClosestElevator:", error.message);
     }
-  }
-
-  findIdleElevators() {
-    return this.elevatorArr.filter((elevator) => !elevator.isMoving);
-  }
-
-  sortIdleElevatorsByDistance(elevators, destinationFloor) {
-    return elevators.sort(
-      (a, b) =>
-        Math.abs(a.currentFloor - destinationFloor) -
-        Math.abs(b.currentFloor - destinationFloor)
-    );
-  }
-
-  getFirstIdleElevator(sortedElevators) {
-    return sortedElevators[0];
   }
 
   async handleElevatorCalls(destinationFloor) {
@@ -112,12 +100,7 @@ class ElevatorManager {
     }
   }
 
-  removeCallFromQueue() {
-    if (this.callQueueArr.length > 0) {
-      return this.callQueueArr.shift();
-    }
-    return null;
-  }
+  // ------------------- Elevator Status Methods ---------------------
 
   isElevatorAvailable(elevatorId) {
     const elevator = this.elevatorArr[elevatorId - 1]; // Justera id så matchar m array-index
@@ -131,6 +114,31 @@ class ElevatorManager {
       isMoving: elevator.isMoving,
       currentStatus: elevator.currentStatus,
     }));
+  }
+
+  // ------------------- Utility Methods ----------------------------
+
+  findIdleElevators() {
+    return this.elevatorArr.filter((elevator) => !elevator.isMoving);
+  }
+
+  sortIdleElevatorsByDistance(elevators, destinationFloor) {
+    return elevators.sort(
+      (a, b) =>
+        Math.abs(a.currentFloor - destinationFloor) -
+        Math.abs(b.currentFloor - destinationFloor)
+    );
+  }
+
+  getFirstIdleElevator(sortedElevators) {
+    return sortedElevators[0];
+  }
+
+  removeCallFromQueue() {
+    if (this.callQueueArr.length > 0) {
+      return this.callQueueArr.shift();
+    }
+    return null;
   }
 }
 
