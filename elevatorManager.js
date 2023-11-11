@@ -128,7 +128,7 @@ class ElevatorSystem {
   }
 
   //Metod för att hämta hissstatus
-  getElevatorStatus() {
+  getElevatorStatusList() {
     return this.elevatorArr.map((elevator) => ({
       elevatorId: elevator.elevatorId,
       currentFloor: elevator.currentFloor,
