@@ -1,12 +1,11 @@
 const express = require("express");
-const ElevatorSystem = require("./elevatorManager");
+const ElevatorManager = require("./elevatorManager");
 
-const elevatorSystem = new ElevatorSystem();
+const elevatorManager = new ElevatorManager();
 const app = express();
 
-app.use(express.json()); // Middleware för att kunna läsa JSON-data från POST requests.
+app.use(express.json()); // Middleware to read JSON-data from POST req
 
-// Route för att kalla på hiss
 app.post("/callElevator", async (req, res) => {
   const floor = req.body.floor;
 
@@ -15,20 +14,19 @@ app.post("/callElevator", async (req, res) => {
     return;
   }
   try {
-    await elevatorSystem.handleCalls(floor);
+    await elevatorManager.handleCalls(floor);
     res.send(`Calling elevator to floor ${floor}`);
   } catch (error) {
     res.status(400).send(error.message);
   }
 });
 
-// Route för att hämta statusen för alla hissar
 app.get("/elevator/status", (req, res) => {
-  const elevatorStatus = elevatorSystem.getElevatorStatus();
+  const elevatorStatus = elevatorManager.getElevatorStatus();
   res.json(elevatorStatus);
 });
 
-// Route för att kontrollera om en specifik hiss är tillgänglig
+//Check if specific elevator is available
 app.get("/elevator/available/:elevatorId", (req, res) => {
   const elevatorId = parseInt(req.params.elevatorId);
 
@@ -37,7 +35,7 @@ app.get("/elevator/available/:elevatorId", (req, res) => {
     return;
   }
 
-  const isAvailable = elevatorSystem.isElevatorAvailable(elevatorId);
+  const isAvailable = elevatorManager.isElevatorAvailable(elevatorId);
 
   if (isAvailable) {
     res.send(`Elevator with ID ${elevatorId} is available.`);
@@ -51,4 +49,4 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-module.exports = { app, elevatorSystem };
+module.exports = { app, elevatorSystem: elevatorManager };
