@@ -33,6 +33,7 @@ class Elevator {
       );
     } catch (error) {
       console.error("An error occurred in calculateTravelTime:", error.message);
+      throw error;
     }
   }
 
