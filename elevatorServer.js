@@ -44,9 +44,16 @@ app.get("/elevator/available/:elevatorId", (req, res) => {
   }
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+try {
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
+} catch (error) {
+  console.error(
+    "An error occurred during server initialization:",
+    error.message
+  );
+}
 
 export { app, elevatorManager };
