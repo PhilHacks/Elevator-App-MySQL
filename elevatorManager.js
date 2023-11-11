@@ -57,7 +57,7 @@ class ElevatorSystem {
     try {
       this.checkInvalidFloorReq(destinationFloor);
       this.checkIfElevatorOnFloor(destinationFloor);
-      this.findClosestIdleElevator(destinationFloor);
+      this.callOrQueueElevator(destinationFloor);
     } catch (error) {
       console.error("An error occured in handleCalls:", error.message);
     }
@@ -80,7 +80,7 @@ class ElevatorSystem {
     }
   }
 
-  findClosestIdleElevator(destinationFloor) {
+  callOrQueueElevator(destinationFloor) {
     const idleElevator = this.findClosestElevator(destinationFloor);
     if (idleElevator) {
       idleElevator.moveToFloor(destinationFloor);
