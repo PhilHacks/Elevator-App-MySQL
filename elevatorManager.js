@@ -92,13 +92,11 @@ class ElevatorSystem {
     }
   }
 
-  //Metod för att lägga till anrop i kön när hissar är upptagna
   addToCallQueueArr(destinationFloor) {
     this.callQueueArr.push(destinationFloor);
     console.log(`Call added to queue for floor ${destinationFloor}.`);
   }
 
-  //Metod för att processa kön:
   processQueue() {
     if (this.callQueueArr.length === 0) {
       return;
@@ -106,7 +104,7 @@ class ElevatorSystem {
 
     const idleElevator = this.findClosestElevator(this.callQueueArr[0]);
     if (idleElevator) {
-      const oldestCall = this.getOldestCallFromQueue();
+      const oldestCall = this.removeOldestCallFromQueue();
       idleElevator.moveToFloor(oldestCall).then(() => {
         console.log(
           `Elevator ${idleElevator.elevatorId} has moved to ${oldestCall} from queue.`
@@ -116,7 +114,7 @@ class ElevatorSystem {
   }
 
   //Metod för att ta bort det äldsta anropet i kön (FIFO - First-In-First-Out)
-  getOldestCallFromQueue() {
+  removeOldestCallFromQueue() {
     if (this.callQueueArr.length > 0) {
       return this.callQueueArr.shift();
     }
