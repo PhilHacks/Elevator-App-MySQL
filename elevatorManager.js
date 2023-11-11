@@ -1,4 +1,4 @@
-const Elevator = require("./elevator");
+import Elevator from "./elevator.js";
 
 class ElevatorManager {
   constructor() {
@@ -134,4 +134,4 @@ class ElevatorManager {
   }
 }
 
-module.exports = ElevatorManager;
+export default ElevatorManager;

@@ -1,5 +1,5 @@
-const express = require("express");
-const ElevatorManager = require("./elevatorManager");
+import express from "express";
+import ElevatorManager from "./elevatorManager.js";
 
 const elevatorManager = new ElevatorManager();
 const app = express();
@@ -14,7 +14,7 @@ app.post("/callElevator", async (req, res) => {
     return;
   }
   try {
-    await elevatorManager.handleCalls(floor);
+    await elevatorManager.handleElevatorCalls(floor);
     res.send(`Calling elevator to floor ${floor}`);
   } catch (error) {
     res.status(400).send(error.message);
@@ -49,4 +49,4 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-module.exports = { app, elevatorSystem: elevatorManager };
+export { app, elevatorManager };
