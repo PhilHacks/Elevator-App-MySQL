@@ -10,7 +10,7 @@ app.post("/callElevator", async (req, res) => {
   const floor = req.body.floor;
 
   if (typeof floor === "undefined" || floor === null) {
-    res.status(400).send("Bad Request: floor parameter missing.");
+    res.status(400).json({ message: "Floor parameter missing." });
     return;
   }
   try {
@@ -32,7 +32,7 @@ app.get("/elevator/available/:elevatorId", (req, res) => {
     const elevatorId = parseInt(req.params.elevatorId);
 
     if (isNaN(elevatorId)) {
-      res.status(400).send("Invalid elevatorId.");
+      res.status(400).json({ message: "Invalid elevatorId." });
       return;
     }
 
@@ -44,7 +44,7 @@ app.get("/elevator/available/:elevatorId", (req, res) => {
       res.send(`Elevator with ID ${elevatorId} is not available.`);
     }
   } catch (error) {
-    res.status(500).send("Internal Server Error: " + error.message);
+    res.status(500).json({ message: "Internal Server Error:" });
   }
 });
 
