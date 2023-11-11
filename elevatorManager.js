@@ -1,6 +1,6 @@
 const Elevator = require("./elevator");
 
-class ElevatorSystem {
+class ElevatorManager {
   constructor() {
     this.numberOfElevators = 3;
     this.numberOfFloors = 10;
@@ -51,8 +51,7 @@ class ElevatorSystem {
     return sortedElevators[0];
   }
 
-  //Metod för att hantera anrop till en hiss
-  async processElevatorCalls(destinationFloor) {
+  async handleElevatorCalls(destinationFloor) {
     try {
       this.checkInvalidFloorReq(destinationFloor);
       this.checkIfElevatorOnFloor(destinationFloor);
@@ -88,11 +87,11 @@ class ElevatorSystem {
         `Elevator ${idleElevator.elevatorId} has moved to ${destinationFloor}.`
       );
     } else {
-      this.addToCallQueueArr(destinationFloor);
+      this.queueElevatorCall(destinationFloor);
     }
   }
 
-  addToCallQueueArr(destinationFloor) {
+  queueElevatorCall(destinationFloor) {
     this.callQueueArr.push(destinationFloor);
     console.log(`Call added to queue for floor ${destinationFloor}.`);
   }
@@ -104,7 +103,7 @@ class ElevatorSystem {
 
     const idleElevator = this.findClosestElevator(this.callQueueArr[0]);
     if (idleElevator) {
-      const oldestCall = this.removeOldestCallFromQueue();
+      const oldestCall = this.removeCallFromQueue();
       idleElevator.moveToFloor(oldestCall).then(() => {
         console.log(
           `Elevator ${idleElevator.elevatorId} has moved to ${oldestCall} from queue.`
@@ -113,22 +112,19 @@ class ElevatorSystem {
     }
   }
 
-  //Metod för att ta bort det äldsta anropet i kön (FIFO - First-In-First-Out)
-  removeOldestCallFromQueue() {
+  removeCallFromQueue() {
     if (this.callQueueArr.length > 0) {
       return this.callQueueArr.shift();
     }
     return null;
   }
 
-  //Metod för att se om specifik hiss är ledig
   isElevatorAvailable(elevatorId) {
     const elevator = this.elevatorArr[elevatorId - 1]; // Justera id så matchar m array-index
     return elevator && !elevator.isMoving;
   }
 
-  //Metod för att hämta hissstatus
-  getElevatorStatusList() {
+  getElevatorStatus() {
     return this.elevatorArr.map((elevator) => ({
       elevatorId: elevator.elevatorId,
       currentFloor: elevator.currentFloor,
@@ -138,4 +134,4 @@ class ElevatorSystem {
   }
 }
 
-module.exports = ElevatorSystem;
+module.exports = ElevatorManager;
