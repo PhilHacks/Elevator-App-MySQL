@@ -22,7 +22,6 @@ class ElevatorSystem {
     return elevators;
   }
 
-  //Metod för att hitta närmaste lediga hiss
   findClosestElevator(destinationFloor) {
     try {
       const idleElevators = this.findIdleElevators();
@@ -53,13 +52,14 @@ class ElevatorSystem {
   }
 
   //Metod för att hantera anrop till en hiss
-  async handleCalls(destinationFloor) {
+  async processElevatorCalls(destinationFloor) {
     try {
       this.checkInvalidFloorReq(destinationFloor);
       this.checkIfElevatorOnFloor(destinationFloor);
+
       this.callOrQueueElevator(destinationFloor);
     } catch (error) {
-      console.error("An error occured in handleCalls:", error.message);
+      console.error("An error occureprocess:", error.message);
     }
   }
 
@@ -94,26 +94,14 @@ class ElevatorSystem {
 
   //Metod för att lägga till anrop i kön när hissar är upptagna
   addToCallQueueArr(destinationFloor) {
-    //Lägg till destinationFloor i callQueueArr
     this.callQueueArr.push(destinationFloor);
     console.log(`Call added to queue for floor ${destinationFloor}.`);
-  }
-
-  //Metod för att ta bort det äldsta anropet i kön (FIFO - First-In-First-Out)
-  getOldestCallFromQueue() {
-    //1. Så länge det finns element i callQueueArr
-    if (this.callQueueArr.length > 0) {
-      //2. ta bort första elementet i kön
-      return this.callQueueArr.shift();
-    }
-    //3. return null om kön är tom
-    return null;
   }
 
   //Metod för att processa kön:
   processQueue() {
     if (this.callQueueArr.length === 0) {
-      return; // Exit if queue is empty
+      return;
     }
 
     const idleElevator = this.findClosestElevator(this.callQueueArr[0]);
@@ -125,6 +113,14 @@ class ElevatorSystem {
         );
       });
     }
+  }
+
+  //Metod för att ta bort det äldsta anropet i kön (FIFO - First-In-First-Out)
+  getOldestCallFromQueue() {
+    if (this.callQueueArr.length > 0) {
+      return this.callQueueArr.shift();
+    }
+    return null;
   }
 
   //Metod för att se om specifik hiss är ledig
