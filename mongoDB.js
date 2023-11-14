@@ -9,3 +9,13 @@ mongoose
   .connect(MONGODB_URI)
   .then(() => console.log("Connected to MongoDB..."))
   .catch((err) => console.error("Could not connect to MongoDB...", err));
+
+const elevatorSchema = new mongoose.Schema({
+  id: String,
+  currentFloor: number,
+  status: {
+    type: String,
+    enum: ["idle", "moving_up", "moving_down"],
+  },
+  destinationFloor: number,
+});
