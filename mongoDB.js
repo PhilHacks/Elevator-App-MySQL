@@ -19,3 +19,5 @@ const elevatorSchema = new mongoose.Schema({
   },
   destinationFloor: number,
 });
+
+export const ElevatorModel = mongoose.model("Elevator", elevatorSchema);
