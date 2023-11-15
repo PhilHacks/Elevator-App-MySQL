@@ -51,7 +51,7 @@ app.get("/elevator/available/:elevatorId", (req, res) => {
 
 try {
   const port = process.env.PORT || 3000;
-
+  //make sure connetion to db before server starts
   dbConnection.then(() => {
     app.listen(port, () => {
       console.log(`Server is running on port ${port}`);
