@@ -1,12 +1,13 @@
 import express from "express";
+import { Router } from "express";
 import ElevatorManager from "./elevatorManager.js";
-import { app } from "./main.js";
 
 const elevatorManager = new ElevatorManager();
+const router = Router();
 
-app.use(express.json()); // Middleware to read JSON-data from POST req
+router.use(express.json()); // Middleware to read JSON-data from POST req
 
-app.post("/callElevator", async (req, res) => {
+router.post("/callElevator", async (req, res) => {
   const floor = req.body.floor;
 
   if (typeof floor === "undefined" || floor === null) {
@@ -21,13 +22,13 @@ app.post("/callElevator", async (req, res) => {
   }
 });
 
-app.get("/elevator/status", (req, res) => {
+router.get("/elevator/status", (req, res) => {
   const elevatorStatus = elevatorManager.getElevatorStatus();
   res.json(elevatorStatus);
 });
 
 //Check if specific elevator is available
-app.get("/elevator/available/:elevatorId", (req, res) => {
+router.get("/elevator/available/:elevatorId", (req, res) => {
   try {
     const elevatorId = parseInt(req.params.elevatorId);
 
@@ -48,4 +49,5 @@ app.get("/elevator/available/:elevatorId", (req, res) => {
   }
 });
 
-export { app, elevatorManager };
+export { router as app, elevatorManager };
+export default router;
