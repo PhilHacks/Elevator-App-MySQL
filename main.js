@@ -1,6 +1,7 @@
 import express from "express";
 import { dbConnection } from "./dbConnect.js";
 import { checkIfElevatorDocumentExist } from "./elevatorModel.js";
+import routes from "./routes.js";
 
 export const app = express();
 
@@ -10,6 +11,7 @@ try {
   //make sure connetion to db and that ElevatorDoc exists before server starts
   dbConnection.then(() => {
     checkIfElevatorDocumentExist();
+    app.use(routes);
     app.listen(port, () => {
       console.log(`Server is running on port ${port}`);
     });
