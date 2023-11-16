@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { get } from "mongoose";
 
 const elevatorSchema = new mongoose.Schema({
   elevatorId: String,
@@ -11,6 +11,14 @@ const elevatorSchema = new mongoose.Schema({
 });
 
 const ElevatorModel = mongoose.model("Elevator", elevatorSchema);
+
+export async function checkIfElevatorDocumentExist() {
+  const count = await ElevatorModel.countDocuments();
+  if (count === 0) {
+    await createElevators();
+    console.log("Created Elevator models in the database");
+  } else console.log("Elevator models exist in the database!");
+}
 
 export async function createElevators() {
   const elevator1 = new ElevatorModel({
@@ -39,12 +47,7 @@ export async function createElevators() {
   console.log(result1, result2, result3);
 }
 
-//maybe just create once and comment out?
-createElevators();
-
 export async function getElevators() {
   const elevators = await ElevatorModel.find({});
   console.log(elevators);
 }
-
-getElevators();
