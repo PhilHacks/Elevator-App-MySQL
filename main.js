@@ -7,7 +7,7 @@ export const app = express();
 try {
   const port = process.env.PORT || 3000;
 
-  //make sure connetion to db before server starts
+  //make sure connetion to db and that ElevatorDoc exists before server starts
   dbConnection.then(() => {
     checkIfElevatorDocumentExist();
     app.listen(port, () => {
