@@ -1,3 +1,5 @@
+import { updateElevatorDB } from "./crudOperations.js";
+
 class Elevator {
   constructor(elevatorId) {
     this.elevatorId = elevatorId;
@@ -9,12 +11,19 @@ class Elevator {
   }
 
   moveToFloor(destinationFloor) {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       try {
         this.calculateTravelTime(destinationFloor);
         this.setToMovingState(destinationFloor);
-        this.simulateTravelTime(destinationFloor);
-        this.updateStatusArr(destinationFloor);
+        await this.simulateTravelTime(destinationFloor);
+
+        await updateElevatorDB(
+          this.elevatorId,
+          this.currentFloor,
+          this.currentStatus,
+          destinationFloor
+          // callQueue
+        );
         resolve();
       } catch (error) {
         console.error("An error occurred in moveToFloor:", error.message);
@@ -48,31 +57,35 @@ class Elevator {
     return this;
   }
 
-  simulateTravelTime(destinationFloor) {
-    const travelTime = this.calculateTravelTime(destinationFloor);
+  async simulateTravelTime(destinationFloor) {
+    return new Promise((resolve, reject) => {
+      const travelTime = this.calculateTravelTime(destinationFloor);
 
-    setTimeout(() => {
-      try {
-        this.currentFloor = destinationFloor;
-        this.isMoving = false;
-        this.currentStatus = "idle";
-        console.log(
-          `Elevator ${this.elevatorId} arrived at floor ${this.currentFloor}`
-        );
-      } catch (error) {
-        console.error("An error occurred during simulation:", error.message);
-      }
-    }, travelTime);
-  }
-
-  updateStatusArr() {
-    this.statusHistory.push({
-      floor: this.currentFloor,
-      isMoving: this.isMoving,
-      currentStatus: this.currentStatus,
+      setTimeout(() => {
+        try {
+          this.currentFloor = destinationFloor;
+          this.isMoving = false;
+          this.currentStatus = "idle";
+          console.log(
+            `Elevator ${this.elevatorId} arrived at floor ${this.currentFloor}`
+          );
+          resolve();
+        } catch (error) {
+          console.error("An error occurred during simulation:", error.message);
+          reject();
+        }
+      }, travelTime);
     });
-    return this.statusHistory;
   }
+
+  // updateStatusArr() {
+  //   this.statusHistory.push({
+  //     floor: this.currentFloor,
+  //     isMoving: this.isMoving,
+  //     currentStatus: this.currentStatus,
+  //   });
+  //   return this.statusHistory;
+  // }
 }
 
 export default Elevator;
