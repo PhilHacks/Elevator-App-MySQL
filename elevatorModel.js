@@ -4,12 +4,12 @@ import { createElevators } from "./crudOperations.js";
 const elevatorSchema = new mongoose.Schema({
   elevatorId: String,
   currentFloor: Number,
-  status: {
+  currentStatus: {
     type: String,
     enum: ["idle", "moving_up", "moving_down"],
   },
   destinationFloor: Number,
-  callQueue: [],
+  callQueue: Array,
 });
 
 export const ElevatorModel = mongoose.model("Elevator", elevatorSchema);

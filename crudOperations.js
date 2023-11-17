@@ -7,21 +7,21 @@ export async function createElevators() {
   const elevator1 = new ElevatorModel({
     elevatorId: "Elevator 1",
     currentFloor: 0,
-    status: "idle",
+    currentStatus: "idle",
     destinationFloor: 0,
     callQueue: [],
   });
   const elevator2 = new ElevatorModel({
     elevatorId: "Elevator 2",
     currentFloor: 0,
-    status: "idle",
+    currentStatus: "idle",
     destinationFloor: 0,
     callQueue: [],
   });
   const elevator3 = new ElevatorModel({
     elevatorId: "Elevator 3",
     currentFloor: 0,
-    status: "idle",
+    currentStatus: "idle",
     destinationFloor: 0,
     callQueue: [],
   });
@@ -36,4 +36,18 @@ export async function createElevators() {
 export async function getElevators() {
   const elevators = await ElevatorModel.find({});
   console.log(elevators);
+}
+
+export async function updateElevator() {
+  const update = {
+    $set: {
+      elevatorId,
+      currentFloor,
+      currentStatus,
+      destinationFloor,
+      callQueue,
+    },
+  };
+
+  await ElevatorModel.updateOne({});
 }
