@@ -3,7 +3,7 @@
 //implement all crud operations in elevator
 import { ElevatorModel } from "./elevatorModel.js";
 
-export async function createElevators() {
+export async function createElevatorsInDB() {
   const elevator1 = new ElevatorModel({
     elevatorId: "Elevator 1",
     currentFloor: 0,
@@ -33,21 +33,29 @@ export async function createElevators() {
   console.log(result1, result2, result3);
 }
 
-export async function getElevators() {
+export async function getElevatorsFromDB() {
   const elevators = await ElevatorModel.find({});
   console.log(elevators);
 }
 
-export async function updateElevator() {
+export async function updateElevatorDB(
+  elevatorId,
+  currentFloor,
+  currentStatus,
+  destinationFloor,
+  callQueue
+) {
+  const filter = { elevatorId: elevatorId };
+
   const update = {
     $set: {
       elevatorId,
       currentFloor,
       currentStatus,
       destinationFloor,
-      callQueue,
+      // callQueue,
     },
   };
 
-  await ElevatorModel.updateOne({});
+  await ElevatorModel.findOneAndUpdate(filter, { ...update });
 }
