@@ -12,7 +12,7 @@ const elevatorSchema = new mongoose.Schema({
   callQueue: [],
 });
 
-const ElevatorModel = mongoose.model("Elevator", elevatorSchema);
+export const ElevatorModel = mongoose.model("Elevator", elevatorSchema);
 
 export async function checkIfElevatorDocumentExist() {
   const count = await ElevatorModel.countDocuments();

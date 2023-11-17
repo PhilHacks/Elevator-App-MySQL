@@ -1,6 +1,7 @@
 //choose another name
 
 //implement all crud operations in elevator
+import { ElevatorModel } from "./elevatorModel.js";
 
 export async function createElevators() {
   const elevator1 = new ElevatorModel({
