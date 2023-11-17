@@ -8,18 +8,21 @@ export async function createElevators() {
     currentFloor: 0,
     status: "idle",
     destinationFloor: 0,
+    callQueue: [],
   });
   const elevator2 = new ElevatorModel({
     elevatorId: "Elevator 2",
     currentFloor: 0,
     status: "idle",
     destinationFloor: 0,
+    callQueue: [],
   });
   const elevator3 = new ElevatorModel({
     elevatorId: "Elevator 3",
     currentFloor: 0,
     status: "idle",
     destinationFloor: 0,
+    callQueue: [],
   });
 
   const result1 = await elevator1.save();

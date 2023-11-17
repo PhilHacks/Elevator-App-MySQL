@@ -9,6 +9,7 @@ const elevatorSchema = new mongoose.Schema({
     enum: ["idle", "moving_up", "moving_down"],
   },
   destinationFloor: Number,
+  callQueue: [],
 });
 
 const ElevatorModel = mongoose.model("Elevator", elevatorSchema);
