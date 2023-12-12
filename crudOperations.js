@@ -2,33 +2,25 @@
 import { ElevatorModel } from "./elevatorModel.js";
 
 export async function createElevatorsInDB() {
-  const elevator1 = new ElevatorModel({
-    elevatorId: "Elevator 1",
-    currentFloor: 0,
-    currentStatus: "idle",
-    destinationFloor: null,
-    callQueue: [],
-  });
-  const elevator2 = new ElevatorModel({
-    elevatorId: "Elevator 2",
-    currentFloor: 0,
-    currentStatus: "idle",
-    destinationFloor: null,
-    callQueue: [],
-  });
-  const elevator3 = new ElevatorModel({
-    elevatorId: "Elevator 3",
-    currentFloor: 0,
-    currentStatus: "idle",
-    destinationFloor: null,
-    callQueue: [],
-  });
+  const numberOfElevators = 3;
+  const elevators = [];
 
-  const result1 = await elevator1.save();
-  const result2 = await elevator2.save();
-  const result3 = await elevator3.save();
+  for (let i = 1; i <= numberOfElevators; i++) {
+    elevators.push({
+      elevatorId: `Elevator ${i}`,
+      currentFloor: 0,
+      currentStatus: "idle",
+      destinationFloor: null,
+      callQueue: [],
+    });
+  }
 
-  console.log(result1, result2, result3);
+  try {
+    const results = await ElevatorModel.insertMany(elevators);
+    console.log(results);
+  } catch (error) {
+    console.error("Error creating elevators in DB:", error);
+  }
 }
 
 export async function callElevatorToFloor(elevatorId, floor) {
