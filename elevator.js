@@ -1,91 +1,96 @@
-import { updateElevatorDB } from "./crudOperations.js";
+// import { updateElevatorDB } from "./crudOperations.js";
 
-class Elevator {
-  constructor(elevatorId) {
-    this.elevatorId = elevatorId;
-    this.currentFloor = 1;
-    this.currentStatus = "idle"; //  lagrar hissens status idle, movingUp, movingDown
-    this.isMoving = false;
-    this.floorTravelTimeMs = 2000; // 2sec
-    this.statusHistory = [];
-  }
+// class Elevator {
+//   constructor(elevatorId) {
+//     this.elevatorId = elevatorId;
+//     this.currentFloor = 1;
+//     // this.currentStatus = "idle"; //  lagrar hissens status idle, movingUp, movingDown
+//     this.isMoving = false;
+//     this.floorTravelTimeMs = 2000; // 2sec
+//     this.statusHistory = [];
+//     this.destinationFloor = 0;
+//   }
 
-  moveToFloor(destinationFloor) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        this.calculateTravelTime(destinationFloor);
-        this.setToMovingState(destinationFloor);
-        await this.simulateTravelTime(destinationFloor);
+//   async moveToFloor(destinationFloor) {
+//     return new Promise(async (resolve, reject) => {
+//       try {
+//         this.calculateTravelTime(destinationFloor);
+//         this.setToMovingState(destinationFloor);
+//         await this.simulateTravelTime(destinationFloor);
 
-        await updateElevatorDB(
-          this.elevatorId,
-          this.currentFloor,
-          this.currentStatus,
-          destinationFloor
-          // callQueue
-        );
-        resolve();
-      } catch (error) {
-        console.error("An error occurred in moveToFloor:", error.message);
-        reject(error);
-      }
-    });
-  }
+//         console.log("Destination Floor:", destinationFloor);
+//         await updateElevatorDB(
+//           this.elevatorId,
+//           this.currentFloor,
+//           // this.currentStatus,
+//           destinationFloor
+//           // callQueue
+//         );
+//         resolve();
+//       } catch (error) {
+//         console.error("An error occurred in moveToFloor:", error.message);
+//         reject(error);
+//       }
+//     });
+//   }
 
-  calculateTravelTime(destinationFloor) {
-    if (isNaN(destinationFloor) || destinationFloor < 1) {
-      throw new Error("Invalid destination floor.");
-    }
-    return (
-      Math.abs(destinationFloor - this.currentFloor) * this.floorTravelTimeMs
-    );
-  }
+//   calculateTravelTime(destinationFloor) {
+//     if (isNaN(destinationFloor) || destinationFloor < 1) {
+//       throw new Error("Invalid destination floor.");
+//     }
+//     return (
+//       Math.abs(destinationFloor - this.currentFloor) * this.floorTravelTimeMs
+//     );
+//   }
 
-  setToMovingState(destinationFloor) {
-    if (destinationFloor > this.currentFloor) {
-      this.currentStatus = "moving_Up";
-    } else if (destinationFloor < this.currentFloor) {
-      this.currentStatus = "moving_Down";
-    }
-    this.isMoving = true;
-    console.log(
-      `Elevator ${this.elevatorId} is moving from floor`,
-      this.currentFloor,
-      "to floor",
-      destinationFloor
-    );
-    return this;
-  }
+//   setToMovingState(destinationFloor) {
+//     if (destinationFloor > this.currentFloor) {
+//       this.currentStatus = "moving_Up";
+//     } else if (destinationFloor < this.currentFloor) {
+//       this.currentStatus = "moving_Down";
+//     } else {
+//       this.currentStatus = "idle";
+//     }
 
-  async simulateTravelTime(destinationFloor) {
-    return new Promise((resolve, reject) => {
-      const travelTime = this.calculateTravelTime(destinationFloor);
+//     this.isMoving = true;
+//     console.log(
+//       `Elevator ${this.elevatorId} is moving from floor`,
+//       this.currentFloor,
+//       "to floor",
+//       destinationFloor
+//     );
+//     return this;
+//   }
 
-      setTimeout(() => {
-        try {
-          this.currentFloor = destinationFloor;
-          this.isMoving = false;
-          this.currentStatus = "idle";
-          console.log(
-            `Elevator ${this.elevatorId} arrived at floor ${this.currentFloor}`
-          );
-          resolve();
-        } catch (error) {
-          console.error("An error occurred during simulation:", error.message);
-          reject();
-        }
-      }, travelTime);
-    });
-  }
+//   async simulateTravelTime(destinationFloor) {
+//     return new Promise((resolve, reject) => {
+//       const travelTime = this.calculateTravelTime(destinationFloor);
 
-  // updateStatusArr() {
-  //   this.statusHistory.push({
-  //     floor: this.currentFloor,
-  //     isMoving: this.isMoving,
-  //     currentStatus: this.currentStatus,
-  //   });
-  //   return this.statusHistory;
-  // }
-}
+//       setTimeout(() => {
+//         try {
+//           this.currentFloor = destinationFloor;
+//           this.isMoving = false;
+//           this.currentStatus = "idle";
+//           console.log(
+//             `Elevator ${this.elevatorId} arrived at floor ${this.currentFloor}`
+//           );
+//           resolve();
+//         } catch (error) {
+//           console.error("An error occurred during simulation:", error.message);
+//           reject();
+//         }
+//       }, travelTime);
+//     });
+//   }
 
-export default Elevator;
+//   updateStatusDb() {
+//     this.statusHistory.push({
+//       floor: this.currentFloor,
+//       isMoving: this.isMoving,
+//       currentStatus: this.currentStatus,
+//     });
+//     return this.statusHistory;
+//   }
+// }
+
+// export default Elevator;

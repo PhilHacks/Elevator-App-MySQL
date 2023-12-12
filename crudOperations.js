@@ -6,21 +6,21 @@ export async function createElevatorsInDB() {
     elevatorId: "Elevator 1",
     currentFloor: 0,
     currentStatus: "idle",
-    destinationFloor: 0,
+    destinationFloor: null,
     callQueue: [],
   });
   const elevator2 = new ElevatorModel({
     elevatorId: "Elevator 2",
     currentFloor: 0,
     currentStatus: "idle",
-    destinationFloor: 0,
+    destinationFloor: null,
     callQueue: [],
   });
   const elevator3 = new ElevatorModel({
     elevatorId: "Elevator 3",
     currentFloor: 0,
     currentStatus: "idle",
-    destinationFloor: 0,
+    destinationFloor: null,
     callQueue: [],
   });
 
@@ -48,10 +48,11 @@ export async function getElevatorStatus() {
 export async function updateElevatorDB(
   elevatorId,
   currentStatus,
+  currentFloor,
   destinationFloor
 ) {
   const filter = { elevatorId };
-  const update = { $set: { currentStatus, destinationFloor } };
+  const update = { $set: { currentStatus, currentFloor, destinationFloor } };
   await ElevatorModel.findOneAndUpdate(filter, update);
 }
 

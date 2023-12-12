@@ -8,7 +8,7 @@ const elevatorSchema = new mongoose.Schema({
     type: String,
     enum: ["idle", "moving_up", "moving_down"],
   },
-  destinationFloor: Number,
+  destinationFloor: { type: Number },
   callQueue: Array,
 });
 
@@ -21,3 +21,5 @@ export async function checkIfElevatorDocumentExist() {
     console.log("Created Elevator models in the database");
   } else console.log("Elevator models exist in the database!");
 }
+
+export default ElevatorModel;
