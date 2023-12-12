@@ -1,5 +1,6 @@
 node_modules/
 package-lock.json
 notes.md
-codeSamples.js
+test.js
 .env
+codeSamples.js
