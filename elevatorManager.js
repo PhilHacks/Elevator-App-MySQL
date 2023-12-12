@@ -1,6 +1,10 @@
 // import Elevator from "./elevator.js";
 import { ElevatorModel } from "./elevatorModel.js";
-import { updateElevatorDB, findIdleElevators } from "./crudOperations.js";
+import {
+  updateElevatorDB,
+  findIdleElevators,
+  checkIfElevatorOnFloor,
+} from "./crudOperations.js";
 
 class ElevatorManager {
   constructor() {
@@ -37,9 +41,7 @@ class ElevatorManager {
   async handleElevatorCalls(destinationFloor) {
     try {
       this.checkInvalidFloorReq(destinationFloor);
-      const elevatorOnFloor = await this.checkIfElevatorOnFloor(
-        destinationFloor
-      );
+      const elevatorOnFloor = await checkIfElevatorOnFloor(destinationFloor);
 
       if (!elevatorOnFloor) {
         this.callOrQueueElevator(destinationFloor);
@@ -53,18 +55,6 @@ class ElevatorManager {
     if (destinationFloor < 1 || destinationFloor > this.numberOfFloors) {
       throw new Error("Invalid floor requested.");
     }
-  }
-
-  async checkIfElevatorOnFloor(destinationFloor) {
-    const elevatorOnFloor = await ElevatorModel.findOne({
-      currentFloor: destinationFloor,
-      currentStatus: "idle",
-    });
-    if (elevatorOnFloor) {
-      console.log(`Elevator already at floor ${destinationFloor}`);
-      return true;
-    }
-    return false;
   }
 
   async callOrQueueElevator(destinationFloor) {
