@@ -1,6 +1,6 @@
 // import Elevator from "./elevator.js";
 import { ElevatorModel } from "./elevatorModel.js";
-import { updateElevatorDB } from "./crudOperations.js";
+import { updateElevatorDB, findIdleElevators } from "./crudOperations.js";
 
 class ElevatorManager {
   constructor() {
@@ -9,13 +9,9 @@ class ElevatorManager {
     this.checkQueueInterval = setInterval(() => this.processQueue(), 2000); // Check every 2 seconds
   }
 
-  async findIdleElevators() {
-    return await ElevatorModel.find({ currentStatus: "idle" });
-  }
-
   async findClosestElevator(destinationFloor) {
     try {
-      const idleElevators = await this.findIdleElevators();
+      const idleElevators = await findIdleElevators();
       const sortedElevators = this.sortIdleElevatorsByDistance(
         idleElevators,
         destinationFloor

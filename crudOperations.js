@@ -23,6 +23,10 @@ export async function createElevatorsInDB() {
   }
 }
 
+export async function findIdleElevators() {
+  return await ElevatorModel.find({ currentStatus: "idle" });
+}
+
 export async function callElevatorToFloor(elevatorId, floor) {
   const filter = { elevatorId };
   const update = { destinationFloor: floor };
