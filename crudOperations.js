@@ -22,23 +22,6 @@ export async function createElevatorsInDB() {
     console.error("Error creating elevators in DB:", error);
   }
 }
-
-export async function findIdleElevators() {
-  return await ElevatorModel.find({ currentStatus: "idle" });
-}
-
-export async function checkIfElevatorOnFloor(destinationFloor) {
-  const elevatorOnFloor = await ElevatorModel.findOne({
-    currentFloor: destinationFloor,
-    currentStatus: "idle",
-  });
-  if (elevatorOnFloor) {
-    console.log(`Elevator already at floor ${destinationFloor}`);
-    return true;
-  }
-  return false;
-}
-
 export async function callElevatorToFloor(elevatorId, floor) {
   const filter = { elevatorId };
   const update = { destinationFloor: floor };
