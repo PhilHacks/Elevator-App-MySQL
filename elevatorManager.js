@@ -216,14 +216,13 @@ class ElevatorManager {
         elevator.currentStatus,
         nextFloor
       );
-
-      // console.log(
-      //   `Elevator ${elevator.elevatorId} is now at floor ${nextFloor}`
-      // );
     }
 
     // Update the elevator's status to "idle" after reaching the destination
     await updateElevatorDB(elevator.elevatorId, "idle", destinationFloor);
+    console.log(
+      `Elevator ${elevator.elevatorId} has arrived to floor ${destinationFloor}`
+    );
   }
 }
 
