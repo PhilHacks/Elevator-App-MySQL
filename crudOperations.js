@@ -7,7 +7,7 @@ export async function createElevatorsInDB() {
 
   for (let i = 1; i <= numberOfElevators; i++) {
     elevators.push({
-      elevatorId: `Elevator ${i}`,
+      elevatorId: `${i}`,
       currentFloor: 0,
       currentStatus: "idle",
       destinationFloor: null,
@@ -23,34 +23,16 @@ export async function createElevatorsInDB() {
   }
 }
 
-export async function findIdleElevators() {
-  return await ElevatorModel.find({ currentStatus: "idle" });
-}
-
-export async function checkIfElevatorOnFloor(destinationFloor) {
-  const elevatorOnFloor = await ElevatorModel.findOne({
-    currentFloor: destinationFloor,
-    currentStatus: "idle",
-  });
-  if (elevatorOnFloor) {
-    console.log(`Elevator already at floor ${destinationFloor}`);
-    return true;
-  }
-  return false;
-}
-
 export async function callElevatorToFloor(elevatorId, floor) {
   const filter = { elevatorId };
   const update = { destinationFloor: floor };
   await ElevatorModel.findByIdAndUpdate(filter, update);
 }
 
-export async function getElevatorStatus() {
-  const elevatorStatus = await ElevatorModel.find(
-    {},
-    "elevatorId currentFloor currentStatus destinationFloor"
-  );
-  console.log(elevatorStatus);
+export async function updateElevatorFloorOnly(elevatorId, currentFloor) {
+  const filter = { elevatorId };
+  const update = { $set: { currentFloor } };
+  await ElevatorModel.findOneAndUpdate(filter, update);
 }
 
 export async function updateElevatorDB(
@@ -62,6 +44,14 @@ export async function updateElevatorDB(
   const filter = { elevatorId };
   const update = { $set: { currentStatus, currentFloor, destinationFloor } };
   await ElevatorModel.findOneAndUpdate(filter, update);
+}
+
+export async function getElevatorStatus() {
+  const elevatorStatus = await ElevatorModel.find(
+    {},
+    "elevatorId currentFloor currentStatus destinationFloor"
+  );
+  console.log(elevatorStatus);
 }
 
 export async function isElevatorAvailable(elevatorId) {

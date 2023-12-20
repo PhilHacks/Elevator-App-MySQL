@@ -2,8 +2,9 @@
 import { ElevatorModel } from "./elevatorModel.js";
 import {
   updateElevatorDB,
-  findIdleElevators,
-  checkIfElevatorOnFloor,
+  updateElevatorFloorOnly,
+  // findIdleElevators,
+  // checkIfElevatorOnFloor,
 } from "./crudOperations.js";
 
 class ElevatorManager {
@@ -13,9 +14,13 @@ class ElevatorManager {
     this.checkQueueInterval = setInterval(() => this.processQueue(), 500); // Check every 0.5 seconds
   }
 
+  async findIdleElevators() {
+    return await ElevatorModel.find({ currentStatus: "idle" });
+  }
+
   async findClosestElevator(destinationFloor) {
     try {
-      const idleElevators = await findIdleElevators();
+      const idleElevators = await this.findIdleElevators();
       const sortedElevators = this.sortIdleElevatorsByDistance(
         idleElevators,
         destinationFloor
@@ -41,7 +46,9 @@ class ElevatorManager {
   async handleElevatorCalls(destinationFloor) {
     try {
       this.checkInvalidFloorReq(destinationFloor);
-      const elevatorOnFloor = await checkIfElevatorOnFloor(destinationFloor);
+      const elevatorOnFloor = await this.checkIfElevatorOnFloor(
+        destinationFloor
+      );
 
       if (!elevatorOnFloor) {
         this.callOrQueueElevator(destinationFloor);
@@ -55,6 +62,18 @@ class ElevatorManager {
     if (destinationFloor < 1 || destinationFloor > this.numberOfFloors) {
       throw new Error("Invalid floor requested.");
     }
+  }
+
+  async checkIfElevatorOnFloor(destinationFloor) {
+    const elevatorOnFloor = await ElevatorModel.findOne({
+      currentFloor: destinationFloor,
+      currentStatus: "idle",
+    });
+    if (elevatorOnFloor) {
+      console.log(`Elevator already at floor ${destinationFloor}`);
+      return true;
+    }
+    return false;
   }
 
   async callOrQueueElevator(destinationFloor) {
@@ -88,30 +107,31 @@ class ElevatorManager {
   async processQueue() {
     const elevators = await ElevatorModel.find();
 
-    const queuedCalls = [
-      ...new Set(elevators.flatMap((elevator) => elevator.callQueue)),
-    ].sort();
+    // Check if there are calls in the queue
+    if (elevators.some((elevator) => elevator.callQueue.length > 0)) {
+      const oldestCall = elevators
+        .flatMap((elevator) => elevator.callQueue)
+        .sort()[0];
 
-    // Process each call concurrently
-    await Promise.all(
-      queuedCalls.map(async (call) => {
-        // Check if any elevator is already at or heading to the oldest call floor
-        const elevatorAlreadyThere = elevators.find(
-          (elevator) =>
-            elevator.currentFloor === call || elevator.destinationFloor === call
-        );
+      // Check if any elevator is already at or heading to the oldest call floor
+      const elevatorAlreadyThere = elevators.find(
+        (elevator) =>
+          elevator.currentFloor === oldestCall ||
+          elevator.destinationFloor === oldestCall
+      );
 
-        if (!elevatorAlreadyThere) {
-          const idleElevator = await this.findClosestElevator(call);
-          if (idleElevator) {
-            await this.moveToFloor(idleElevator.elevatorId, call);
-
-            // Remove the call from the queue of all elevators
-            await ElevatorModel.updateMany({}, { $pull: { callQueue: call } });
-          }
+      if (!elevatorAlreadyThere) {
+        const idleElevator = await this.findClosestElevator(oldestCall);
+        if (idleElevator) {
+          this.moveToFloor(idleElevator.elevatorId, oldestCall);
+          // Remove the call from the queue of all elevators
+          await ElevatorModel.updateMany(
+            {},
+            { $pull: { callQueue: oldestCall } }
+          );
         }
-      })
-    );
+      }
+    }
   }
 
   async moveToFloor(elevatorId, destinationFloor) {
@@ -122,13 +142,9 @@ class ElevatorManager {
         throw new Error(`Elevator with ID ${elevatorId} not found.`);
       }
 
-      if (elevator.currentFloor === destinationFloor) {
-        console.log(
-          `Elevator ${elevatorId} is already at floor ${destinationFloor}`
-        );
-        return; // Exit if the elevator is already at the destination floor
-      }
-
+      console.log(
+        `Elevator ${elevatorId} is moving to floor ${destinationFloor}`
+      );
       this.calculateTravelTime(elevator, destinationFloor);
       await this.setToMovingState(elevator, destinationFloor);
       await this.simulateTravelTime(elevator, destinationFloor);
@@ -143,20 +159,6 @@ class ElevatorManager {
       console.error("An error occurred in moveToFloor:", error.message);
       throw error;
     }
-  }
-
-  async getElevatorStatus() {
-    return this.elevatorArr.map((elevator) => ({
-      elevatorId: elevator.elevatorId,
-      currentFloor: elevator.currentFloor,
-      isMoving: elevator.isMoving,
-      currentStatus: elevator.currentStatus,
-    }));
-  }
-
-  async isElevatorAvailable(elevatorId) {
-    const elevator = this.elevatorArr[elevatorId - 1]; // Justera id så matchar m array-index
-    return elevator && !elevator.isMoving;
   }
 
   async setToMovingState(elevator, destinationFloor) {
@@ -181,6 +183,7 @@ class ElevatorManager {
       Math.abs(destinationFloor - elevator.currentFloor) *
       this.floorTravelTimeMs;
   }
+
   async simulateTravelTime(elevator, destinationFloor) {
     const startFloor = elevator.currentFloor;
     const endFloor = destinationFloor;
@@ -197,11 +200,7 @@ class ElevatorManager {
       );
 
       // Update the elevator's current floor in the database
-      await updateElevatorDB(
-        elevator.elevatorId,
-        elevator.currentStatus,
-        nextFloor
-      );
+      await updateElevatorFloorOnly(elevator.elevatorId, nextFloor);
     }
 
     // Update the elevator's status to "idle" after reaching the destination
