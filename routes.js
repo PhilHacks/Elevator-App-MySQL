@@ -1,6 +1,7 @@
 import express from "express";
 import { Router } from "express";
 import ElevatorManager from "./elevatorManager.js";
+import { isElevatorAvailable, getElevatorStatus } from "./crudOperations.js";
 
 const elevatorManager = new ElevatorManager();
 const router = Router();
@@ -22,22 +23,28 @@ router.post("/callElevator", async (req, res) => {
   }
 });
 
-router.get("/elevator/status", (req, res) => {
-  const elevatorStatus = elevatorManager.getElevatorStatus();
-  res.json(elevatorStatus);
+router.get("/elevator/status", async (req, res) => {
+  try {
+    const elevatorStatus = await getElevatorStatus();
+    res.json(elevatorStatus);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Internal Server Error: " + error.message });
+  }
 });
 
 //Check if specific elevator is available
-router.get("/elevator/available/:elevatorId", (req, res) => {
+router.get("/elevator/available/:elevatorId", async (req, res) => {
   try {
-    const elevatorId = parseInt(req.params.elevatorId);
+    const elevatorId = req.params.elevatorId;
 
     if (isNaN(elevatorId)) {
       res.status(400).json({ message: "Invalid elevatorId." });
       return;
     }
 
-    const isAvailable = elevatorManager.isElevatorAvailable(elevatorId);
+    const isAvailable = await isElevatorAvailable(elevatorId);
 
     if (isAvailable) {
       res.send(`Elevator with ID ${elevatorId} is available.`);
