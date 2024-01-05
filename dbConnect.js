@@ -17,7 +17,7 @@ connection.connect((error) => {
     console.error("Error connecting: " + error.stack);
     return;
   }
-  console.log("Connected as id " + connection.threadId);
+  console.log("Connected to the database");
 });
 
 // Close the connection
