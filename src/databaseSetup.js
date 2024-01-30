@@ -4,7 +4,7 @@ import fs from "fs/promises";
 async function initializeDatabase() {
   try {
     // Read SQL file
-    const sql = await fs.readFile("./createdb.sql", "utf8");
+    const sql = await fs.readFile("./src/createdb.sql", "utf8");
     // Split SQL file into individual queries
     const statements = sql.split(/;\s*$/m);
 
