@@ -1,6 +1,6 @@
 import express from "express";
-import pool from "./dbConnect.js";
-import routes from "./routes.js";
+import pool from "./src/dbConnect.js";
+import routes from "./src/routes.js";
 
 export const app = express();
 const port = process.env.PORT || 3000;
