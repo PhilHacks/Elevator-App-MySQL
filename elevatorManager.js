@@ -1,213 +1,241 @@
-// import Elevator from "./elevator.js";
-import { ElevatorModel } from "./elevatorModel.js";
 import {
   updateElevatorDB,
   updateElevatorFloorOnly,
-  // findIdleElevators,
-  // checkIfElevatorOnFloor,
+  findIdleElevators,
+  checkIfElevatorOnFloor,
+  queueElevatorCall,
+  findOldestQueuedCall,
+  isElevatorHeadingToFloor,
+  isElevatorAtFloor,
+  removeCallFromQueue,
+  handleNullOrUndefined,
 } from "./crudOperations.js";
+import pool from "./dbConnect.js";
 
 class ElevatorManager {
   constructor() {
+    this.defaultFloor = 0;
     this.numberOfFloors = 10;
     this.floorTravelTimeMs = 2000;
-    this.checkQueueInterval = setInterval(() => this.processQueue(), 500); // Check every 0.5 seconds
+    this.checkQueueInterval = setInterval(() => this.queueManager(), 2000);
   }
 
-  async findIdleElevators() {
-    return await ElevatorModel.find({ currentStatus: "idle" });
-  }
-
-  async findClosestElevator(destinationFloor) {
+  async handleElevatorCalls(destination_floor) {
     try {
-      const idleElevators = await this.findIdleElevators();
-      const sortedElevators = this.sortIdleElevatorsByDistance(
-        idleElevators,
-        destinationFloor
-      );
-      return this.getFirstIdleElevator(sortedElevators) || null;
-    } catch (error) {
-      console.error("An error occured in findClosestElevator:", error.message);
-    }
-  }
-
-  sortIdleElevatorsByDistance(elevators, destinationFloor) {
-    return elevators.sort(
-      (a, b) =>
-        Math.abs(a.currentFloor - destinationFloor) -
-        Math.abs(b.currentFloor - destinationFloor)
-    );
-  }
-
-  getFirstIdleElevator(sortedElevators) {
-    return sortedElevators[0];
-  }
-
-  async handleElevatorCalls(destinationFloor) {
-    try {
-      this.checkInvalidFloorReq(destinationFloor);
-      const elevatorOnFloor = await this.checkIfElevatorOnFloor(
-        destinationFloor
-      );
+      this.validateFloorReq(destination_floor);
+      const elevatorOnFloor = await checkIfElevatorOnFloor(destination_floor);
 
       if (!elevatorOnFloor) {
-        this.callOrQueueElevator(destinationFloor);
+        this.callOrQueueElevator(destination_floor);
       }
     } catch (error) {
       console.error("An error occured in handleElevatorCalls:", error.message);
     }
   }
 
-  checkInvalidFloorReq(destinationFloor) {
-    if (destinationFloor < 1 || destinationFloor > this.numberOfFloors) {
-      throw new Error("Invalid floor requested.");
+  validateFloorReq(destination_floor) {
+    if (
+      destination_floor < this.defaultFloor ||
+      destination_floor > this.numberOfFloors
+    ) {
+      throw new Error("Invalid floor requested."); //kolla var det fångas, behöver fånas i rutten för användarens skull!
     }
   }
 
-  async checkIfElevatorOnFloor(destinationFloor) {
-    const elevatorOnFloor = await ElevatorModel.findOne({
-      currentFloor: destinationFloor,
-      currentStatus: "idle",
-    });
-    if (elevatorOnFloor) {
-      console.log(`Elevator already at floor ${destinationFloor}`);
-      return true;
-    }
-    return false;
-  }
+  async callOrQueueElevator(destination_floor) {
+    try {
+      const idleElevator = await this.findClosestElevator(destination_floor);
 
-  async callOrQueueElevator(destinationFloor) {
-    const idleElevator = await this.findClosestElevator(destinationFloor);
-    if (idleElevator) {
-      const newStatus =
-        destinationFloor > idleElevator.currentFloor
-          ? "moving_up"
-          : "moving_down";
+      const elevatorHeading = await isElevatorHeadingToFloor(destination_floor);
 
-      await updateElevatorDB(
-        idleElevator.elevatorId,
-        newStatus,
-        idleElevator.currentFloor
-      );
+      // If no idle elevator is found and no elevator is heading to that floor
+      if (
+        (!idleElevator || idleElevator.elevator_id == null) &&
+        !elevatorHeading
+      ) {
+        await queueElevatorCall(destination_floor);
+        return; // Exit the method as there's no elevator available
+      }
 
-      await this.moveToFloor(idleElevator.elevatorId, destinationFloor);
-    } else {
-      this.queueElevatorCall(destinationFloor);
-    }
-  }
+      if (idleElevator) {
+        const newStatus =
+          destination_floor > idleElevator.current_floor
+            ? "moving_up"
+            : "moving_down";
 
-  async queueElevatorCall(destinationFloor) {
-    await ElevatorModel.updateMany(
-      {},
-      { $push: { callQueue: destinationFloor } }
-    );
-    console.log(`Call added to queue for floor ${destinationFloor}.`);
-  }
+        const current_floor = idleElevator.current_floor;
 
-  async processQueue() {
-    const elevators = await ElevatorModel.find();
-
-    // Check if there are calls in the queue
-    if (elevators.some((elevator) => elevator.callQueue.length > 0)) {
-      const oldestCall = elevators
-        .flatMap((elevator) => elevator.callQueue)
-        .sort()[0];
-
-      // Check if any elevator is already at or heading to the oldest call floor
-      const elevatorAlreadyThere = elevators.find(
-        (elevator) =>
-          elevator.currentFloor === oldestCall ||
-          elevator.destinationFloor === oldestCall
-      );
-
-      if (!elevatorAlreadyThere) {
-        const idleElevator = await this.findClosestElevator(oldestCall);
-        if (idleElevator) {
-          this.moveToFloor(idleElevator.elevatorId, oldestCall);
-          // Remove the call from the queue of all elevators
-          await ElevatorModel.updateMany(
-            {},
-            { $pull: { callQueue: oldestCall } }
+        if (idleElevator.elevator_id) {
+          await updateElevatorDB(
+            idleElevator.elevator_id,
+            newStatus,
+            await handleNullOrUndefined(idleElevator.current_floor, null), // Ensure null is passed if current_floor is undefined
+            destination_floor
           );
+
+          await this.moveToFloor(idleElevator.elevator_id, destination_floor);
+        }
+      } else {
+        const elevatorHeading = await isElevatorHeadingToFloor(
+          destination_floor
+        );
+
+        if (!elevatorHeading) {
+          console.log(`Adding ${destination_floor} to queue`);
+          await queueElevatorCall(destination_floor);
         }
       }
+    } catch (error) {
+      console.error("An error occurred in callOrQueueElevator:", error.message);
     }
   }
 
-  async moveToFloor(elevatorId, destinationFloor) {
+  async findClosestElevator(destination_floor) {
     try {
-      const elevator = await ElevatorModel.findOne({ elevatorId: elevatorId });
+      const idleElevators = await findIdleElevators();
 
-      if (!elevator) {
-        throw new Error(`Elevator with ID ${elevatorId} not found.`);
+      const sortedElevators = this.sortIdleElevatorsByDistance(
+        idleElevators,
+        destination_floor
+      );
+
+      const closestElevator =
+        sortedElevators[0] && sortedElevators[0].current_floor !== null
+          ? sortedElevators[0]
+          : { ...sortedElevators[0], current_floor: null, elevator_id: null };
+
+      return closestElevator;
+    } catch (error) {
+      console.error("An error occurred in findClosestElevator:", error.message);
+    }
+  }
+
+  sortIdleElevatorsByDistance(elevators, destination_floor) {
+    return elevators.sort(
+      (a, b) =>
+        Math.abs(a.current_floor - destination_floor) -
+        Math.abs(b.current_floor - destination_floor)
+    );
+  }
+
+  async moveToFloor(elevator_id, destination_floor) {
+    try {
+      if (!elevator_id) {
+        console.error("MoveToFloor - elevator_id is undefined!");
+        throw new Error("Elevator ID is undefined.");
       }
 
-      console.log(
-        `Elevator ${elevatorId} is moving to floor ${destinationFloor}`
+      // Fetch elevator information from the database
+      const [elevator] = await pool.execute(
+        "SELECT * FROM elevators WHERE elevator_id = ?",
+        [elevator_id]
       );
-      this.calculateTravelTime(elevator, destinationFloor);
-      await this.setToMovingState(elevator, destinationFloor);
-      await this.simulateTravelTime(elevator, destinationFloor);
 
-      await updateElevatorDB(
-        elevator.elevatorId,
-        "idle",
-        destinationFloor,
+      if (!elevator) {
+        throw new Error(`Elevator with ID ${elevator_id} not found.`);
+      }
+
+      // Determine the new status of the elevator
+      const newStatus =
+        destination_floor > elevator[0].current_floor
+          ? "moving_up"
+          : destination_floor < elevator[0].current_floor
+          ? "moving_down"
+          : "idle";
+
+      // Get the current floor from the elevator, handle null or undefined
+      const current_floor = await handleNullOrUndefined(
+        elevator[0].current_floor,
         null
       );
+
+      console.log(
+        `Elevator ${elevator_id} is moving from floor ${current_floor} to floor ${destination_floor}`
+      );
+
+      this.calculateTravelTime(elevator[0], destination_floor);
+
+      await this.setToMovingState(elevator[0], destination_floor);
+      await this.simulateTravelTime(elevator[0], destination_floor);
+
+      await updateElevatorDB(
+        elevator_id,
+        newStatus,
+        await handleNullOrUndefined(elevator[0].destination_floor, null),
+        destination_floor
+      );
     } catch (error) {
-      console.error("An error occurred in moveToFloor:", error.message);
+      console.error(
+        "MoveToFloor - An error occurred in moveToFloor:",
+        error.message
+      );
       throw error;
     }
   }
 
-  async setToMovingState(elevator, destinationFloor) {
+  async setToMovingState(elevator, destination_floor) {
     const newStatus =
-      destinationFloor > elevator.currentFloor ? "moving_Up" : "moving_Down";
+      destination_floor > elevator.current_floor ? "moving_Up" : "moving_Down";
     await updateElevatorDB(
-      elevator.elevatorId,
+      elevator.elevator_id,
       newStatus,
-      elevator.currentFloor,
-      destinationFloor
-    );
-    console.log(
-      `Elevator ${elevator.elevatorId} is moving from floor ${elevator.currentFloor} to floor ${destinationFloor}`
+      elevator.current_floor,
+      destination_floor
     );
   }
 
-  calculateTravelTime(elevator, destinationFloor) {
-    if (isNaN(destinationFloor) || destinationFloor < 1) {
+  calculateTravelTime(elevator, destination_floor) {
+    if (isNaN(destination_floor) || destination_floor < 1) {
       throw new Error("Invalid destination floor.");
     }
     elevator.floorTravelTimeMs =
-      Math.abs(destinationFloor - elevator.currentFloor) *
+      Math.abs(destination_floor - elevator.current_floor) *
       this.floorTravelTimeMs;
   }
 
-  async simulateTravelTime(elevator, destinationFloor) {
-    const startFloor = elevator.currentFloor;
-    const endFloor = destinationFloor;
-    const travelDirection = startFloor < endFloor ? 1 : -1; // 1 for up, -1 for down
-    const totalFloorsToTravel = Math.abs(endFloor - startFloor);
+  async simulateTravelTime(elevator, destination_floor) {
+    const totalFloorsToTravel = Math.abs(
+      destination_floor - elevator.current_floor
+    );
 
     for (let i = 1; i <= totalFloorsToTravel; i++) {
-      // Calculate the next floor
-      const nextFloor = startFloor + travelDirection * i;
+      const nextFloor =
+        elevator.current_floor +
+        (destination_floor > elevator.current_floor ? i : -i);
 
-      // Wait for the time it takes to reach the next floor
-      await new Promise((resolve) =>
-        setTimeout(resolve, this.floorTravelTimeMs)
-      );
+      // Update the elevator's current floor in the database after a delay
+      setTimeout(async () => {
+        await updateElevatorDB(elevator.elevator_id, null, nextFloor, null);
 
-      // Update the elevator's current floor in the database
-      await updateElevatorFloorOnly(elevator.elevatorId, nextFloor);
+        if (nextFloor === destination_floor) {
+          await updateElevatorDB(elevator.elevator_id, "idle", nextFloor);
+          console.log(
+            `Elevator ${elevator.elevator_id} has arrived at floor ${nextFloor}`
+          );
+        }
+      }, this.floorTravelTimeMs * i);
     }
+  }
 
-    // Update the elevator's status to "idle" after reaching the destination
-    await updateElevatorDB(elevator.elevatorId, "idle", destinationFloor);
-    console.log(
-      `Elevator ${elevator.elevatorId} has arrived to floor ${destinationFloor}`
-    );
+  async queueManager() {
+    try {
+      const oldestCall = await findOldestQueuedCall();
+
+      if (oldestCall) {
+        const elevatorAlreadyThere = await isElevatorAtFloor(oldestCall);
+
+        if (!elevatorAlreadyThere) {
+          const idleElevator = await this.findClosestElevator(oldestCall);
+
+          if (idleElevator && idleElevator.elevator_id != null) {
+            await this.moveToFloor(idleElevator.elevator_id, oldestCall);
+            await removeCallFromQueue(oldestCall);
+          }
+        }
+      }
+    } catch (error) {
+      console.error("An error occurred in queueManager:", error.message);
+    }
   }
 }
 
