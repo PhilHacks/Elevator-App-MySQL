@@ -1,6 +1,6 @@
-<<<<<<< HEAD
+
 # Elevator-App-MySQL
-=======
+
 
 # ElevatorApp
 
