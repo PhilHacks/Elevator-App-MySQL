@@ -1,7 +1,11 @@
 import express from "express";
 import { Router } from "express";
 import ElevatorManager from "./elevatorManager.js";
-import { isElevatorAvailable, getElevatorStatus } from "./crudOperations.js";
+import {
+  isElevatorAvailable,
+  getElevatorStatus,
+  getCallQueueTable,
+} from "./crudOperations.js";
 
 const elevatorManager = new ElevatorManager();
 const router = Router();
@@ -17,7 +21,8 @@ router.post("/callElevator", async (req, res) => {
   }
   try {
     await elevatorManager.handleElevatorCalls(floor);
-    res.send(`Calling elevator to floor ${floor}`);
+
+    res.status(200).send(`Calling elevator to floor ${floor}`);
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -27,6 +32,17 @@ router.get("/elevator/status", async (req, res) => {
   try {
     const elevatorStatus = await getElevatorStatus();
     res.json(elevatorStatus);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Internal Server Error: " + error.message });
+  }
+});
+
+router.get("/callqueue/table", async (req, res) => {
+  try {
+    const callQueueTable = await getCallQueueTable();
+    res.json(callQueueTable);
   } catch (error) {
     res
       .status(500)
