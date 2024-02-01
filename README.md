@@ -1,20 +1,20 @@
-# Elevator-App-MySQL
+# 🛗Elevator-App-MySQL
 
 ## ElevatorApp
 
-**Table of Contents**
+## Table of Contents
 
-- [Project Overview](#project-overview)
-- [Installation and Setup](#installation-and-setup)
-- [Project Features](#project-features)
-- [Project Structure](#project-structure)
-- [Technologies Used](#technologies-used)
-- [Testing Endpoints with Postman](#testing-endpoints-with-postman)
+- [Project Overview](#1-project-overview)
+- [Installation and Setup](#2-installation-and-setup)
+- [Project Features](#3-project-features)
+- [Project Structure](#4-project-structure)
+- [Technologies Used](#5-technologies-used)
+- [Testing Endpoints with Postman](#6-testing-endpoints-with-postman)
 
 ### **1. Project Overview**
 
 - **Project Name:** ElevatorApp
-- **Description:** ElevatorApp is a Node.js application for managing a network of elevators. It provides API endpoints for calling elevators to specific floors, checking elevator availability, and tracking elevator status. This version i using MySQL as database to store the data.
+- **Description:** ElevatorApp is a Node.js application for managing a network of elevators. It provides API endpoints for calling elevators to specific floors, checking elevator availability, and tracking elevator status. This version uses MySQL to store data
 
 ### **2. Installation and Setup**
 
@@ -34,40 +34,53 @@
    ```bash
    cd Elevator-App-MySQL
    ```
-3. **Install Dependencies:**
+3. **Install the required Dependencies:**
    ```bash
    npm install
    ```
 
-#### **Database Initialization and Configuration**
+### **Database Initialization and Configuration**
 
-Before running the application, you need to set up and initialize the MySQL database.
+Ensure your MySQL database is set up and configured before launching the application. Follow these steps to prepare your environment:
 
-- **Install MySQL:**
-  Download the MySQL Community Server from [MySQL Downloads](https://dev.mysql.com/downloads/mysql/). Choose the version that matches your operating system and complete the installation process. Remember to note down the password for the MySQL root user that you set during installation.
+#### **Install MySQL:**
 
-- **Configure Database Connection:**
-  Locate the `.env` file in the project root directory. The .env file securely stores sensitive information like database passwords, keeping them separate from source code for enhanced security.
-  Configure your database connection settings by assigning the appropriate values to the environment variables:
+- Download the MySQL Community Server from [MySQL Downloads](https://dev.mysql.com/downloads/mysql/). Select the version compatible with your OS and follow the installation instructions.
+- **Important:** Take note of the MySQL root user's password during installation.
 
-  ```plaintext
-  DB_HOST=localhost
-  DB_USER=root
-  DB_PASS=your_root_password
-  DB_NAME=sql_elevators
-  ```
+#### **Configure Database Connection:**
 
-- **Initialize the Database:**
-  Execute the `init_db` script to set up your database tables:
+1. **Create a `.env` File:**
+
+   - In the root directory of your project, create a `.env` file. This file will securely store your database connection details, keeping them out of version control.
+
+2. **Populate `.env` with MySQL Details:**
+
+   - Fill in the `.env` file with your MySQL connection information. Ensure to replace `your_root_password` with the actual password set during MySQL installation:
+     ```plaintext
+     DB_HOST=localhost
+     DB_USER=root
+     DB_PASS=your_root_password
+     DB_NAME=sql_elevators
+     ```
+
+3. **Integration with `dbConnect.js`:**
+   - The `.env` file's values are imported into the `dbConnect.js` script to establish the database connection, safeguarding your sensitive details.
+
+#### **Initialize the Database:**
+
+- Verify that your MySQL service is active. Then, use the script provided to initialize your database schema:
   ```bash
   npm run init_db
   ```
 
-4. **Start the Server:**
-   ```bash
-   npm start
-   ```
-   The server will start, and you can access the API at `http://localhost:3000`.
+#### **Launch the Application:**
+
+- With the database prepared, start the application server:
+  ```bash
+  npm start
+  ```
+- The API will now be accessible at `http://localhost:3000`.
 
 ### **3. Project Features**
 
@@ -94,7 +107,7 @@ This application offers several API endpoints for managing and tracking elevator
   - **Method**: GET
   - **Description**: Check if a specific elevator is available by providing the elevator ID in the URL.
 
-To test these endpoints, you can use the provided Postman collection, which includes requests for all the above functionalities. For more details on how to use Postman for testing, refer to the [Testing Endpoints with Postman](#6-testing-endpoints-with-postman) section.
+To test these endpoints, you can use the provided Postman collection, see [Testing Endpoints with Postman](#6-testing-endpoints-with-postman).
 
 ### **4. Project Structure**
 
@@ -113,8 +126,13 @@ To test these endpoints, you can use the provided Postman collection, which incl
 
 ### **5. Technologies Used**
 
-- **Languages:** JavaScript (Node.js)
-- **Frameworks/Libraries:** Node.js, Express.js, MySQL
+- **Languages:**
+  -JavaScript (Node.js)
+
+- **Frameworks/Libraries:**
+  -Node.js
+  -Express.js
+  -MySQL
 
 ### **6. Testing Endpoints with Postman**
 
