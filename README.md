@@ -11,6 +11,14 @@
 - [Technologies Used](#technologies-used)
 - [Testing Endpoints with Postman](#testing-endpoints-with-postman)
 
+## Table of Contents
+- [Project Overview](#project-overview)
+- [Installation and Setup](#installation-and-setup)
+- [Project Features](#project-features)
+- [Project Structure](#project-structure)
+- [Technologies Used](#technologies-used)
+- [Testing Endpoints with Postman](#testing-endpoints-with-postman)
+
 ### **1. Project Overview**
 
 - **Project Name:** ElevatorApp
