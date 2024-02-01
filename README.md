@@ -47,7 +47,7 @@ Before running the application, you need to set up and initialize the MySQL data
 - **Install MySQL:**
   Download the MySQL Community Server from [MySQL Downloads](https://dev.mysql.com/downloads/mysql/). Choose the version that matches your operating system and complete the installation process. Remember to note down the password for the MySQL root user that you set during installation.
 
-- **Configure Database Connection:**
+**Configure Database Connection:**
 - Create a `.env` file in the project root to securely store database connection details.
 - Ensure `.env` is listed in `.gitignore` to protect sensitive information.
 - Write the following in `.env` but with your MySQL settings:
