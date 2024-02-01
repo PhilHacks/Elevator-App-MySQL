@@ -1,162 +1,105 @@
-
 # Elevator-App-MySQL
 
-
-# ElevatorApp
-
+## ElevatorApp
 
 **Table of Contents**
+
 - [Project Overview](#project-overview)
 - [Installation and Setup](#installation-and-setup)
-  - [Requirements](#requirements)
-  - [Installation](#installation)
 - [Project Features](#project-features)
-  - [List of Features](#list-of-features)
-  - [Usage Examples](#usage-examples)
-    - [Calling an Elevator](#calling-an-elevator)
-    - [Checking Elevator Availability](#checking-elevator-availability)
 - [Project Structure](#project-structure)
-  - [Directory Structure](#directory-structure)
-  - [Key Files](#key-files)
 - [Technologies Used](#technologies-used)
-  - [Languages](#languages)
-  - [Frameworks/Libraries](#frameworkslibraries)
-#
+- [Testing Endpoints with Postman](#testing-endpoints-with-postman)
 
 ### **1. Project Overview**
 
 - **Project Name:** ElevatorApp
-- **Description:** ElevatorApp is a software system for managing a network of three elevators using Node.js and Express.js. It provides an API for calling and controlling elevators efficiently. With ElevatorApp, users can:
-
-  - **Call Elevator:** Users can call an elevator to a specific floor by sending a POST request to /callElevator.
-
-  - **Simultaneous Calls:** ElevatorApp allows multiple users to simultaneously call elevators to different floors, and the system efficiently assigns the nearest available elevator.
-
-  - **Status Information:** Users can easily retrieve the status of all elevators by sending a GET request to /elevator/status.
-
-  - **Elevator Availability:** The system enables users to check if a specific elevator is available by sending a GET request to /elevator/available/:elevatorId.
-
-  This solution ensures a smooth and efficient elevator management system.
-#
+- **Description:** ElevatorApp is a Node.js application for managing a network of elevators. It provides API endpoints for calling elevators to specific floors, checking elevator availability, and tracking elevator status. This version i using MySQL as database to store the data.
 
 ### **2. Installation and Setup**
 
 #### **Requirements:**
 
-Before you can run ElevatorApp, make sure you have the following prerequisites and dependencies installed on your system:
-
-- **Node.js:** Ensure you have Node.js installed. You can download it from [nodejs.org](https://nodejs.org/).
-
-- **npm (Node Package Manager):** npm comes bundled with Node.js. You can verify its installation by running `npm -v` in your terminal.
-
-- **Express.js:** ElevatorApp uses the Express.js framework for API endpoints. You can install it using npm:
-
-  ```bash
-  npm install express
-  ```
-
-- **Other Dependencies:** To install other project-specific dependencies, navigate to your project directory and run:
-
-  ```bash
-  npm install
-  ```
-
-Now that you have the required prerequisites and dependencies in place, let's proceed with setting up the project.
+- Node.js
+- npm (Node Package Manager)
+- MySQL
 
 #### **Installation:**
 
-Follow these steps to set up ElevatorApp locally:
-
-1. Clone the repository to your local machine:
-
+1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/your-username/elevator-app.git
+   git clone https://github.com/PhilHacks/Elevator-App-MySQL.git
    ```
-
-2. Navigate to the project directory:
-
+2. **Navigate to the Project Directory:**
    ```bash
-   cd elevator-app
+   cd Elevator-App-MySQL
    ```
-
-3. Install project-specific dependencies:
-
+3. **Install Dependencies:**
    ```bash
    npm install
    ```
 
-4. Start the server:
+#### **Database Initialization and Configuration**
 
+Before running the application, you need to set up and initialize the MySQL database.
+
+- **Install MySQL:**
+  Download the MySQL Community Server from [MySQL Downloads](https://dev.mysql.com/downloads/mysql/). Choose the version that matches your operating system and complete the installation process. Remember to note down the password for the MySQL root user that you set during installation.
+
+- **Configure Database Connection:**
+  Locate the `.env` file in the project root directory. The .env file securely stores sensitive information like database passwords, keeping them separate from source code for enhanced security.
+  Configure your database connection settings by assigning the appropriate values to the environment variables:
+
+  ```plaintext
+  DB_HOST=localhost
+  DB_USER=root
+  DB_PASS=your_root_password
+  DB_NAME=sql_elevators
+  ```
+
+- **Initialize the Database:**
+  Execute the `init_db` script to set up your database tables:
+  ```bash
+  npm run init_db
+  ```
+
+4. **Start the Server:**
    ```bash
-   node elevatorServer.js
+   npm start
    ```
+   The server will start, and you can access the API at `http://localhost:3000`.
 
-   The ElevatorApp server will now be running, and you can access it at `http://localhost:3000` in your web browser or postman.
-#
 ### **3. Project Features**
 
-#### **List of Features:**
+- **Call Elevator:** Send a POST request to `/callElevator` to request an elevator to a specific floor.
+- **Simultaneous Calls:** The system can handle multiple elevator calls and assign the nearest available elevator.
+- **Status Information:** Retrieve the status of all elevators with a GET request to `/elevator/status`.
+- **Elevator Availability:** Check if an elevator is available by sending a GET request to `/elevator/available/:elevatorId`.
 
-- **Call Elevator:** Users can call an elevator to a specific floor by sending a POST request to `/callElevator`.
-  
-- **Simultaneous Calls:** Multiple users can simultaneously call elevators to different floors, and the system efficiently assigns the nearest available elevator.
- 
-
-- **Status Information:** Users can retrieve the status of all elevators by sending a GET request to `/elevator/status`.
- 
-
-- **Elevator Availability:** Users can check if a specific elevator is available by sending a GET request to `/elevator/available/:elevatorId`.
- 
-
-#### **Usage Examples:**
-
-##### Calling an Elevator:
-
-To call an elevator to a specific floor (e.g., floor 9), send a POST request with JSON data example below is using postman:
-
-
-![img-of-postman-call](img/oneCall.png)
-
-
-##### Checking Elevator Availability:
-
-To check if Elevator 1 is available, send a GET request to `/elevator/available/1`.
-
-#
 ### **4. Project Structure**
 
 #### **Directory Structure:**
 
-The project is organized as follows:
+- `src/`: Source code directory.
 
-- `elevatorManager.js`: Contains the main logic for managing elevators and the elevator system.
+  - `createdb.sql`: SQL script for creating the initial database schema.
+  - `crudOperations.js`: Database CRUD operations.
+  - `databaseSetup.js`: Database setup script to run the `createdb.sql` file.
+  - `dbConnect.js`: Database connection configuration file.
+  - `elevatorManager.js`: Core logic for managing the elevator system.
+  - `routes.js`: API route definitions.
 
-- `elevator.js`: Defines the Elevator class.
+- `main.js`: Server entry point.
 
-- `elevatorServer.js`: Initializes the Express.js server and API endpoints.
-
-- `node_modules/`: Contains project dependencies installed via npm.
-
-- `README.md`: This readme file.
-
-#### **Key Files:**
-
-- `elevatorManager.js`: The core logic for elevator management and the elevator system.
-
-- `elevator.js`: Defines the Elevator class with methods for elevator movement.
-
-- `elevatorServer.js`: Initializes the Express.js server and API endpoints.
-
-#
 ### **5. Technologies Used**
 
-#### **Languages:**
+- **Languages:** JavaScript (Node.js)
+- **Frameworks/Libraries:** Node.js, Express.js, MySQL
 
-- JavaScript (Node.js)
+### **6. Testing Endpoints with Postman**
 
-#### **Frameworks/Libraries:**
+To test the API endpoints, use the Postman collection provided:
 
-- Node.js
-- Express.js
-
-
+1. Download and install Postman if you haven't already.
+2. Open the [ElevatorApp Endpoints Test Collection](https://www.postman.com/bold-space-679599/workspace/elevator-app-endpoints-test/overview) in Postman.
+3. Use the collection to send requests and test the API functionality.
