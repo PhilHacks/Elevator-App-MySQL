@@ -48,8 +48,9 @@ Before running the application, you need to set up and initialize the MySQL data
   Download the MySQL Community Server from [MySQL Downloads](https://dev.mysql.com/downloads/mysql/). Choose the version that matches your operating system and complete the installation process. Remember to note down the password for the MySQL root user that you set during installation.
 
 - **Configure Database Connection:**
-  Locate the `.env` file in the project root directory. The .env file securely stores sensitive information like database passwords, keeping them separate from source code for enhanced security.
-  Configure your database connection settings by assigning the appropriate values to the environment variables:
+- Create a `.env` file in the project root to securely store database connection details.
+- Ensure `.env` is listed in `.gitignore` to protect sensitive information.
+- Write the following in `.env` but with your MySQL settings:
 
   ```plaintext
   DB_HOST=localhost
@@ -57,6 +58,7 @@ Before running the application, you need to set up and initialize the MySQL data
   DB_PASS=your_root_password
   DB_NAME=sql_elevators
   ```
+- The `.env` file's values are imported into `dbConnect.js` to establish the database connection, ensuring your application's configuration is secure and flexible.
 
 - **Initialize the Database:**
   Execute the `init_db` script to set up your database tables:
