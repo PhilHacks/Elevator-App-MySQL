@@ -2,14 +2,15 @@
 
 ## ElevatorApp
 
-**Table of Contents**
+## Table of Contents
 
-- [Project Overview](#project-overview)
-- [Installation and Setup](#installation-and-setup)
-- [Project Features](#project-features)
-- [Project Structure](#project-structure)
-- [Technologies Used](#technologies-used)
-- [Testing Endpoints with Postman](#testing-endpoints-with-postman)
+- [Project Overview](#1-project-overview)
+- [Installation and Setup](#2-installation-and-setup)
+- [Project Features](#3-project-features)
+- [Project Structure](#4-project-structure)
+- [Technologies Used](#5-technologies-used)
+- [Testing Endpoints with Postman](#6-testing-endpoints-with-postman)
+
 
 ### **1. Project Overview**
 
