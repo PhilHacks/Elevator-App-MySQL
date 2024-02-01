@@ -35,7 +35,7 @@
    ```bash
    cd Elevator-App-MySQL
    ```
-3. **Install Dependencies:**
+3. **Install the required  Dependencies:**
    ```bash
    npm install
    ```
