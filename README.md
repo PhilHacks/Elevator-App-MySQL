@@ -47,30 +47,33 @@ Before running the application, you need to set up and initialize the MySQL data
 - **Install MySQL:**
   Download the MySQL Community Server from [MySQL Downloads](https://dev.mysql.com/downloads/mysql/). Choose the version that matches your operating system and complete the installation process. Remember to note down the password for the MySQL root user that you set during installation.
 
-**Configure Database Connection:**
-- Create a `.env` file in the project root to securely store database connection details.
-- Ensure `.env` is listed in `.gitignore` to protect sensitive information.
-- Write the following in `.env` but with your MySQL settings:
 
+**Configure Database Connection:**
+- **Create a .env File:** In the project root directory, create a `.env` file to store your database connection details securely. This prevents sensitive information from being tracked in version control.
+  
+- **Add Database Configuration:** Populate the `.env` file with your MySQL connection details. Replace `your_root_password` with the password you noted during MySQL installation.
   ```plaintext
   DB_HOST=localhost
   DB_USER=root
   DB_PASS=your_root_password
   DB_NAME=sql_elevators
   ```
-- The `.env` file's values are imported into `dbConnect.js` to establish the database connection, ensuring your application's configuration is secure and flexible.
+- **Integration:** The `.env` variables are utilized by `dbConnect.js` for establishing the database connection. This setup ensures sensitive details remain secure and not hard-coded within your application's source files.
 
-- **Initialize the Database:**
-  Execute the `init_db` script to set up your database tables:
+**Initialize Database:**
+- Make sure your MySQL service is running. Then, initialize your database schema with the provided script:
   ```bash
   npm run init_db
   ```
 
-4. **Start the Server:**
+4. **Launch the Application:**
+   Start your application server with:
    ```bash
    npm start
    ```
-   The server will start, and you can access the API at `http://localhost:3000`.
+   Access the API at `http://localhost:3000`.
+
+
 
 ### **3. Project Features**
 
