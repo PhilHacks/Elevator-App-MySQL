@@ -40,39 +40,46 @@
    npm install
    ```
 
-#### **Database Initialization and Configuration**
+### **Database Initialization and Configuration**
 
-Before running the application, you need to set up and initialize the MySQL database.
+Ensure your MySQL database is set up and configured before launching the application. Follow these steps to prepare your environment:
 
-- **Install MySQL:**
-  Download the MySQL Community Server from [MySQL Downloads](https://dev.mysql.com/downloads/mysql/). Choose the version that matches your operating system and complete the installation process. Remember to note down the password for the MySQL root user that you set during installation.
+#### **Install MySQL:**
 
+- Download the MySQL Community Server from [MySQL Downloads](https://dev.mysql.com/downloads/mysql/). Select the version compatible with your OS and follow the installation instructions.
+- **Important:** Take note of the MySQL root user's password during installation.
 
-**Configure Database Connection:**
-- **Create a .env File:** In the project root directory, create a `.env` file to store your database connection details securely. This prevents sensitive information from being tracked in version control.
-  
-- **Add Database Configuration:** Populate the `.env` file with your MySQL connection details. Replace `your_root_password` with the password you noted during MySQL installation.
-  ```plaintext
-  DB_HOST=localhost
-  DB_USER=root
-  DB_PASS=your_root_password
-  DB_NAME=sql_elevators
-  ```
-- **Integration:** The `.env` variables are utilized by `dbConnect.js` for establishing the database connection. This setup ensures sensitive details remain secure and not hard-coded within your application's source files.
+#### **Configure Database Connection:**
 
-**Initialize Database:**
-- Make sure your MySQL service is running. Then, initialize your database schema with the provided script:
+1. **Create a `.env` File:**
+   - In the root directory of your project, create a `.env` file. This file will securely store your database connection details, keeping them out of version control.
+
+2. **Populate `.env` with MySQL Details:**
+   - Fill in the `.env` file with your MySQL connection information. Ensure to replace `your_root_password` with the actual password set during MySQL installation:
+     ```plaintext
+     DB_HOST=localhost
+     DB_USER=root
+     DB_PASS=your_root_password
+     DB_NAME=sql_elevators
+     ```
+
+3. **Integration with `dbConnect.js`:**
+   - The `.env` file's values are imported into the `dbConnect.js` script to establish the database connection, safeguarding your sensitive details.
+
+#### **Initialize the Database:**
+
+- Verify that your MySQL service is active. Then, use the script provided to initialize your database schema:
   ```bash
   npm run init_db
   ```
 
-4. **Launch the Application:**
-   Start your application server with:
-   ```bash
-   npm start
-   ```
-   Access the API at `http://localhost:3000`.
+#### **Launch the Application:**
 
+- With the database prepared, start the application server:
+  ```bash
+  npm start
+  ```
+- The API will now be accessible at `http://localhost:3000`.
 
 
 ### **3. Project Features**
@@ -100,7 +107,7 @@ This application offers several API endpoints for managing and tracking elevator
   - **Method**: GET
   - **Description**: Check if a specific elevator is available by providing the elevator ID in the URL.
 
-To test these endpoints, you can use the provided Postman collection, which includes requests for all the above functionalities. For more details on how to use Postman for testing, refer to the [Testing Endpoints with Postman](#6-testing-endpoints-with-postman) section.
+To test these endpoints, you can use the provided Postman collection, see [Testing Endpoints with Postman](#6-testing-endpoints-with-postman).
 
 ### **4. Project Structure**
 
