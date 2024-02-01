@@ -71,10 +71,30 @@ Before running the application, you need to set up and initialize the MySQL data
 
 ### **3. Project Features**
 
-- **Call Elevator:** Send a POST request to `/callElevator` to request an elevator to a specific floor.
-- **Simultaneous Calls:** The system can handle multiple elevator calls and assign the nearest available elevator.
-- **Status Information:** Retrieve the status of all elevators with a GET request to `/elevator/status`.
-- **Elevator Availability:** Check if an elevator is available by sending a GET request to `/elevator/available/:elevatorId`.
+This application offers several API endpoints for managing and tracking elevators:
+
+- **Call Elevator**:
+  - **Endpoint**: `/callElevator`
+  - **Method**: POST
+  - **Description**: Request an elevator to a specified floor. Include the desired floor in the request body as `{ "floor": number }`.
+- **Elevator Status**:
+
+  - **Endpoint**: `/elevator/status`
+  - **Method**: GET
+  - **Description**: Get the status of all elevators, including their current floor and availability.
+
+- **Call Queue Table**:
+
+  - **Endpoint**: `/callqueue/table`
+  - **Method**: GET
+  - **Description**: View the current call queue, showing which floors have pending elevator calls.
+
+- **Check Elevator Availability**:
+  - **Endpoint**: `/elevator/available/:elevatorId`
+  - **Method**: GET
+  - **Description**: Check if a specific elevator is available by providing the elevator ID in the URL.
+
+To test these endpoints, you can use the provided Postman collection, which includes requests for all the above functionalities. For more details on how to use Postman for testing, refer to the [Testing Endpoints with Postman](#6-testing-endpoints-with-postman) section.
 
 ### **4. Project Structure**
 
