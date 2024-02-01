@@ -1,6 +1,6 @@
-🛗# Elevator-App-MySQL
+# Elevator-App-MySQL
 
-## ElevatorApp
+## 🛗ElevatorApp
 
 **Table of Contents**
 
