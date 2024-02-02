@@ -1,15 +1,24 @@
 # 🛗Elevator-App-MongoDb
 
-## ElevatorApp
+**Table of Contents**
 
-### Table of Contents
+- [Project Overview](#project-overview)
+- [Installation and Setup](#installation-and-setup)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+- [Project Features](#project-features)
+  - [List of Features](#list-of-features)
+  - [Usage Examples](#usage-examples)
+    - [Calling an Elevator](#calling-an-elevator)
+    - [Checking Elevator Availability](#checking-elevator-availability)
+- [Project Structure](#project-structure)
+  - [Directory Structure](#directory-structure)
+  - [Key Files](#key-files)
+- [Technologies Used](#technologies-used)
+  - [Languages](#languages)
+  - [Frameworks/Libraries](#frameworkslibraries)
 
-- [Project Overview](#1-project-overview)
-- [Installation and Setup](#2-installation-and-setup)
-- [Project Features](#3-project-features)
-- [Project Structure](#4-project-structure)
-- [Technologies Used](#5-technologies-used)
-- [Testing Endpoints with Postman](#6-testing-endpoints-with-postman)
+#
 
 ### **1. Project Overview**
 
@@ -35,41 +44,20 @@
    cd Elevator-App-MongoDb
    ```
 3. **Install the required Dependencies:**
+
    ```bash
    npm install
    ```
 
-#### **Database Initialization and Configuration**
+4. Start the server:
 
-Ensure your MongoDB database is set up and running before launching the application. Follow these steps to prepare your environment:
+   ```bash
+   node elevatorServer.js
+   ```
 
-#### **Install MongoDB:**
+   The ElevatorApp server will now be running, and you can access it at `http://localhost:3000` in your web browser or postman.
 
-- Follow the instructions to download and install MongoDB for your platform from the [MongoDB Downloads](https://www.mongodb.com/try/download/community) page.
-
-#### **Configure Database Connection:**
-
-1. **Create a `.env` File:**
-
-   - In the root directory of your project, create a `.env` file to store your database connection details securely.
-
-2. **Populate `.env` with MongoDB Details:**
-
-   - Fill in the `.env` file with your MongoDB connection string:
-     ```plaintext
-     DB_URI=mongodb://localhost:27017/elevatorApp
-     ```
-
-3. **Integration with `dbConnect.js`:**
-   - The `DB_URI` value from the `.env` file is used in the `dbConnect.js` script to establish a connection to the MongoDB database.
-
-#### **Launch the Application:**
-
-- With the database running, start the application server:
-  ```bash
-  npm start
-  ```
-- The API will now be accessible at `http://localhost:3000`.
+#
 
 ### **3. Project Features**
 
@@ -102,13 +90,11 @@ This application offers several API endpoints for managing and tracking elevator
 
 ### **5. Technologies Used**
 
-- **Languages:** JavaScript (Node.js)
-- **Frameworks/Libraries:** Node.js, Express.js, MongoDB, Mongoose
+#### **Languages:**
 
-### **6. Testing Endpoints with Postman**
+- JavaScript (Node.js)
 
-To test the API endpoints, follow these steps:
+#### **Frameworks/Libraries:**
 
-1. Download and install Postman if you haven't already.
-2. Import the [ElevatorApp Endpoints Test Collection](https://www.postman.com/bold-space-679599/workspace/elevator-app-endpoints-test/overview) into Postman.
-3. Use the collection to send requests and test the API functionality.
+- Node.js
+- Express.js
