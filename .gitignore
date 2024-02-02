@@ -1,6 +1,4 @@
 node_modules/
 package-lock.json
 notes.md
-test.js
 .env
-oldWorkingCode.js
