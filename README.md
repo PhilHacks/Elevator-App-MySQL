@@ -73,7 +73,7 @@ Follow these steps to set up ElevatorApp locally:
 2. Navigate to the project directory:
 
    ```bash
-   cd elevator-app
+   cd Elevator-App-MongoDb
    ```
 
 3. Install project-specific dependencies:
@@ -82,10 +82,10 @@ Follow these steps to set up ElevatorApp locally:
    npm install
    ```
 
-4. Start the server:
+4. Start the Application:
 
    ```bash
-   node elevatorServer.js
+   npm start
    ```
 
    The ElevatorApp server will now be running, and you can access it at `http://localhost:3000` in your web browser or postman.
