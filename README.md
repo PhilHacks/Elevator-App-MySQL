@@ -28,7 +28,7 @@
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/your-username/elevator-app-mongodb.git
+   git clone https://github.com/PhilHacks/Elevator-App-MongoDb
    ```
 2. **Navigate to the Project Directory:**
    ```bash
