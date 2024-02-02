@@ -105,8 +105,8 @@ This application offers several API endpoints for managing and tracking elevator
 
 ### **6. Testing Endpoints with Postman**
 
-To test the API endpoints, download and import the [ElevatorApp Endpoints Postman Collection]([https://www.getpostman.com/collections/your-collection-url](https://www.postman.com/bold-space-679599/workspace/elevator-app-endpoints-test/overview)) into Postman.
+To test the API endpoints, use the Postman collection provided:
 
-- Download and install Postman if you haven't already.
-- Use the collection to send requests and test the API functionality.
-
+1. Download and install Postman if you haven't already.
+2. Open the [ElevatorApp Endpoints Test Collection](https://www.postman.com/bold-space-679599/workspace/elevator-app-endpoints-test/overview) in Postman.
+3. Use the collection to send requests and test the API functionality.
