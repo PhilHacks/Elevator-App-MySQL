@@ -1,6 +1,3 @@
-Certainly, here is the updated `README.md` content for the MongoDB version of your ElevatorApp, with the specified adjustments:
-
-```markdown
 # 🛗Elevator-App-MongoDb
 
 ## ElevatorApp
