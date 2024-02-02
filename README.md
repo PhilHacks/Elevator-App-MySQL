@@ -126,23 +126,37 @@ To check if Elevator 1 is available, send a GET request to `/elevator/available/
 
 The project is organized as follows:
 
-- `elevatorManager.js`: Contains the main logic for managing elevators and the elevator system.
+- `src/`: Contains the source code of the application.
+  - `crudOperations.js`: Functions to handle CRUD operations for elevator calls.
+  - `dbConnect.js`: Configuration for MongoDB database connection.
+  - `elevatorManager.js`: The core logic for managing the elevator system.
+  - `elevatorModel.js`: Mongoose schema and model for elevator data.
+  - `routes.js`: Route definitions for the API endpoints.
 
-- `elevator.js`: Defines the Elevator class.
+- `img/`: Contains images used in the README.md or for other documentation purposes.
 
-- `elevatorServer.js`: Initializes the Express.js server and API endpoints.
+- `node_modules/`: Directory where NPM installs the project's dependencies.
 
-- `node_modules/`: Contains project dependencies installed via npm.
+- `.gitignore`: Specifies intentionally untracked files to ignore.
 
-- `README.md`: This readme file.
+- `README.md`: Provides the documentation for the project, including setup, usage, and description.
+
+- `package.json`: Records important metadata about the project and lists the dependencies.
+
+- `main.js`: The entry point of the application where the Express server is set up.
 
 #### **Key Files:**
 
-- `elevatorManager.js`: The core logic for elevator management and the elevator system.
+- `src/elevatorManager.js`: Contains the business logic to manage elevator movement and queuing system.
 
-- `elevator.js`: Defines the Elevator class with methods for elevator movement.
+- `src/routes.js`: Defines the API endpoints that can be used to interact with the elevator system.
 
-- `elevatorServer.js`: Initializes the Express.js server and API endpoints.
+- `main.js`: Initializes and starts the Express.js server, and sets up middleware.
+
+- `package.json`: Includes the list of project dependencies and may also contain scripts for running the application.
+
+- `.gitignore`: Lists the files and directories which are ignored by Git. Typically includes dependencies, logs, and sensitive configuration files.
+
 
 #
 ### **5. Technologies Used**
