@@ -132,17 +132,6 @@ The project is organized as follows:
   - `elevatorManager.js`: The core logic for managing the elevator system.
   - `elevatorModel.js`: Mongoose schema and model for elevator data.
   - `routes.js`: Route definitions for the API endpoints.
-
-- `img/`: Contains images used in the README.md or for other documentation purposes.
-
-- `node_modules/`: Directory where NPM installs the project's dependencies.
-
-- `.gitignore`: Specifies intentionally untracked files to ignore.
-
-- `README.md`: Provides the documentation for the project, including setup, usage, and description.
-
-- `package.json`: Records important metadata about the project and lists the dependencies.
-
 - `main.js`: The entry point of the application where the Express server is set up.
 
 #### **Key Files:**
@@ -152,10 +141,6 @@ The project is organized as follows:
 - `src/routes.js`: Defines the API endpoints that can be used to interact with the elevator system.
 
 - `main.js`: Initializes and starts the Express.js server, and sets up middleware.
-
-- `package.json`: Includes the list of project dependencies and may also contain scripts for running the application.
-
-- `.gitignore`: Lists the files and directories which are ignored by Git. Typically includes dependencies, logs, and sensitive configuration files.
 
 
 #
