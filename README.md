@@ -99,10 +99,10 @@ This application offers several API endpoints for managing and tracking elevator
 
 - Node.js
 - Express.js
-=======
-To test the API endpoints, download and import the [ElevatorApp Endpoints Postman Collection]([https://www.getpostman.com/collections/your-collection-url](https://www.postman.com/bold-space-679599/workspace/elevator-app-endpoints-test/overview)) into Postman.
 
+### **6. Testing with postman**
+To test the API endpoints, download and import the [ElevatorApp Endpoints Postman Collection]([https://www.getpostman.com/collections/your-collection-url](https://www.postman.com/bold-space-679599/workspace/elevator-app-endpoints-test/overview)) into Postman.
 - Download and install Postman if you haven't already.
 - Use the collection to send requests and test the API functionality.
 
->>>>>>> parent of 142ba24 (Update link to postman collection in README.md)
+
