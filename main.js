@@ -1,7 +1,7 @@
 import express from "express";
-import { dbConnection } from "./dbConnect.js";
-import { checkIfElevatorDocumentExist } from "./elevatorModel.js";
-import routes from "./routes.js";
+import { dbConnection } from "./src/dbConnect.js";
+import { checkIfElevatorDocumentExist } from "./src/elevatorModel.js";
+import routes from "./src/routes.js";
 
 export const app = express();
 
