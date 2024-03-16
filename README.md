@@ -1,39 +1,42 @@
-# 🛗Elevator-App-MongoDb
+# 🛗 Elevator-App-MongoDb
 
-**Table of Contents**
+## Table of Contents
 
 - [Project Overview](#project-overview)
 - [Installation and Setup](#installation-and-setup)
-  - [Requirements](#requirements)
-  - [Installation](#installation)
 - [Project Features](#project-features)
-  - [List of Features](#list-of-features)
-  - [Usage Examples](#usage-examples)
-    - [Calling an Elevator](#calling-an-elevator)
-    - [Checking Elevator Availability](#checking-elevator-availability)
 - [Project Structure](#project-structure)
-  - [Directory Structure](#directory-structure)
-  - [Key Files](#key-files)
 - [Technologies Used](#technologies-used)
-  - [Languages](#languages)
-  - [Frameworks/Libraries](#frameworkslibraries)
+- [Testing with Postman](#testing-with-postman)
 
-#
-
-### **1. Project Overview**
+## Project Overview
 
 **Project Name:** ElevatorApp  
 **Description:** ElevatorApp is a Node.js application for managing a network of elevators. It provides API endpoints for calling elevators to specific floors, checking elevator availability, and tracking elevator status. This version uses MongoDB with Mongoose for data storage and management.
 
-### **2. Installation and Setup**
+## Installation and Setup
 
-#### **Requirements:**
+### Requirements:
 
 - Node.js
 - npm (Node Package Manager)
 - MongoDB
 
-#### **Installation:**
+### Installation:
+
+### Installing MongoDB Community Server and MongoDB Compass
+
+To run this project, you need to install MongoDB, which is used as the primary database, and MongoDB Compass, which is an optional GUI that helps manage your MongoDB databases.
+
+1. Download and install the **MongoDB Community Server** from the [MongoDB Download Center](https://www.mongodb.com/try/download/community). Choose the version that is compatible with your operating system. This server is where your MongoDB databases will reside.
+
+2. During the installation, you'll also have the option to install **MongoDB Compass**. Install it if you prefer a graphical interface to manage your databases.
+
+After installation, the application will connect to MongoDB using a URI defined in your environment variables. Ensure that you have a `.env` file in your project root with the `MONGODB_URI` variable set to your MongoDB connection string, such as:
+
+```env
+MONGODB_URI=mongodb://localhost:27017/elevatorSystem
+```
 
 1. **Clone the Repository:**
    ```bash
@@ -43,23 +46,17 @@
    ```bash
    cd Elevator-App-MongoDb
    ```
-3. **Install the required Dependencies:**
-
+3. **Install the Required Dependencies:**
    ```bash
    npm install
    ```
-
-4. Start the server:
-
+4. **Start the Server:**
    ```bash
-   node elevatorServer.js
+   npm start
    ```
-
    The ElevatorApp server will now be running, and you can access it at `http://localhost:3000` in your web browser or postman.
 
-#
-
-### **3. Project Features**
+## Project Features
 
 This application offers several API endpoints for managing and tracking elevators:
 
@@ -76,9 +73,9 @@ This application offers several API endpoints for managing and tracking elevator
   - **Method:** GET
   - **Description:** Check if a specific elevator is available by providing the elevator ID in the URL.
 
-### **4. Project Structure**
+## Project Structure
 
-#### **Directory Structure:**
+### Directory Structure:
 
 - `src/`: Source code directory.
   - `crudOperations.js`: Functions to handle CRUD operations for elevator calls.
@@ -88,21 +85,22 @@ This application offers several API endpoints for managing and tracking elevator
   - `routes.js`: API route definitions.
 - `main.js`: The entry point of the application where the Express server is set up.
 
-### **5. Technologies Used**
+## Technologies Used
 
-#### **Languages:**
+### Languages:
 
 - JavaScript (Node.js)
 
-<<<<<<< HEAD
-#### **Frameworks/Libraries:**
+### Frameworks/Libraries:
 
 - Node.js
 - Express.js
-=======
-To test the API endpoints, download and import the [ElevatorApp Endpoints Postman Collection]([https://www.getpostman.com/collections/your-collection-url](https://www.postman.com/bold-space-679599/workspace/elevator-app-endpoints-test/overview)) into Postman.
+- MongoDB
+- Mongoose
+
+## Testing with Postman
+
+To test the API endpoints, download and import the [ElevatorApp Endpoints Postman Collection](https://www.postman.com/bold-space-679599/workspace/elevator-app-endpoints-test/overview) into Postman.
 
 - Download and install Postman if you haven't already.
 - Use the collection to send requests and test the API functionality.
-
->>>>>>> parent of 142ba24 (Update link to postman collection in README.md)
