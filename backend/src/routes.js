@@ -12,14 +12,14 @@ router.post("/callElevator", async (req, res) => {
   const floor = req.body.floor;
 
   if (typeof floor === "undefined" || floor === null) {
-    res.status(400).json({ message: "Floor parameter missing." });
-    return;
+    return res.status(400).json({ message: "Floor parameter missing." });
   }
+
   try {
-    await elevatorManager.handleElevatorCalls(floor);
-    res.send(`Calling elevator to floor ${floor}`);
+    const message = await elevatorManager.handleElevatorCalls(floor);
+    res.json({ message: message });
   } catch (error) {
-    res.status(400).send(error.message);
+    res.status(400).json({ message: error.message });
   }
 });
 
@@ -28,9 +28,10 @@ router.get("/elevator/status", async (req, res) => {
     const elevatorStatus = await getElevatorStatus();
     res.status(200).json(elevatorStatus);
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Internal Server Error: " + error.message });
+    console.error("Failed to fetch elevator status:", error);
+    res.status(500).json({
+      message: "Failed to fetch elevator status. Please try again later.",
+    });
   }
 });
 
