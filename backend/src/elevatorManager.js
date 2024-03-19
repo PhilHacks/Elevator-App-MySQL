@@ -44,23 +44,19 @@ class ElevatorManager {
   }
 
   async handleElevatorCalls(destinationFloor) {
-    try {
-      this.checkInvalidFloorReq(destinationFloor);
-      const elevatorOnFloor = await this.checkIfElevatorOnFloor(
-        destinationFloor
-      );
+    this.checkInvalidFloorReq(destinationFloor);
+    const elevatorOnFloor = await this.checkIfElevatorOnFloor(destinationFloor);
 
-      if (!elevatorOnFloor) {
-        this.callOrQueueElevator(destinationFloor);
-      }
-    } catch (error) {
-      console.error("An error occured in handleElevatorCalls:", error.message);
+    if (elevatorOnFloor) {
+      throw new Error(`Elevator is already at floor ${destinationFloor}.`);
     }
+    this.callOrQueueElevator(destinationFloor);
+    return;
   }
 
   checkInvalidFloorReq(destinationFloor) {
     if (destinationFloor < 1 || destinationFloor > this.numberOfFloors) {
-      throw new Error("Invalid floor requested.");
+      throw new Error("Invalid floor request");
     }
   }
 
