@@ -5,12 +5,26 @@ import axios from 'axios'
 
 function ElevatorStatus() {
 const [status, setStatus] = useState([]);
-
+const [message, setMessage] =useState("");
 
 useEffect(() => {
+  const fetchElevatorStatus = () => {
     axios.get("http://localhost:5000/elevator/status")
-    .then(response => setStatus(response.data))
-    .catch(error => console.error("Something has gone wrong", error))
+      .then(response => {
+        setStatus(response.data)
+        setMessage(""); 
+      })
+      .catch(error => {
+        const errorMessage = error.response?.data?.message || "Unable to fetch elevator status. Please try again later.";
+        setMessage(errorMessage)
+      });
+  };
+
+ fetchElevatorStatus();
+
+  const statusInterval = setInterval(fetchElevatorStatus, 2000);
+
+  return () => clearInterval(statusInterval);
 }, []);
 
 return (
@@ -23,6 +37,7 @@ return (
           </li>
         ))}
       </ul>
+      {message && <div>{message}</div>}
     </div>
   );
 };
