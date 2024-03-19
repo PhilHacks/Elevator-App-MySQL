@@ -47,11 +47,15 @@ export async function updateElevatorDB(
 }
 
 export async function getElevatorStatus() {
-  const elevatorStatus = await ElevatorModel.find(
-    {},
-    "elevatorId currentFloor currentStatus destinationFloor"
-  );
-  return elevatorStatus;
+  try {
+    const elevatorStatus = await ElevatorModel.find(
+      {},
+      "elevatorId currentFloor currentStatus destinationFloor"
+    );
+    return elevatorStatus;
+  } catch (error) {
+    throw new Error("Error fetching elevator status from the database.");
+  }
 }
 
 export async function isElevatorAvailable(elevatorId) {
