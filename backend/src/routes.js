@@ -1,7 +1,11 @@
 import express from "express";
 import { Router } from "express";
 import ElevatorManager from "./elevatorManager.js";
-import { isElevatorAvailable, getElevatorStatus } from "./crudOperations.js";
+import {
+  isElevatorAvailable,
+  getElevatorStatus,
+  updateElevatorDB,
+} from "./crudOperations.js";
 
 const elevatorManager = new ElevatorManager();
 const router = Router();
@@ -31,6 +35,21 @@ router.get("/elevator/status", async (req, res) => {
     console.error("Failed to fetch elevator status:", error);
     res.status(500).json({
       message: "Failed to fetch elevator status. Please try again later.",
+    });
+  }
+});
+
+router.put("/updateElevatorStatus", async (req, res) => {
+  const { id, status } = req.body;
+  try {
+    await updateElevatorDB(id, status);
+    res.status(200).json({
+      message: `Elevator status updated successfully for elevator ${id}.`,
+    });
+  } catch (error) {
+    console.error("Failed to update elevator status:", error);
+    res.status(500).json({
+      message: "Failed to update elevator status. Please try again later.",
     });
   }
 });
