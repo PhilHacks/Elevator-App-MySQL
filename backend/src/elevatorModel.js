@@ -6,7 +6,7 @@ const elevatorSchema = new mongoose.Schema({
   currentFloor: Number,
   currentStatus: {
     type: String,
-    enum: ["idle", "moving_up", "moving_down"],
+    enum: ["idle", "moving_up", "moving_down", "out_of_service"],
   },
   destinationFloor: { type: Number },
   callQueue: Array,
