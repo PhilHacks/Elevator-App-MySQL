@@ -50,7 +50,7 @@ export async function getElevatorStatus() {
   try {
     const elevatorStatus = await ElevatorModel.find(
       {},
-      "elevatorId currentFloor currentStatus destinationFloor"
+      "elevatorId currentFloor currentStatus destinationFloor callQueue"
     );
     return elevatorStatus;
   } catch (error) {
