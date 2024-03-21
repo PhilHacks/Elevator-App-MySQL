@@ -98,6 +98,7 @@ class ElevatorManager {
       { $push: { callQueue: destinationFloor } }
     );
     console.log(`Call added to queue for floor ${destinationFloor}.`);
+    return;
   }
 
   async processQueue() {
