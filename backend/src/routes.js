@@ -21,6 +21,7 @@ router.post("/callElevator", async (req, res) => {
 
   try {
     const message = await elevatorManager.handleElevatorCalls(floor);
+    console.log("Response being sent:", { message: message });
     res.json({ message: message });
   } catch (error) {
     res.status(400).json({ message: error.message });
