@@ -1,11 +1,5 @@
-// import Elevator from "./elevator.js";
 import { ElevatorModel } from "./elevatorModel.js";
-import {
-  updateElevatorDB,
-  updateElevatorFloorOnly,
-  // findIdleElevators,
-  // checkIfElevatorOnFloor,
-} from "./crudOperations.js";
+import { updateElevatorDB, updateElevatorFloorOnly } from "./crudOperations.js";
 
 class ElevatorManager {
   constructor() {
@@ -48,10 +42,10 @@ class ElevatorManager {
     const elevatorOnFloor = await this.checkIfElevatorOnFloor(destinationFloor);
 
     if (elevatorOnFloor) {
-      throw new Error(`Elevator is already at floor ${destinationFloor}.`);
+      return { message: `Elevator is already at floor ${destinationFloor}.` };
     }
-    this.callOrQueueElevator(destinationFloor);
-    return;
+    const message = await this.callOrQueueElevator(destinationFloor);
+    return message;
   }
 
   checkInvalidFloorReq(destinationFloor) {
@@ -86,9 +80,14 @@ class ElevatorManager {
         idleElevator.currentFloor
       );
 
-      await this.moveToFloor(idleElevator.elevatorId, destinationFloor);
+      const message = await this.moveToFloor(
+        idleElevator.elevatorId,
+        destinationFloor
+      );
+      return message;
     } else {
-      this.queueElevatorCall(destinationFloor);
+      const queueMessage = await this.queueElevatorCall(destinationFloor);
+      return queueMessage;
     }
   }
 
@@ -97,8 +96,9 @@ class ElevatorManager {
       {},
       { $push: { callQueue: destinationFloor } }
     );
-    console.log(`Call added to queue for floor ${destinationFloor}.`);
-    return;
+    return {
+      message: `Elevator call to floor ${destinationFloor} has been queued. Please wait.`,
+    };
   }
 
   async processQueue() {
@@ -120,7 +120,7 @@ class ElevatorManager {
       if (!elevatorAlreadyThere) {
         const idleElevator = await this.findClosestElevator(oldestCall);
         if (idleElevator) {
-          this.moveToFloor(idleElevator.elevatorId, oldestCall);
+          await this.moveToFloor(idleElevator.elevatorId, oldestCall);
           // Remove the call from the queue of all elevators
           await ElevatorModel.updateMany(
             {},
@@ -152,6 +152,9 @@ class ElevatorManager {
         destinationFloor,
         null
       );
+      return {
+        message: `Elevator ${elevatorId} arrived at floor ${destinationFloor}`,
+      };
     } catch (error) {
       console.error("An error occurred in moveToFloor:", error.message);
       throw error;
@@ -166,9 +169,6 @@ class ElevatorManager {
       newStatus,
       elevator.currentFloor,
       destinationFloor
-    );
-    console.log(
-      `Elevator ${elevator.elevatorId} is moving from floor ${elevator.currentFloor} to floor ${destinationFloor}`
     );
   }
 
@@ -202,9 +202,9 @@ class ElevatorManager {
 
     // Update the elevator's status to "idle" after reaching the destination
     await updateElevatorDB(elevator.elevatorId, "idle", destinationFloor);
-    console.log(
-      `Elevator ${elevator.elevatorId} has arrived to floor ${destinationFloor}`
-    );
+    return {
+      message: `Elevator ${elevator.elevatorId} has arrived to floor ${destinationFloor}`,
+    };
   }
 }
 
