@@ -1,40 +1,52 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import styled from "styled-components";
 
-function CallQueue() {
-  const [queue, setQueue] = useState([]);
+const QueueContainer = styled.div`
+  background-color: #007bff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 5px;
+  max-width: 550px;
+`;
 
-  useEffect(() => {
-    const fetchCallQueue = () => {
-      axios
-        .get("http://localhost:5000/elevator/status")
-        .then((response) => {
-          const sharedQueue = response.data[0]?.callQueue || [];
-          setQueue(sharedQueue);
-        })
-        .catch((error) => {
-          console.error("Failed to fetch queue:", error.message);
-        });
-    };
+const QueueList = styled.div`
+  border: 4px solid #e7f1ff;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+`;
 
-    fetchCallQueue();
-    const interval = setInterval(fetchCallQueue, 2000);
-    return () => clearInterval(interval);
-  }, []);
+const QueueItem = styled.span`
+  background-color: #e7f1ff;
+  color: #212529;
+  padding: 5px 10px;
+  border-radius: 5px;
+`;
 
+const BoldText = styled.span`
+  font-weight: bold;
+`;
+
+function CallQueue({ queue }) {
   return (
-    <div>
-      <h2>Call Queue</h2>
-      {queue.length > 0 ? (
-        <ul>
-          {queue.map((floor, index) => (
-            <li key={index}>Floor {floor}</li>
-          ))}
-        </ul>
-      ) : (
-        <p>No pending calls.</p>
-      )}
-    </div>
+    <QueueContainer>
+      <QueueList>
+        {queue.length > 0 ? (
+          <ul>
+            {queue.map((floor, index) => (
+              <QueueItem key={index}> Floor {floor}</QueueItem>
+            ))}
+          </ul>
+        ) : (
+          <QueueItem>
+            <BoldText>Call Queue:</BoldText> No pending calls
+          </QueueItem>
+        )}
+      </QueueList>
+    </QueueContainer>
   );
 }
 
