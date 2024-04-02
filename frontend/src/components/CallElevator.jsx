@@ -1,41 +1,96 @@
 import React, { useState } from "react";
-import axios from "axios";
+import styled from "styled-components";
 
-function CallElevator() {
+const CallContainer = styled.div`
+  background-color: #007bff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 550px;
+  height: 142px;
+`;
+
+const Headline = styled.h2`
+  background-color: transparent;
+  margin-bottom: 5px;
+  text-align: center;
+`;
+
+const InputWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const CallInput = styled.input`
+  padding: 10px;
+  margin: 0px;
+  border-radius: 6px;
+`;
+
+const CallButton = styled.button`
+  cursor: pointer;
+  border-radius: 8px;
+  background-color: #f4e603; /* Bright yellow */
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+
+  &:hover {
+    background-color: #dbcb05;
+  }
+
+  &:active {
+    background-color: #c2b204;
+  }
+`;
+
+const MessageContainer = styled.div`
+  height: 1px;
+  margin: 10px 0;
+  text-align: center;
+`;
+
+const ErrorMessage = styled.div`
+  color: #dc3545;
+  text-align: center;
+`;
+
+function CallElevator({ onElevatorCall, callMessage }) {
   const [floor, setFloor] = useState("");
-  const [message, setMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const submitCall = () => {
-    axios
-      .post("http://localhost:5000/callElevator", { floor: Number(floor) })
-      .then((response) => {
-        setMessage(response.data.message);
-        setFloor("");
-      })
-      .catch((error) => {
-        setMessage(error.response?.data?.message || "Something went wrong");
-        setFloor("");
-      })
-      .finally(() => {
-        setTimeout(() => {
-          setMessage("");
-        }, 3000);
-      });
+  const submitCall = async () => {
+    setFloor("");
+    if (floor) {
+      await onElevatorCall(floor);
+      setErrorMessage("");
+    } else {
+      setErrorMessage(
+        "Please enter a floor number before calling the elevator."
+      );
+    }
   };
 
   return (
-    <div>
-      <h2>Call Elevator</h2>
-      <input
-        type="number"
-        value={floor}
-        onChange={(e) => setFloor(e.target.value)}
-        placeholder="Enter floor number"
-      ></input>
-
-      <button onClick={submitCall}>Call Elevator</button>
-      {message && <div>{message}</div>}
-    </div>
+    <CallContainer>
+      <Headline>Call Elevator</Headline>
+      <InputWrapper>
+        <CallInput
+          type="number"
+          value={floor}
+          onChange={(e) => setFloor(e.target.value)}
+          placeholder="Enter floor number"
+        ></CallInput>
+        <CallButton onClick={submitCall}>Call Elevator</CallButton>
+      </InputWrapper>
+      <MessageContainer>
+        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+        {callMessage.message && <div>{callMessage.message}</div>}
+      </MessageContainer>
+    </CallContainer>
   );
 }
 
