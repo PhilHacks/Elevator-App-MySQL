@@ -3,7 +3,7 @@ import pool from "./src/dbConnect.js";
 import routes from "./src/routes.js";
 
 export const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 async function startServer() {
   try {
@@ -19,6 +19,8 @@ async function startServer() {
     });
   } catch (error) {
     console.error("Error connecting to the database: " + error.message);
+    console.error("- Message:", error.message);
+    console.error("- Stack:", error.stack);
     // Handle error or exit process
     process.exit(1);
   }
