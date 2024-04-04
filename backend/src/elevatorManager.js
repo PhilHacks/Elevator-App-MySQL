@@ -16,7 +16,7 @@ class ElevatorManager {
   constructor() {
     this.defaultFloor = 0;
     this.numberOfFloors = 10;
-    this.floorTravelTimeMs = 2000;
+    this.floorTravelTimeMs = 6000;
     this.checkQueueInterval = setInterval(() => this.queueManager(), 2000);
   }
 
