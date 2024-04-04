@@ -4,9 +4,9 @@ dotenv.config();
 
 // Initializes a MySQL database connection pool.
 const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
+  host: "localhost",
+  user: "root",
+  password: "Filipgoeswild90",
   database: "sql_elevators",
   waitForConnections: true,
   connectionLimit: 10,
