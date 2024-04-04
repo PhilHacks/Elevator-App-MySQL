@@ -4,7 +4,7 @@ export async function getElevatorStatus() {
   const connection = await pool.getConnection();
   const [rows] = await connection.execute("SELECT * FROM elevators");
   connection.release();
-  console.log(rows);
+  console.log("Elevator Status", rows);
   return rows; // If you want to use the result outside the function
 }
 
@@ -43,7 +43,6 @@ export async function checkIfElevatorOnFloor(destination_floor) {
   return false;
 }
 
-//Kör
 export async function updateElevatorFloorOnly(elevator_id, current_floor) {
   const result = await pool.execute(
     "UPDATE elevators SET current_floor = ? WHERE elevator_id = ?",
