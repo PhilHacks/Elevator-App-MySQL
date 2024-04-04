@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import { Router } from "express";
 import ElevatorManager from "./elevatorManager.js";
 import {
@@ -9,6 +10,7 @@ import {
 
 const elevatorManager = new ElevatorManager();
 const router = Router();
+router.use(cors());
 
 router.use(express.json()); // Middleware to read JSON-data from POST req
 
@@ -31,11 +33,12 @@ router.post("/callElevator", async (req, res) => {
 router.get("/elevator/status", async (req, res) => {
   try {
     const elevatorStatus = await getElevatorStatus();
-    res.json(elevatorStatus);
+    res.status(200).json(elevatorStatus);
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Internal Server Error: " + error.message });
+    console.error("Failed to fetch elevator status:", error);
+    res.status(500).json({
+      message: "Internal Server Error: " + error.message,
+    });
   }
 });
 
