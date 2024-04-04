@@ -1,6 +1,6 @@
 # 🛗Elevator-App-MySQL
 
-## ElevatorApp 
+## ElevatorApp
 
 ## Table of Contents
 
@@ -10,7 +10,6 @@
 - [Project Structure](#4-project-structure)
 - [Technologies Used](#5-technologies-used)
 - [Testing Endpoints with Postman](#6-testing-endpoints-with-postman)
-
 
 ### **1. Project Overview**
 
@@ -35,7 +34,7 @@
    ```bash
    cd Elevator-App-MySQL
    ```
-3. **Install the required  Dependencies:**
+3. **Install the required Dependencies:**
    ```bash
    npm install
    ```
@@ -52,9 +51,11 @@ Ensure your MySQL database is set up and configured before launching the applica
 #### **Configure Database Connection:**
 
 1. **Create a `.env` File:**
+
    - In the root directory of your project, create a `.env` file. This file will securely store your database connection details, keeping them out of version control.
 
 2. **Populate `.env` with MySQL Details:**
+
    - Fill in the `.env` file with your MySQL connection information. Ensure to replace `your_root_password` with the actual password set during MySQL installation:
      ```plaintext
      DB_HOST=localhost
@@ -80,7 +81,6 @@ Ensure your MySQL database is set up and configured before launching the applica
   npm start
   ```
 - The API will now be accessible at `http://localhost:3000`.
-
 
 ### **3. Project Features**
 
