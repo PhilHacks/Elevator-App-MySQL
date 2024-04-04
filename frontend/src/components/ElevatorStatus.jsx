@@ -90,8 +90,8 @@ function ElevatorStatus({ elevators, message }) {
       <Headline>Elevator Status</Headline>
       <StatusList>
         {elevators.map((elevator) => (
-          <StatusListItem key={elevator.elevatorId}>
-            <ElevatorNumber>Elevator {elevator.elevatorId}:</ElevatorNumber>
+          <StatusListItem key={elevator.elevator_id}>
+            <ElevatorNumber>Elevator {elevator.elevator_id}:</ElevatorNumber>
             <PropertyContainer>
               <Property>Current floor: {elevator.currentFloor}</Property>
               <Property className="destination">
