@@ -1,6 +1,5 @@
 import {
   updateElevatorDB,
-  updateElevatorFloorOnly,
   findIdleElevators,
   checkIfElevatorOnFloor,
   queueElevatorCall,
@@ -38,17 +37,15 @@ class ElevatorManager {
       destination_floor < this.defaultFloor ||
       destination_floor > this.numberOfFloors
     ) {
-      throw new Error("Invalid floor requested."); //kolla var det fångas, behöver fånas i rutten för användarens skull!
+      throw new Error("Invalid floor requested.");
     }
   }
 
   async callOrQueueElevator(destination_floor) {
     try {
       const idleElevator = await this.findClosestElevator(destination_floor);
-
       const elevatorHeading = await isElevatorHeadingToFloor(destination_floor);
 
-      // If no idle elevator is found and no elevator is heading to that floor
       if (
         (!idleElevator || idleElevator.elevator_id == null) &&
         !elevatorHeading
@@ -205,16 +202,34 @@ class ElevatorManager {
 
       // Update the elevator's current floor in the database after a delay
       setTimeout(async () => {
-        await updateElevatorDB(elevator.elevator_id, null, nextFloor, null);
-
         if (nextFloor === destination_floor) {
+          // If the elevator arrives at the destination floor, update status to "idle"
           await updateElevatorDB(elevator.elevator_id, "idle", nextFloor);
           console.log(
             `Elevator ${elevator.elevator_id} has arrived at floor ${nextFloor}`
           );
+        } else {
+          // If the elevator hasn't arrived yet, update its status to "moving_up" or "moving_down"
+          const newStatus =
+            destination_floor > elevator.current_floor
+              ? "moving_up"
+              : "moving_down";
+          await updateElevatorDB(
+            elevator.elevator_id,
+            newStatus,
+            nextFloor,
+            destination_floor
+          );
         }
       }, this.floorTravelTimeMs * i);
     }
+
+    setTimeout(async () => {
+      await updateElevatorDB(elevator.elevator_id, "idle", destination_floor);
+      console.log(
+        `Elevator ${elevator.elevator_id} has arrived at floor ${destination_floor}`
+      );
+    }, this.floorTravelTimeMs * totalFloorsToTravel + 50);
   }
 
   async queueManager() {
