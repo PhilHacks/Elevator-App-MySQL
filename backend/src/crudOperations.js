@@ -4,7 +4,7 @@ export async function getElevatorStatus() {
   const connection = await pool.getConnection();
   const [rows] = await connection.execute("SELECT * FROM elevators");
   connection.release();
-  console.log("Elevator Status", rows);
+  // console.log("Elevator Status", rows);
   return rows; // If you want to use the result outside the function
 }
 
@@ -61,35 +61,46 @@ export async function updateElevatorDB(
   destination_floor
 ) {
   try {
-    elevator_id = handleNullOrUndefined(elevator_id, null);
-    current_status = handleNullOrUndefined(current_status, null);
-    current_floor = handleNullOrUndefined(current_floor, null);
-    // Set destination_floorToUpdate to null if current_status is "idle"
-    const destination_floorToUpdate =
-      current_status === "idle" ? null : destination_floor;
+    console.log("Elevator ID:", elevator_id);
+    console.log("Current Status:", current_status);
+    console.log("Current Floor:", current_floor);
+    console.log("Destination Floor:", destination_floor);
 
+    // Ensure elevator_id and current_status are always provided
+    if (!elevator_id || !current_status) {
+      console.error("Elevator ID and current status are required.");
+      return; // Return early to prevent further execution
+    }
+
+    // If current_floor is not provided, fetch it from the database
+    if (current_floor === undefined || current_floor === null) {
+      const [rows] = await pool.execute(
+        "SELECT current_floor FROM elevators WHERE elevator_id = ?",
+        [elevator_id]
+      );
+      current_floor = rows[0].current_floor;
+    }
+
+    // If destination_floor is not provided, keep it null
+    if (destination_floor === undefined || destination_floor === null) {
+      destination_floor = null;
+    }
+
+    // Update the elevators table in the database
     const sqlQuery =
       "UPDATE elevators SET current_status = ?, current_floor = ?, destination_floor = ? WHERE elevator_id = ?";
-
     const [result] = await pool.execute(sqlQuery, [
       current_status,
       current_floor,
-      destination_floorToUpdate,
+      destination_floor,
       elevator_id,
     ]);
+
+    console.log("Elevator status updated successfully");
+    return result;
   } catch (error) {
-    console.error(
-      `Error updating elevator ${elevator_id}:`,
-      error.message,
-      "Details:",
-      {
-        elevator_id,
-        current_status,
-        current_floor,
-        destination_floor,
-      }
-    );
-    throw error; // Re-throw the error to handle it at the caller level
+    console.error(`Error updating elevator ${elevator_id}:`, error.message);
+    throw error;
   }
 }
 
@@ -106,7 +117,7 @@ export async function isElevatorHeadingToFloor(destination_floor) {
   return rows.length > 0;
 }
 
-//queue related functions:
+//Queue functions:
 export async function getCallQueueTable() {
   const [rows] = await pool.execute("SELECT * FROM call_queue");
   console.log(rows);
