@@ -7,6 +7,7 @@ import {
   getElevators,
   callElevator,
   updateElevatorStatus,
+  getCallQueue,
 } from "./services/ElevatorServices";
 import styled, { createGlobalStyle } from "styled-components";
 
@@ -60,7 +61,7 @@ function App() {
   const fetchElevatorStatus = async () => {
     try {
       const data = await getElevators();
-      setElevators(data);
+      setElevators(data.elevators);
       if (data.length > 0) {
         setQueue(data[0].callQueue);
       }
@@ -69,6 +70,18 @@ function App() {
       const errorMessage =
         error.response?.data?.message || "Failed to fetch elevator status";
       setStatusMessage(errorMessage);
+    }
+  };
+
+  const fetchCallQueue = async () => {
+    try {
+      const data = await getCallQueue();
+      console.log("Call queue data:", data);
+      setQueue(data);
+      setStatusMessage("");
+    } catch (error) {
+      console.error("Failed to fetch call queue data:", error);
+      setStatusMessage("Failed to fetch call queue data");
     }
   };
 
@@ -100,9 +113,17 @@ function App() {
     }
   };
 
-  const handleUpdateElevatorStatus = async (elevatorId, newStatus) => {
+  const handleUpdateElevatorStatus = async (
+    elevatorId,
+    newStatus,
+    currentFloor
+  ) => {
     try {
-      const response = await updateElevatorStatus(elevatorId, newStatus);
+      const response = await updateElevatorStatus(
+        elevatorId,
+        newStatus,
+        currentFloor
+      );
       setUpdateMessage(response.message);
       fetchElevatorStatus();
     } catch (error) {
@@ -118,8 +139,13 @@ function App() {
 
   useEffect(() => {
     fetchElevatorStatus();
+    fetchCallQueue();
     const statusInterval = setInterval(fetchElevatorStatus, 2000);
-    return () => clearInterval(statusInterval);
+    const queueInterval = setInterval(fetchCallQueue, 2000);
+    return () => {
+      clearInterval(statusInterval);
+      clearInterval(queueInterval);
+    };
   }, []);
 
   return (

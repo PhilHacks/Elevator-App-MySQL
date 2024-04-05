@@ -20,5 +20,16 @@ export const updateElevatorStatus = async (elevatorId, status) => {
       status,
     }
   );
+  console.log("Response from backend:", response);
   return response.data;
+};
+
+export const getCallQueue = async () => {
+  try {
+    const response = await axios.get("http://localhost:5000/callqueue");
+    return response.data;
+  } catch (error) {
+    console.error("Failed to fetch call queue:", error);
+    throw error;
+  }
 };

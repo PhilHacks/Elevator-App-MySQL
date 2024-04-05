@@ -36,8 +36,10 @@ function CallQueue({ queue }) {
       <QueueList>
         {queue.length > 0 ? (
           <ul>
-            {queue.map((floor, index) => (
-              <QueueItem key={index}> Floor {floor}</QueueItem>
+            {queue.map((item) => (
+              <QueueItem key={item.id}>
+                Floor {item.destination_floor}
+              </QueueItem>
             ))}
           </ul>
         ) : (
