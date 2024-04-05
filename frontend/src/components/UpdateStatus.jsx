@@ -63,6 +63,7 @@ const ErrorMessage = styled.div`
 function UpdateStatus({ onUpdateElevatorStatus, message }) {
   const [selectedElevatorId, setSelectedElevatorId] = useState("");
   const [newStatus, setNewStatus] = useState("");
+  const [currentFloor, setCurrentFloor] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
 
   const updateElevatorStatus = async () => {
@@ -74,9 +75,11 @@ function UpdateStatus({ onUpdateElevatorStatus, message }) {
       return;
     }
 
-    await onUpdateElevatorStatus(selectedElevatorId, newStatus);
+    await onUpdateElevatorStatus(selectedElevatorId, newStatus, currentFloor);
+    console.log(selectedElevatorId, newStatus);
     setSelectedElevatorId("");
     setNewStatus("");
+    setCurrentFloor("");
   };
 
   return (
