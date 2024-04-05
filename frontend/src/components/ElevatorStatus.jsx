@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { LuChevronUpCircle } from "react-icons/lu";
 
 const StatusContainer = styled.div`
   background-color: #007bff;
@@ -79,11 +78,6 @@ const ErrorMessage = styled.div`
   `}
 `;
 
-const ArrowIcon = styled.span`
-  margin-left: 5px;
-  color: red;
-`;
-
 function ElevatorStatus({ elevators, message }) {
   return (
     <StatusContainer>
@@ -93,18 +87,13 @@ function ElevatorStatus({ elevators, message }) {
           <StatusListItem key={elevator.elevator_id}>
             <ElevatorNumber>Elevator {elevator.elevator_id}:</ElevatorNumber>
             <PropertyContainer>
-              <Property>Current floor: {elevator.currentFloor}</Property>
+              <Property>Current floor: {elevator.current_floor}</Property>
               <Property className="destination">
-                Destination Floor: {elevator.destinationFloor}
+                Destination Floor: {elevator.destination_floor}
               </Property>
               <Property className="status">
-                Status: {elevator.currentStatus}
+                Status: {elevator.current_status}
               </Property>
-              {elevator.currentStatus === "moving_up" && (
-                <ArrowIcon>
-                  <LuChevronUpCircle />
-                </ArrowIcon>
-              )}
             </PropertyContainer>
           </StatusListItem>
         ))}
