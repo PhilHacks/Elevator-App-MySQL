@@ -7,7 +7,7 @@ USE `sql_elevators`;
 CREATE TABLE IF NOT EXISTS elevators (
     elevator_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     current_floor INT DEFAULT 0,
-    current_status ENUM('idle', 'moving_up', 'moving_down') DEFAULT 'idle',
+    current_status ENUM('idle', 'moving_up', 'moving_down', "out_of_service") DEFAULT 'idle',
     destination_floor INT DEFAULT NULL 
 );
 
