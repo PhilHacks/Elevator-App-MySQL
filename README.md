@@ -143,7 +143,7 @@ frontend/
 
 ## Image of Elevator App
 
-![Elevator App Interface](./frontend/img/swapi.png)
+![Elevator App Interface](./backend/img/app.png)
 
 ### **5. Technologies Used**
 
