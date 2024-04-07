@@ -29,6 +29,7 @@ class ElevatorManager {
       }
     } catch (error) {
       console.error("An error occured in handleElevatorCalls:", error.message);
+      throw error;
     }
   }
 
