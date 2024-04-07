@@ -23,9 +23,8 @@ router.post("/callElevator", async (req, res) => {
     return;
   }
   try {
-    await elevatorManager.handleElevatorCalls(floor);
-
-    res.status(200).send(`Calling elevator to floor ${floor}`);
+    const message = await elevatorManager.handleElevatorCalls(floor);
+    res.json({ message: message });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

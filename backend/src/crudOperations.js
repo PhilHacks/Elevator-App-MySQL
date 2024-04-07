@@ -37,10 +37,11 @@ export async function checkIfElevatorOnFloor(destination_floor) {
   );
 
   if (rows.length > 0) {
-    console.log(`Elevator already at floor ${destination_floor}`);
-    return true;
+    const message = `Elevator already at floor ${destination_floor}`;
+    console.log(message);
+    return message;
   }
-  return false;
+  return "";
 }
 
 export async function updateElevatorFloorOnly(elevator_id, current_floor) {
@@ -120,7 +121,6 @@ export async function isElevatorHeadingToFloor(destination_floor) {
 //Queue functions:
 export async function getCallQueueTable() {
   const [rows] = await pool.execute("SELECT * FROM call_queue");
-  console.log(rows);
   return rows;
 }
 

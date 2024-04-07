@@ -13,7 +13,7 @@ import pool from "./dbConnect.js";
 
 class ElevatorManager {
   constructor() {
-    this.defaultFloor = 0;
+    this.defaultFloor = 1;
     this.numberOfFloors = 10;
     this.floorTravelTimeMs = 6000;
     this.checkQueueInterval = setInterval(() => this.queueManager(), 2000);
@@ -24,7 +24,11 @@ class ElevatorManager {
       this.validateFloorReq(destination_floor);
       const elevatorOnFloor = await checkIfElevatorOnFloor(destination_floor);
 
-      if (!elevatorOnFloor) {
+      if (elevatorOnFloor) {
+        const message = `Elevator already at floor ${destination_floor}`;
+        console.log(message);
+        return { message };
+      } else {
         this.callOrQueueElevator(destination_floor);
       }
     } catch (error) {
