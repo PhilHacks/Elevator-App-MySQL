@@ -95,7 +95,7 @@ This application offers several API endpoints for managing and tracking elevator
 
 The project is divided into two main parts: `backend` and `frontend`.
 
-## Backend
+#### Backend
 
 The backend codebase is located in the `backend` directory and it's structured as follows:
 
@@ -113,7 +113,7 @@ backend/
 └── package.json
 ```
 
-## Frontend
+#### Frontend
 
 The frontend codebase is located in the `frontend` directory and it's structured as follows:
 
