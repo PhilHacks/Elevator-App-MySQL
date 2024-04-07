@@ -27,7 +27,7 @@ router.post("/callElevator", async (req, res) => {
 
     res.status(200).send(`Calling elevator to floor ${floor}`);
   } catch (error) {
-    res.status(400).send(error.message);
+    res.status(400).json({ error: error.message });
   }
 });
 
