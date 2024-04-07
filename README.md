@@ -141,6 +141,10 @@ frontend/
 └── package.json
 ```
 
+## Image of Elevator App
+
+![Elevator App Interface](./frontend/img/swapi.png)
+
 ### **5. Technologies Used**
 
 - Backend: Node.js, Express.js, MySQL
