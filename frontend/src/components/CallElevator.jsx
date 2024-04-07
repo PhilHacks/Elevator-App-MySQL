@@ -73,8 +73,8 @@ function CallElevator({ onElevatorCall, callMessage }) {
     }
 
     const floorNumber = parseInt(floor);
-    if (isNaN(floorNumber) || floorNumber < 0 || floorNumber > 10) {
-      setErrorMessage("Please enter a valid floor number between 0 and 10.");
+    if (isNaN(floorNumber) || floorNumber < 1 || floorNumber > 10) {
+      setErrorMessage("Please enter a valid floor number between 1 and 10.");
       return;
     }
 
