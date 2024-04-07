@@ -85,26 +85,11 @@ Ensure your MySQL database is set up and configured before launching the applica
 
 This application offers several API endpoints for managing and tracking elevators:
 
-- **Call Elevator**:
-  - **Endpoint**: `/callElevator`
-  - **Method**: POST
-  - **Description**: Request an elevator to a specified floor. Include the desired floor in the request body as `{ "floor": number }`.
-- **Elevator Status**:
-
-  - **Endpoint**: `/elevator/status`
-  - **Method**: GET
-  - **Description**: Get the status of all elevators, including their current floor and availability.
-
-- **Call Queue Table**:
-
-  - **Endpoint**: `/callqueue/table`
-  - **Method**: GET
-  - **Description**: View the current call queue, showing which floors have pending elevator calls.
-
-- **Check Elevator Availability**:
-  - **Endpoint**: `/elevator/available/:elevatorId`
-  - **Method**: GET
-  - **Description**: Check if a specific elevator is available by providing the elevator ID in the URL.
+- `POST /callElevator`                 - Call Elevator to floor
+- `GET /elevator/status`               - Elevator Status of all elevators
+- `GET/callqueue/`                     - Fetch Call Queue Table
+- `GET/elevator/available/:elevatorId` - Check if specific elevator is available
+- `PUT /updateElevatorStatus`          - Update Elevator Status
 
 ### **4. Project Structure**
 
