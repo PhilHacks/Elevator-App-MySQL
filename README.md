@@ -1,4 +1,4 @@
-# 🛗Elevator-App-MySQL
+# 🛗 Elevator-App-MySQL
 
 ## ElevatorApp
 
@@ -9,12 +9,11 @@
 - [Project Features](#3-project-features)
 - [Project Structure](#4-project-structure)
 - [Technologies Used](#5-technologies-used)
-- [Testing Endpoints with Postman](#6-testing-endpoints-with-postman)
 
 ### **1. Project Overview**
 
 - **Project Name:** ElevatorApp
-- **Description:** ElevatorApp is a Node.js application for managing a network of elevators. It provides API endpoints for calling elevators to specific floors, checking elevator availability, and tracking elevator status. This version uses MySQL to store data
+- **Description:** ElevatorApp is a Node.js application for managing a network of elevators. It provides API endpoints for calling elevators to specific floors, checking elevator availability, and tracking elevator status. This version uses MySQL to store data and has a React frontend that calls endpoints.
 
 ### **2. Installation and Setup**
 
@@ -111,28 +110,55 @@ To test these endpoints, you can use the provided Postman collection, see [Testi
 
 ### **4. Project Structure**
 
-#### **Directory Structure:**
+The project is divided into two main parts: `backend` and `frontend`.
 
-- `src/`: Source code directory.
+## Backend
 
-  - `createdb.sql`: SQL script for creating the initial database schema.
-  - `crudOperations.js`: Database CRUD operations.
-  - `databaseSetup.js`: Database setup script to run the `createdb.sql` file.
-  - `dbConnect.js`: Database connection configuration file.
-  - `elevatorManager.js`: Core logic for managing the elevator system.
-  - `routes.js`: API route definitions.
+The backend codebase is located in the `backend` directory and it's structured as follows:
 
-- `main.js`: Server entry point.
+```
+backend/
+├── src/
+│   ├── createdb.sql
+│   ├── crudOperations.js
+│   ├── databaseSetup.js
+│   ├── dbConnect.js
+│   ├── elevatorManager.js
+│   └── routes.js
+├── .gitignore
+├── main.js
+└── package.json
+```
+
+## Frontend
+
+The frontend codebase is located in the `frontend` directory and it's structured as follows:
+
+```
+frontend/
+├── src/
+│   ├── components/
+│   │   ├── CallElevator.jsx
+│   │   ├── CallQueue.jsx
+│   │   ├── ElevatorStatus.jsx
+│   │   ├── UpdateStatus.jsx
+│   ├── services/
+│   │   └── ElevatorServices.js
+│   ├── App.css
+│   ├── App.js
+│   ├── App.test.js
+│   ├── index.css
+│   ├── index.js
+│   ├── logo.svg
+│   ├── reportWebVitals.js
+│   ├── setupTests.js
+├── .gitignore
+├── README.md
+├── package-lock.json
+└── package.json
+```
 
 ### **5. Technologies Used**
 
-- **Languages:** JavaScript (Node.js)
-- **Frameworks/Libraries:** Node.js, Express.js, MySQL
-
-### **6. Testing Endpoints with Postman**
-
-To test the API endpoints, use the Postman collection provided:
-
-1. Download and install Postman if you haven't already.
-2. Open the [ElevatorApp Endpoints Test Collection](https://www.postman.com/bold-space-679599/workspace/elevator-app-endpoints-test/overview) in Postman.
-3. Use the collection to send requests and test the API functionality.
+- Backend: Node.js, Express.js, MySQL
+- Frontend: React, Axios
