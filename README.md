@@ -106,8 +106,6 @@ This application offers several API endpoints for managing and tracking elevator
   - **Method**: GET
   - **Description**: Check if a specific elevator is available by providing the elevator ID in the URL.
 
-To test these endpoints, you can use the provided Postman collection, see [Testing Endpoints with Postman](#6-testing-endpoints-with-postman).
-
 ### **4. Project Structure**
 
 The project is divided into two main parts: `backend` and `frontend`.
