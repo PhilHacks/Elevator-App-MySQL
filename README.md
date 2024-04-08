@@ -173,4 +173,4 @@ frontend/
 ### **5. Technologies Used**
 
 - Backend: Node.js, Express.js, MySQL
-- Frontend: React, Axios
+- Frontend: React, Axios, Styled-Components.
