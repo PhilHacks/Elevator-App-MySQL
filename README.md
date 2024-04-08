@@ -12,7 +12,8 @@
 
 ### **Project Overview**
 
-**Project Name:** ElevatorApp
+**Project Name:** ElevatorApp-MySQL
+
 **Description:** ElevatorApp is a Node.js application for managing a network of elevators. It provides API endpoints for calling elevators to specific floors, checking elevator availability, and tracking elevator status. This version uses MySQL to store data and has a React frontend that calls endpoints.
 
 ### **Installation and Setup**
