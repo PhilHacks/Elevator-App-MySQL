@@ -73,10 +73,6 @@ Ensure your MySQL database is set up and configured before launching the applica
   npm run init_db
   ```
 
-#### **Launch the Application:**
-
-To incorporate your request into the "Launch the Application" section and align with the clarity and straightforwardness of your README, it could be revised as follows:
-
 ### **Launch the Application:**
 
 With the database prepared, you'll need to start both the backend and frontend servers to get the application running fully.
