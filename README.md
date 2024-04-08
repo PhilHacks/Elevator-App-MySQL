@@ -4,11 +4,11 @@
 
 ## Table of Contents
 
-- [Project Overview](#1-project-overview)
-- [Installation and Setup](#2-installation-and-setup)
-- [Project Features](#3-project-features)
-- [Project Structure](#4-project-structure)
-- [Technologies Used](#5-technologies-used)
+- [Project Overview](#project-overview)
+- [Installation and Setup](#installation-and-setup)
+- [Project Features](#project-features)
+- [Project Structure](#project-structure)
+- [Technologies Used](#technologies-used)
 
 ### **1. Project Overview**
 
