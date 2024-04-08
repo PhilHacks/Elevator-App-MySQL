@@ -1,7 +1,5 @@
 # 🛗 Elevator-App-MySQL
 
-## ElevatorApp
-
 ## Table of Contents
 
 - [Project Overview](#project-overview)
