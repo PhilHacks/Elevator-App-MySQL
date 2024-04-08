@@ -15,7 +15,7 @@
 - **Project Name:** ElevatorApp
 - **Description:** ElevatorApp is a Node.js application for managing a network of elevators. It provides API endpoints for calling elevators to specific floors, checking elevator availability, and tracking elevator status. This version uses MySQL to store data and has a React frontend that calls endpoints.
 
-### **2. Installation and Setup**
+### **Installation and Setup**
 
 #### **Requirements:**
 
@@ -106,7 +106,7 @@ With the database prepared, you'll need to start both the backend and frontend s
    ```
    - This will start the frontend server and usually opens the application in your default web browser automatically. If not, you can manually navigate to the address provided in the terminal: `http://localhost:3000`.
 
-### **3. Project Features**
+### **Project Features**
 
 This application offers several API endpoints for managing and tracking elevators:
 
@@ -116,7 +116,7 @@ This application offers several API endpoints for managing and tracking elevator
 - `GET/elevator/available/:elevatorId` - Check if specific elevator is available
 - `PUT /updateElevatorStatus`          - Update Elevator Status
 
-### **4. Project Structure**
+### **Project Structure**
 
 The project is divided into two main parts: `backend` and `frontend`.
 
@@ -170,7 +170,7 @@ frontend/
 
 ![Elevator App Interface](./backend/img/appUI.png)
 
-### **5. Technologies Used**
+### **Technologies Used**
 
 - Backend: Node.js, Express.js, MySQL
 - Frontend: React, Axios, Styled-Components.
