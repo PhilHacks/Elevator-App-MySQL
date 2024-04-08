@@ -1,21 +1,20 @@
 # 🛗 Elevator-App-MySQL
 
-## ElevatorApp
-
 ## Table of Contents
 
-- [Project Overview](#1-project-overview)
-- [Installation and Setup](#2-installation-and-setup)
-- [Project Features](#3-project-features)
-- [Project Structure](#4-project-structure)
-- [Technologies Used](#5-technologies-used)
+- [Project Overview](#project-overview)
+- [Installation and Setup](#installation-and-setup)
+- [Project Features](#project-features)
+- [Project Structure](#project-structure)
+- [Technologies Used](#technologies-used)
 
-### **1. Project Overview**
+### **Project Overview**
 
-- **Project Name:** ElevatorApp
-- **Description:** ElevatorApp is a Node.js application for managing a network of elevators. It provides API endpoints for calling elevators to specific floors, checking elevator availability, and tracking elevator status. This version uses MySQL to store data and has a React frontend that calls endpoints.
+**Project Name:** ElevatorApp-MySQL
 
-### **2. Installation and Setup**
+**Description:** ElevatorApp is a Node.js application for managing a network of elevators, leveraging MySQL for data storage. It offers API endpoints for calling elevators to specific floors, checking elevator availability, and tracking elevator status. The frontend, built with React, fully interacts with the functionalities of the backend.
+
+### **Installation and Setup**
 
 #### **Requirements:**
 
@@ -73,10 +72,6 @@ Ensure your MySQL database is set up and configured before launching the applica
   npm run init_db
   ```
 
-#### **Launch the Application:**
-
-To incorporate your request into the "Launch the Application" section and align with the clarity and straightforwardness of your README, it could be revised as follows:
-
 ### **Launch the Application:**
 
 With the database prepared, you'll need to start both the backend and frontend servers to get the application running fully.
@@ -110,7 +105,7 @@ With the database prepared, you'll need to start both the backend and frontend s
    ```
    - This will start the frontend server and usually opens the application in your default web browser automatically. If not, you can manually navigate to the address provided in the terminal: `http://localhost:3000`.
 
-### **3. Project Features**
+### **Project Features**
 
 This application offers several API endpoints for managing and tracking elevators:
 
@@ -120,7 +115,7 @@ This application offers several API endpoints for managing and tracking elevator
 - `GET/elevator/available/:elevatorId` - Check if specific elevator is available
 - `PUT /updateElevatorStatus`          - Update Elevator Status
 
-### **4. Project Structure**
+### **Project Structure**
 
 The project is divided into two main parts: `backend` and `frontend`.
 
@@ -172,9 +167,9 @@ frontend/
 
 ## Image of Elevator App
 
-![Elevator App Interface](./backend/img/app.png)
+![Elevator App Interface](./backend/img/appUI.png)
 
-### **5. Technologies Used**
+### **Technologies Used**
 
 - Backend: Node.js, Express.js, MySQL
-- Frontend: React, Axios
+- Frontend: React, Axios, Styled-Components.
