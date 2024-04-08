@@ -46,11 +46,6 @@ Ensure your MySQL database is set up and configured before launching the applica
 - Download the MySQL Community Server from [MySQL Downloads](https://dev.mysql.com/downloads/mysql/). Select the version compatible with your OS and follow the installation instructions.
 - **Important:** Take note of the MySQL root user's password during installation.
 
-#### **Configure Database Connection:**
-
-Certainly, the section detailing the `.env` configuration can be adjusted to direct users to input their information directly into `dbConnect.js`. Here’s a revised approach that fits this requirement:
-
----
 
 ### **Database Initialization and Configuration**
 
