@@ -172,7 +172,7 @@ frontend/
 
 ## Image of Elevator App
 
-![Elevator App Interface](./backend/img/app.png)
+![Elevator App Interface](./backend/img/appUI.png)
 
 ### **5. Technologies Used**
 
