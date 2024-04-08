@@ -75,11 +75,40 @@ Ensure your MySQL database is set up and configured before launching the applica
 
 #### **Launch the Application:**
 
-- With the database prepared, start the application server:
-  ```bash
-  npm start
-  ```
-- The API will now be accessible at `http://localhost:3000`.
+To incorporate your request into the "Launch the Application" section and align with the clarity and straightforwardness of your README, it could be revised as follows:
+
+### **Launch the Application:**
+
+With the database prepared, you'll need to start both the backend and frontend servers to get the application running fully.
+
+#### **Start the Backend Server:**
+
+1. **Navigate to the Backend Directory:**
+   ```bash
+   cd backend
+   ```
+2. **Start the Backend Server:**
+   ```bash
+   npm start
+   ```
+   - This will start the backend server. The backend API will now be accessible at `http://localhost:5000`.
+
+#### **Start the Frontend Server:**
+
+1. **Open a New Terminal Window:**
+   - Ensure the backend server is running in its terminal window. Open a new terminal window for the frontend server.
+
+2. **Navigate to the Frontend Directory:**
+   ```bash
+   cd ../frontend
+   ```
+   - Note: If you're starting from the project's root directory again, adjust the path accordingly.
+
+3. **Start the Frontend Server:**
+   ```bash
+   npm start
+   ```
+   - This will start the frontend server and usually opens the application in your default web browser automatically. If not, you can manually navigate to the address provided in the terminal: `http://localhost:3000`.
 
 ### **3. Project Features**
 
