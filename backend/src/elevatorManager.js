@@ -67,7 +67,7 @@ class ElevatorManager {
           `No available elevators; queueing call to floor ${destination_floor}`
         );
         await queueElevatorCall(destination_floor);
-        return { message: `Call to floor ${destination_floor} queued.` };
+        // return { message: `Call to floor ${destination_floor} queued.` };
       }
     } catch (error) {
       console.error("An error occurred in callOrQueueElevator:", error.message);
