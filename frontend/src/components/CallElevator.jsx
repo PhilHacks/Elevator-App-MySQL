@@ -69,12 +69,14 @@ function CallElevator({ onElevatorCall, callMessage }) {
       setErrorMessage(
         "Please enter a floor number before calling the elevator."
       );
+      setTimeout(() => setErrorMessage(""), 2000);
       return;
     }
 
     const floorNumber = parseInt(floor);
     if (isNaN(floorNumber) || floorNumber < 1 || floorNumber > 10) {
       setErrorMessage("Please enter a valid floor number between 1 and 10.");
+      setTimeout(() => setErrorMessage(""), 2000);
       return;
     }
 
