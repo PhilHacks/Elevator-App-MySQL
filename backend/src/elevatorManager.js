@@ -6,6 +6,7 @@ import {
   findOldestQueuedCall,
   isElevatorAtFloor,
   removeCallFromQueue,
+  isElevatorHeadingToFloor,
 } from "./crudOperations.js";
 import pool from "./dbConnect.js";
 
@@ -46,6 +47,8 @@ class ElevatorManager {
 
   async callOrQueueElevator(destination_floor) {
     try {
+      const elevatorHeading = await isElevatorHeadingToFloor(destination_floor);
+
       const idleElevator = await this.findClosestElevator(destination_floor);
       if (idleElevator && idleElevator.elevator_id) {
         const newStatus =
@@ -209,9 +212,10 @@ class ElevatorManager {
       const oldestCall = await findOldestQueuedCall();
 
       if (oldestCall) {
+        const elevatorHeading = await isElevatorHeadingToFloor(oldestCall);
         const elevatorAlreadyThere = await isElevatorAtFloor(oldestCall);
 
-        if (!elevatorAlreadyThere) {
+        if (!elevatorHeading && !elevatorAlreadyThere) {
           const idleElevator = await this.findClosestElevator(oldestCall);
 
           if (idleElevator && idleElevator.elevator_id != null) {
