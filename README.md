@@ -46,24 +46,33 @@ Ensure your MySQL database is set up and configured before launching the applica
 - Download the MySQL Community Server from [MySQL Downloads](https://dev.mysql.com/downloads/mysql/). Select the version compatible with your OS and follow the installation instructions.
 - **Important:** Take note of the MySQL root user's password during installation.
 
-#### **Configure Database Connection:**
 
-1. **Create a `.env` File:**
+### **Database Initialization and Configuration**
 
-   - In the root directory of your project, create a `.env` file. This file will securely store your database connection details, keeping them out of version control.
+To get your MySQL database up and running, configure your connection in the `dbConnect.js` file:
 
-2. **Populate `.env` with MySQL Details:**
+1. **Locate `dbConnect.js`:** Find this file in your project's backend directory.
+2. **Edit Connection Details:** Update the MySQL connection settings as follows:
+   
+   ```javascript
+   import mysql from "mysql2/promise";
 
-   - Fill in the `.env` file with your MySQL connection information. Ensure to replace `your_root_password` with the actual password set during MySQL installation:
-     ```plaintext
-     DB_HOST=localhost
-     DB_USER=root
-     DB_PASS=your_root_password
-     DB_NAME=sql_elevators
-     ```
+   // MySQL database connection pool initialization.
+   const pool = mysql.createPool({
+     host: "localhost",
+     user: "root",
+     password: "<YOUR_DATABASE_PASSWORD>",
+     database: "sql_elevators",
+     waitForConnections: true,
+     connectionLimit: 10,
+     queueLimit: 0,
+   });
 
-3. **Integration with `dbConnect.js`:**
-   - The `.env` file's values are imported into the `dbConnect.js` script to establish the database connection, safeguarding your sensitive details.
+   export default pool;
+   ```
+   Replace `<YOUR_DATABASE_PASSWORD>` with your MySQL root password. Confirm that the `host`, `user`, and `database` are correct for your setup.
+
+3. **Save Your Changes:** After editing, save `dbConnect.js`.
 
 #### **Initialize the Database:**
 
