@@ -11,9 +11,9 @@ CREATE TABLE IF NOT EXISTS elevators (
     destination_floor INT DEFAULT NULL 
 );
 
-INSERT INTO elevators (current_floor, current_status) VALUES (0, 'idle');
-INSERT INTO elevators (current_floor, current_status) VALUES (0, 'idle');
-INSERT INTO elevators (current_floor, current_status) VALUES (0, 'idle');
+INSERT INTO elevators (current_floor, current_status) VALUES (1, 'idle');
+INSERT INTO elevators (current_floor, current_status) VALUES (1, 'idle');
+INSERT INTO elevators (current_floor, current_status) VALUES (1, 'idle');
 
  CREATE TABLE IF NOT EXISTS call_queue (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
