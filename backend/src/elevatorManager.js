@@ -115,27 +115,37 @@ class ElevatorManager {
       if (result.length === 0)
         throw new Error(`Elevator with ID ${elevator_id} not found.`);
       const elevator = result[0];
-      const status =
-        destination_floor > elevator.current_floor
-          ? "moving_up"
-          : "moving_down";
-      await updateElevatorDB(
-        elevator_id,
-        status,
-        elevator.current_floor,
-        destination_floor
-      );
-      await new Promise((resolve) =>
-        setTimeout(
-          resolve,
-          this.floorTravelTimeMs *
-            Math.abs(destination_floor - elevator.current_floor)
-        )
-      );
-      await updateElevatorDB(elevator_id, "idle", destination_floor); // Final update to 'idle'
+
+      for (
+        let currentFloor = elevator.current_floor;
+        Math.abs(currentFloor - destination_floor) > 0;
+        currentFloor += destination_floor > currentFloor ? 1 : -1
+      ) {
+        // Determine status based on direction
+        const status =
+          currentFloor < destination_floor ? "moving_up" : "moving_down";
+
+        // Update the database for the next floor
+        await updateElevatorDB(
+          elevator_id,
+          status,
+          currentFloor,
+          destination_floor
+        );
+
+        // Wait for the time it takes to reach the next floor
+        await new Promise((resolve) =>
+          setTimeout(resolve, this.floorTravelTimeMs)
+        );
+      }
+
+      // Final update to 'idle' once the destination is reached
+      await updateElevatorDB(elevator_id, "idle", destination_floor);
       console.log(
         `Elevator ${elevator_id} has arrived at floor ${destination_floor}`
       );
+
+      // Directly return the message object
       return {
         message: `Elevator ${elevator_id} has arrived at floor ${destination_floor}`,
       };
@@ -165,48 +175,6 @@ class ElevatorManager {
       this.floorTravelTimeMs;
   }
 
-  async simulateTravelTime(elevator, destination_floor) {
-    const totalFloorsToTravel = Math.abs(
-      destination_floor - elevator.current_floor
-    );
-
-    for (let i = 1; i <= totalFloorsToTravel; i++) {
-      const nextFloor =
-        elevator.current_floor +
-        (destination_floor > elevator.current_floor ? i : -i);
-
-      // Update the elevator's current floor in the database after a delay
-      setTimeout(async () => {
-        if (nextFloor === destination_floor) {
-          // If the elevator arrives at the destination floor, update status to "idle"
-          await updateElevatorDB(elevator.elevator_id, "idle", nextFloor);
-          console.log(
-            `Elevator ${elevator.elevator_id} has arrived at floor ${nextFloor}`
-          );
-        } else {
-          // If the elevator hasn't arrived yet, update its status to "moving_up" or "moving_down"
-          const newStatus =
-            destination_floor > elevator.current_floor
-              ? "moving_up"
-              : "moving_down";
-          await updateElevatorDB(
-            elevator.elevator_id,
-            newStatus,
-            nextFloor,
-            destination_floor
-          );
-        }
-      }, this.floorTravelTimeMs * i);
-    }
-
-    setTimeout(async () => {
-      await updateElevatorDB(elevator.elevator_id, "idle", destination_floor);
-      console.log(
-        `Elevator ${elevator.elevator_id} has arrived at floor ${destination_floor}`
-      );
-    }, this.floorTravelTimeMs * totalFloorsToTravel + 50);
-  }
-
   async queueManager() {
     try {
       const oldestCall = await findOldestQueuedCall();
@@ -219,8 +187,12 @@ class ElevatorManager {
           const idleElevator = await this.findClosestElevator(oldestCall);
 
           if (idleElevator && idleElevator.elevator_id != null) {
-            await this.moveToFloor(idleElevator.elevator_id, oldestCall);
+            const result = await this.moveToFloor(
+              idleElevator.elevator_id,
+              oldestCall
+            );
             await removeCallFromQueue(oldestCall);
+            return result;
           }
         }
       }
