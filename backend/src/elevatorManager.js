@@ -11,7 +11,8 @@ import {
 import pool from "./dbConnect.js";
 
 class ElevatorManager {
-  constructor() {
+  constructor(io) {
+    this.io = io;
     this.defaultFloor = 1;
     this.numberOfFloors = 10;
     this.floorTravelTimeMs = 6000;
@@ -192,6 +193,11 @@ class ElevatorManager {
               oldestCall
             );
             await removeCallFromQueue(oldestCall);
+
+            // Emit a message to all connected clients
+            this.io.emit("elevatorArrival", {
+              message: `Elevator ${idleElevator.elevator_id} has arrived at floor ${oldestCall}`,
+            });
             return result;
           }
         }

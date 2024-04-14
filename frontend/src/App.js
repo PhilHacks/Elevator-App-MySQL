@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import io from "socket.io-client";
 import ElevatorStatus from "./components/ElevatorStatus";
 import CallElevator from "./components/CallElevator";
 import UpdateStatus from "./components/UpdateStatus";
@@ -10,6 +11,8 @@ import {
   getCallQueue,
 } from "./services/ElevatorServices";
 import styled, { createGlobalStyle } from "styled-components";
+
+const socket = io("http://localhost:5000");
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -136,6 +139,22 @@ function App() {
   const toggleUpdateStatusVisibility = () => {
     setShowUpdateStatus((prevShow) => !prevShow);
   };
+
+  useEffect(() => {
+    socket.on("elevatorArrival", (data) => {
+      console.log("Received data from elevatorArrival:", data);
+      setCallMessage({ message: data.message });
+
+      setTimeout(() => {
+        setCallMessage("");
+      }, 2000);
+      fetchElevatorStatus();
+    });
+
+    return () => {
+      socket.off("elevatorArrival");
+    };
+  }, []);
 
   useEffect(() => {
     fetchElevatorStatus();
